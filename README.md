@@ -193,19 +193,6 @@ http://localhost:3000
 
 ---
 
-# 📸 Screenshots
-
-> Add screenshots of:
-
-- Dashboard
-- Expense Management
-- Reports
-- OCR Scanner
-- Savings Goals
-- Mobile View
-
----
-
 # 🌱 Future Enhancements
 
 - AI Chat Assistant

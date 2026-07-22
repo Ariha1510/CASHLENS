@@ -1,108 +1,229 @@
-# 💸 CASHCRUSH | Student Expenditure Management
+# 💸 CASHCRUSH
 
-CASHCRUSH is a gamified, feature-rich personal finance tracker designed for students. Built with a serverless React frontend directly integrated with Supabase, it provides visual statistics, automatic alerts, OCR receipt scanning, streaks, and printable analytics.
+> A modern, AI-powered personal finance and expense management application built for students.
 
----
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)]()
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase)]()
+[![Vite](https://img.shields.io/badge/Vite-Frontend-646CFF?logo=vite)]()
+[![Chart.js](https://img.shields.io/badge/Chart.js-Analytics-FF6384?logo=chartdotjs)]()
+[![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8)]()
+[![License](https://img.shields.io/badge/License-MIT-green)]()
 
-## 🌟 Key Features
-
-1. **Secure Authentication**: Register and login securely using email verification powered by Supabase Auth.
-2. **Onboarding Setup Wizard**: Sets up target monthly budget ceilings and currency preferences (`₹`, `$`, `€`, `£`) on the first launch.
-3. **Advanced Expenditure CRUD**: Categorize daily transactions, sort by date/amount, search descriptions, and export logs to CSV.
-4. **Explainable AI Spending Coach**: Offers automatic heuristic advice (e.g. food expenditure percentage checks) to keep your allowance safe.
-5. **Linear Month-End Predictor**: Projects current daily spending velocity to calculate your month-end total and warn you of high budget risk.
-6. **Receipt Scanning OCR**: Upload receipt photos directly to parse merchants, amounts, and dates using **Tesseract.js** to auto-fill the forms.
-7. **Savings Target Goals**: Define goals (e.g. buy a laptop, emergency fund) and feed savings increments with graphical progress.
-8. **Recurring Payments Tracker**: Register daily, weekly, monthly, and yearly subscriptions (e.g. Netflix, hostel rent).
-9. **Gamification Hub**: Earn streaks and unlock badges like "7-Day Saver" or "Savings Master" for keeping to budgets.
-10. **Printable Analytics Reports**: Interactive pie and bar trend graphs powered by Chart.js, with custom layouts optimized for printing to PDF.
-11. **Responsive Glassmorphic UI**: High-fidelity dark mode styling and progressive web app (PWA) manifest configurations.
+CASHCRUSH is a full-featured student expense management platform that helps users track daily spending, manage budgets, analyze financial habits, and achieve savings goals through AI-powered insights, interactive analytics, OCR receipt scanning, and gamification.
 
 ---
 
-## 🛠️ Technology Stack
+## ✨ Features
 
-- **Frontend Core**: React 18, React Router v6, Vite
-- **Styling**: Vanilla CSS with custom glassmorphic properties and custom theme toggle
-- **Charts**: Chart.js / `react-chartjs-2`
-- **OCR Engine**: `Tesseract.js`
-- **Database & Auth**: Supabase DB (`@supabase/supabase-js`)
+### 💰 Expense Management
+- Add, edit, delete, and search expenses
+- Categorize transactions
+- Sort and filter expenses
+- Export transaction history to CSV
+
+### 📊 Smart Analytics
+- Interactive Pie & Bar Charts
+- Monthly spending trends
+- Budget utilization tracking
+- Printable reports
+- Month-end spending prediction
+
+### 🤖 AI Spending Insights
+- Personalized spending recommendations
+- Budget risk alerts
+- Category-wise expenditure analysis
+- Spending habit summaries
+
+### 📸 OCR Receipt Scanner
+- Upload receipt images
+- Automatically extract:
+  - Merchant
+  - Amount
+  - Purchase Date
+- Auto-fill expense forms using **Tesseract.js**
+
+### 🎯 Savings Goals
+- Create multiple savings goals
+- Track progress visually
+- Monitor remaining target amount
+
+### 🔄 Recurring Expenses
+Manage subscriptions and recurring payments including:
+- Rent
+- Netflix
+- Gym
+- Mobile Recharge
+- Other recurring bills
+
+### 🏆 Gamification
+Earn badges and maintain spending streaks to encourage healthy financial habits.
+
+### 👤 Authentication
+- Secure Email Authentication
+- Email Verification
+- Protected Routes
+- User-specific data using Supabase Authentication
+
+### 📱 Progressive Web App
+- Installable on desktop and mobile
+- Responsive interface
+- Glassmorphism UI
+- Dark / Light Theme
 
 ---
 
-## 🚀 Setup & Installation
+# 🛠 Tech Stack
 
-### 1. Database Configuration
-Go to your Supabase Project console, open the **SQL Editor**, and execute the schema:
+| Category | Technologies |
+|----------|--------------|
+| Frontend | React 18, Vite, React Router |
+| Backend | Supabase |
+| Database | PostgreSQL (Supabase) |
+| Authentication | Supabase Auth |
+| Charts | Chart.js, react-chartjs-2 |
+| OCR | Tesseract.js |
+| Styling | HTML5, CSS3, Glassmorphism UI |
+| Data Export | PapaParse |
+| Deployment | Vercel / Netlify *(recommended)* |
 
-```sql
-create table profiles (
-    id uuid primary key references auth.users(id),
-    name text,
-    currency varchar(10) default '₹',
-    onboarded boolean default false,
-    created_at timestamp default now()
-);
+---
 
-create table budgets (
-    id bigint generated always as identity primary key,
-    user_id uuid references auth.users(id) on delete cascade,
-    monthly_budget numeric default 8000
-);
+# 📂 Project Structure
 
-create table expenses (
-    id bigint generated always as identity primary key,
-    user_id uuid references auth.users(id) on delete cascade,
-    title text,
-    amount numeric,
-    category text,
-    expense_date date,
-    description text,
-    created_at timestamp default now()
-);
-
-create table savings_goals (
-    id bigint generated always as identity primary key,
-    user_id uuid references auth.users(id) on delete cascade,
-    title text not null,
-    target_amount numeric not null,
-    saved_amount numeric default 0,
-    target_date date,
-    created_at timestamp default now()
-);
-
-create table recurring_expenses (
-    id bigint generated always as identity primary key,
-    user_id uuid references auth.users(id) on delete cascade,
-    title text not null,
-    amount numeric not null,
-    category text not null,
-    frequency text not null,
-    next_due_date date not null,
-    created_at timestamp default now()
-);
-
-create table user_badges (
-    id bigint generated always as identity primary key,
-    user_id uuid references auth.users(id) on delete cascade,
-    badge_name text not null,
-    description text not null,
-    unlocked_at timestamp default now()
-);
+```
+CASHCRUSH
+│
+├── client
+│   ├── src
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── styles
+│   │   └── lib
+│   ├── public
+│   └── package.json
+│
+└── README.md
 ```
 
-### 2. Environment Configuration
-Create a `.env` file in the `client/` folder:
+---
 
-```env
-VITE_SUPABASE_URL=https://your-supabase-url.supabase.co
-VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
-```
+# 🚀 Getting Started
 
-### 3. Run Locally
+## 1️⃣ Clone the Repository
 
 ```bash
-cd client
+git clone https://github.com/Ariha1510/CASHCRUSH.git
+
+cd CASHCRUSH/client
+```
+
+---
+
+## 2️⃣ Install Dependencies
+
+```bash
 npm install
+```
+
+---
+
+## 3️⃣ Configure Supabase
+
+Create a `.env` file inside the `client` directory.
+
+```env
+VITE_SUPABASE_URL=YOUR_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+```
+
+---
+
+## 4️⃣ Create Database Tables
+
+Run the SQL schema provided in the **Supabase SQL Editor** (available in `database.sql` in root).
+
+The project uses the following tables:
+
+- profiles
+- budgets
+- expenses
+- savings_goals
+- recurring_expenses
+- user_badges
+
+---
+
+## 5️⃣ Start Development Server
+
+```bash
 npm run dev
 ```
+
+The application will be available at:
+
+```
+http://localhost:3000
+```
+
+---
+
+# 📈 Core Modules
+
+- Dashboard
+- Expense Tracker
+- Budget Manager
+- Savings Goals
+- Recurring Expenses
+- Reports & Analytics
+- OCR Receipt Scanner
+- AI Spending Insights
+- Gamification
+- User Profile
+- Authentication
+
+---
+
+# 🔒 Security
+
+- Row Level Security (RLS)
+- Protected Routes
+- Secure Authentication
+- Environment Variable Configuration
+- User-isolated Data Access
+
+---
+
+# 📸 Screenshots
+
+> Add screenshots of:
+
+- Dashboard
+- Expense Management
+- Reports
+- OCR Scanner
+- Savings Goals
+- Mobile View
+
+---
+
+# 🌱 Future Enhancements
+
+- AI Chat Assistant
+- PDF Report Export
+- Shared Budgets
+- Expense Splitting
+- Multi-language Support
+- Push Notifications
+- Offline Data Synchronization
+
+---
+
+# 👨💻 Author
+
+**Ariha Shree**
+
+GitHub: https://github.com/Ariha1510
+
+---
+
+## ⭐ If you found this project useful, consider giving it a star!

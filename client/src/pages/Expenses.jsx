@@ -96,6 +96,44 @@ export default function Expenses({ expenses, onAdd, onUpdate, onDelete, loading,
     showToast('Expenses exported successfully as CSV!', 'success');
   };
 
+  const handleCSVImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: async (results) => {
+        const importedData = results.data;
+        let successCount = 0;
+
+        for (const row of importedData) {
+          const titleVal = row.Title || row.Description || row.Merchant || row.title || row.description;
+          const amountVal = parseFloat(row.Amount || row.Value || row.amount || row.value);
+          const dateVal = row.Date || row.Timestamp || row.date || row.timestamp;
+          const categoryVal = row.Category || row.category || 'Others';
+
+          if (titleVal && !isNaN(amountVal) && dateVal) {
+            await onAdd({
+              title: titleVal,
+              amount: amountVal,
+              category: categoryVal,
+              expense_date: dateVal,
+              description: 'Imported from bank statement CSV.'
+            });
+            successCount++;
+          }
+        }
+
+        if (successCount > 0) {
+          showToast(`Successfully imported ${successCount} statement transactions!`, 'success');
+        } else {
+          showToast('Failed to parse any valid transactions from CSV.', 'warning');
+        }
+      }
+    });
+  };
+
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0' }}>
@@ -132,9 +170,20 @@ export default function Expenses({ expenses, onAdd, onUpdate, onDelete, loading,
         <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
             <h3>📋 Transactions List</h3>
-            <button onClick={handleExportCSV} className="btn btn-secondary" style={{ padding: '8px 12px', fontSize: '13px' }}>
-              <Download size={16} /> Export CSV
-            </button>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <label className="btn btn-secondary" style={{ padding: '8px 12px', fontSize: '13px', cursor: 'pointer' }} title="Import bank statement CSV">
+                Import CSV
+                <input 
+                  type="file" 
+                  accept=".csv" 
+                  onChange={handleCSVImport} 
+                  style={{ display: 'none' }}
+                />
+              </label>
+              <button onClick={handleExportCSV} className="btn btn-secondary" style={{ padding: '8px 12px', fontSize: '13px' }}>
+                <Download size={16} /> Export CSV
+              </button>
+            </div>
           </div>
 
           {/* Search, Filter, Sort Actions */}

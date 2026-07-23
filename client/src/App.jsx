@@ -24,6 +24,16 @@ export default function App() {
   const [error, setError] = useState(null);
   const [toast, setToast] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [themeAccent, setThemeAccent] = useState(localStorage.getItem('theme-accent') || '');
+
+  // Theme Accent Effect
+  useEffect(() => {
+    document.documentElement.classList.remove('theme-emerald', 'theme-ocean', 'theme-purple', 'theme-sunset');
+    if (themeAccent) {
+      document.documentElement.classList.add(themeAccent);
+    }
+    localStorage.setItem('theme-accent', themeAccent);
+  }, [themeAccent]);
 
   // Initialize theme
   useEffect(() => {
@@ -36,6 +46,44 @@ export default function App() {
       document.documentElement.classList.remove('light');
     }
   }, []);
+
+  // Offline Queue Syncing Effect
+  useEffect(() => {
+    if (user) {
+      const handleOnlineStatus = () => {
+        if (navigator.onLine) {
+          syncOfflineQueue();
+        }
+      };
+      window.addEventListener('online', handleOnlineStatus);
+      return () => window.removeEventListener('online', handleOnlineStatus);
+    }
+  }, [user]);
+
+  const syncOfflineQueue = async () => {
+    const queue = JSON.parse(localStorage.getItem('offline-expenses') || '[]');
+    if (queue.length === 0) return;
+
+    showToast('Reconnecting! Syncing offline transactions...', 'info');
+    let successCount = 0;
+
+    for (const item of queue) {
+      try {
+        const { error } = await supabase
+          .from('expenses')
+          .insert([{ ...item, user_id: user.id }]);
+        if (!error) successCount++;
+      } catch (e) {
+        console.error('Offline Sync error:', e);
+      }
+    }
+
+    localStorage.removeItem('offline-expenses');
+    if (successCount > 0) {
+      showToast(`Successfully synced ${successCount} offline transactions!`, 'success');
+      fetchData();
+    }
+  };
 
   // Listen to Supabase auth events
   useEffect(() => {
@@ -196,6 +244,17 @@ export default function App() {
 
   // Add Expense
   const handleAddExpense = async (expenseData) => {
+    // Offline caching handling
+    if (!navigator.onLine) {
+      const queue = JSON.parse(localStorage.getItem('offline-expenses') || '[]');
+      const tempId = 'offline-' + Date.now();
+      const offlineItem = { ...expenseData, id: tempId, user_id: user.id };
+      localStorage.setItem('offline-expenses', JSON.stringify([...queue, expenseData]));
+      setExpenses(prev => [offlineItem, ...prev]);
+      showToast('Offline Mode: Saved locally. Will sync once reconnected!', 'warning');
+      return true;
+    }
+
     try {
       const { data, error } = await supabase
         .from('expenses')
@@ -378,6 +437,8 @@ export default function App() {
           user={user} 
           isDarkMode={isDarkMode} 
           toggleDarkMode={toggleDarkMode} 
+          theme={themeAccent}
+          setTheme={setThemeAccent}
         />
         
         {/* Onboarding Trigger */}

@@ -1,3 +1,4 @@
+
 -- PostgreSQL Supabase Database Schema for CASHCRUSH
 -- Paste this script directly in the Supabase SQL Editor
 

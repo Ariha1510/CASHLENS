@@ -3,7 +3,9 @@ import BudgetCard from '../components/BudgetCard';
 import SavingsGoals from '../components/SavingsGoals';
 import RecurringList from '../components/RecurringList';
 import Gamification from '../components/Gamification';
-import { IndianRupee, Landmark, TrendingUp, Calendar, AlertCircle, Sparkles, Info, ShieldAlert } from 'lucide-react';
+import AIChatbot from '../components/AIChatbot';
+import CashbackVault from '../components/CashbackVault';
+import { IndianRupee, Landmark, TrendingUp, Calendar, AlertCircle, Sparkles, Info, ShieldAlert, Award } from 'lucide-react';
 
 export default function Dashboard({ 
   expenses, 
@@ -32,6 +34,38 @@ export default function Dashboard({
       .reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
     setTodaySpent(todayTotal);
   }, [expenses]);
+
+  const healthScore = useMemo(() => {
+    let score = 85;
+    if (totalSpent > budget) {
+      score -= Math.min(45, ((totalSpent - budget) / budget) * 100);
+    } else if (budget > 0) {
+      const unused = (budget - totalSpent) / budget;
+      score += Math.min(10, unused * 10);
+    }
+    const totalSaved = goals.reduce((sum, g) => sum + parseFloat(g.saved_amount || 0), 0);
+    if (totalSaved > 0) {
+      score += Math.min(15, (totalSaved / 5000) * 15);
+    }
+    return Math.max(0, Math.min(100, Math.round(score)));
+  }, [totalSpent, budget, goals]);
+
+  const healthLevel = useMemo(() => {
+    if (healthScore >= 80) return 'Excellent ★★★★★';
+    if (healthScore >= 65) return 'Good ★★★★☆';
+    if (healthScore >= 45) return 'Average ★★★☆☆';
+    return 'Poor ★★☆☆☆';
+  }, [healthScore]);
+
+  const recommendedBudgets = useMemo(() => {
+    return [
+      { category: 'Food & Drinks', amount: budget * 0.35 },
+      { category: 'Transport', amount: budget * 0.15 },
+      { category: 'Shopping', amount: budget * 0.12 },
+      { category: 'Bills', amount: budget * 0.18 },
+      { category: 'Emergency Savings', amount: budget * 0.20 }
+    ];
+  }, [budget]);
 
   // Linear Month-End projection
   const prediction = useMemo(() => {
@@ -212,6 +246,44 @@ export default function Dashboard({
         </div>
       </div>
 
+      {/* Financial Health & Smart Recommendations */}
+      <div className="grid-cols-2">
+        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Award size={20} className="text-secondary" style={{ color: 'var(--secondary)' }} /> Financial Health Score
+          </h3>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px' }}>
+            <div>
+              <p style={{ fontSize: '32px', fontWeight: '800', color: 'var(--primary)' }}>
+                {healthScore} <span style={{ fontSize: '18px', color: 'var(--text-muted)' }}>/ 100</span>
+              </p>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                Habits: <strong style={{ color: 'var(--text-primary)' }}>{healthLevel}</strong>
+              </p>
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'right' }}>
+              <span>• Stayed under budget</span>
+              <span>• Active savings target</span>
+              <span>• Low impulse spend</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Landmark size={20} className="text-primary" style={{ color: 'var(--primary)' }} /> Smart Recommendations
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {recommendedBudgets.map(rec => (
+              <div key={rec.category} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '4px' }}>
+                <span style={{ color: 'var(--text-muted)' }}>{rec.category}</span>
+                <span style={{ fontWeight: '600' }}>{currency}{rec.amount.toFixed(0)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* AI Insights & Achievements */}
       <div className="grid-cols-2">
         {/* Explainable Insights */}
@@ -239,11 +311,18 @@ export default function Dashboard({
         <Gamification badges={badges} streak={streakDays} />
       </div>
 
-      {/* Savings & Recurring payments */}
+      {/* Savings & Cashback Vault */}
       <div className="grid-cols-2">
         <SavingsGoals goals={goals} onAddGoal={onAddGoal} onAddSavings={onAddSavings} currency={currency} />
+        <CashbackVault wallet={120.00} coins={2400} currency={currency} />
+      </div>
+
+      {/* Subscriptions */}
+      <div>
         <RecurringList recurring={recurring} onAddRecurring={onAddRecurring} onDeleteRecurring={onDeleteRecurring} currency={currency} />
       </div>
+
+      <AIChatbot expenses={expenses} budget={budget} currency={currency} />
     </div>
   );
 }

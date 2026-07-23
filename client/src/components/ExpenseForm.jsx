@@ -61,9 +61,31 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
       let parsedTitle = lines[0] || 'Scanned Expense';
       if (parsedTitle.length > 30) parsedTitle = parsedTitle.substring(0, 30);
 
+      // Auto Category Heuristic mapping
+      const lowerTitle = parsedTitle.toLowerCase();
+      let matchedCategory = 'Food';
+      if (lowerTitle.match(/starbucks|cafe|coffee|cafeteria|mcdonalds|food|lunch|dinner|restaurant/)) {
+        matchedCategory = 'Food';
+      } else if (lowerTitle.match(/uber|bus|metro|train|taxi|transport|fuel|commute/)) {
+        matchedCategory = 'Transport';
+      } else if (lowerTitle.match(/amazon|nike|shopping|zara|store|clothes|sneakers/)) {
+        matchedCategory = 'Shopping';
+      } else if (lowerTitle.match(/textbook|college|course|education|exam|school|book/)) {
+        matchedCategory = 'Education';
+      } else if (lowerTitle.match(/movie|cinema|netflix|spotify|gym|entertainment/)) {
+        matchedCategory = 'Entertainment';
+      } else if (lowerTitle.match(/rent|bill|recharge|electricity|gas|hostel/)) {
+        matchedCategory = 'Bills';
+      } else if (lowerTitle.match(/pharmacy|doctor|hospital|medicine|medical/)) {
+        matchedCategory = 'Medical';
+      } else {
+        matchedCategory = 'Others';
+      }
+
       setTitle(parsedTitle);
       if (parsedAmount) setAmount(parsedAmount);
       setExpenseDate(parsedDate);
+      setCategory(matchedCategory);
       setDescription('Scanned via Tesseract OCR.');
 
     } catch (err) {

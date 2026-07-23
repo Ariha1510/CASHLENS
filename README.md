@@ -206,15 +206,94 @@ http://localhost:3000
 
 ---
 
-# 🌱 Future Enhancements
+# 🌱 Future Enhancements & Feature Roadmap
 
-- AI Chat Assistant
-- PDF Report Export
-- Shared Budgets
-- Expense Splitting
-- Multi-language Support
-- Push Notifications
-- Offline Data Synchronization
+## 🥇 Tier 1 — Features that make it feel like a real product
+
+### 1. AI Financial Assistant ⭐⭐⭐⭐⭐
+Instead of just showing AI insights, add a chatbot.
+Examples:
+> "Why did I spend so much this month?"
+> "How can I save ₹1000?"
+> "Show me my biggest expenses."
+> "Compare this month with last month."
+Use an LLM with your own spending data to generate personalized responses.
+
+### 2. Financial Health Score ⭐⭐⭐⭐⭐
+Create a score out of 100.
+Example:
+```text
+Financial Health
+82 / 100
+★★★★★
+Excellent
+```
+Factors:
+* Stayed under budget
+* Savings progress
+* Spending consistency
+* Emergency savings
+* Number of impulse purchases
+
+### 3. AI Receipt Categorization ⭐⭐⭐⭐⭐
+After OCR extracts receipt text:
+```
+Starbucks
+₹280
+Latte
+```
+Automatically classify it as:
+```
+Food & Drinks
+```
+
+### 4. Smart Budget Recommendations ⭐⭐⭐⭐⭐
+Show recommended budgets:
+```
+Recommended Budget
+Food ₹2500
+Travel ₹1000
+Shopping ₹800
+Savings ₹2000
+```
+Based on the user's spending history.
+
+### 5. Monthly Financial Report ⭐⭐⭐⭐⭐
+Automatically generate a report summary and allow export as PDF.
+
+---
+
+## 🥈 Tier 2 — Features inspired by modern finance apps
+- **Savings Challenges**: e.g., "No Coffee Challenge (7 days)" to earn app points.
+- **Smart Notifications**: e.g., "You've spent 80% of your food budget. Avoid ordering online this week."
+- **Spending Heatmap**: GitHub-style contribution graph representing daily expenditure intensity.
+- **Daily Spending Timeline**: Hourly breakdown of logged expenditures.
+- **Voice Expense Entry**: Natural speech processing, e.g., "Spent 250 rupees on groceries."
+
+---
+
+## 🥉 Tier 3 — Collaborative features
+- **Shared Budgets**: Multiple members contributing to a single budget pool.
+- **Expense Splitting**: Splitwise-style splits among friends.
+- **Group Trip Budget**: Tracking trip expenses collectively.
+
+---
+
+## 🗺️ Tier 4 — Data and visualization
+- **Sankey Diagram**: Visualizing money flow from income to categories.
+- **Spending Forecast**: Predict the next 30 days based on current trends.
+- **Category Trends**: Month-over-month category percentage change.
+- **Net Savings Graph**: Plotting Income, Expenses, and Savings together over time.
+
+---
+
+## 🚀 Tier 5 — Premium-quality polish
+- **Offline Mode**: Cache new expenses locally and auto-sync when online.
+- **Theme Customization**: Accent palettes like Emerald, Ocean, Purple, and Sunset.
+- **Personalized Dashboard**: Drag-and-drop widget reordering.
+- **Achievements Hub**: Trophies for savers (e.g. 30-Day Streak).
+- **Smart Natural Search**: Natural query filtering (e.g. "Food last month").
+- **Testing & E2E**: Unit testing with Vitest/RTL, and E2E validation with Playwright/Cypress.
 
 ---
 

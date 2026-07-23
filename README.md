@@ -1,6 +1,6 @@
 # 💸 CASHCRUSH
 
-> A modern, AI-powered personal finance and expense management application built for students.
+> An AI-powered personal finance companion for students that combines expense tracking, OCR receipt scanning, intelligent budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)]()
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase)]()
@@ -9,68 +9,57 @@
 [![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8)]()
 [![License](https://img.shields.io/badge/License-MIT-green)]()
 
-CASHCRUSH is a full-featured student expense management platform that helps users track daily spending, manage budgets, analyze financial habits, and achieve savings goals through AI-powered insights, interactive analytics, OCR receipt scanning, and gamification.
+CASHCRUSH is a modern Progressive Web App (PWA) built using **React**, **Supabase**, and **PostgreSQL**. It helps students automatically organize expenses, predict overspending, track recurring payments, manage savings goals, earn virtual rewards, and receive personalized financial insights—all through an intuitive, responsive interface.
 
 ---
 
-## ✨ Features
+## ✨ Feature Highlights
 
-### 💰 Expense Management
-- Add, edit, delete, and search expenses
-- Categorize transactions
-- Sort and filter expenses
-- Export transaction history to CSV
+### 💰 Smart Expense Management
+- Add, edit, delete, search, and filter expenses
+- Category-based tracking
+- Monthly budget management
+- CSV import from bank statements
+- CSV export
 
-### 📊 Smart Analytics
-- Interactive Pie & Bar Charts
-- Monthly spending trends
-- Budget utilization tracking
-- Printable reports
-- Month-end spending prediction
-
-### 🤖 AI Spending Insights
-- Personalized spending recommendations
-- Budget risk alerts
-- Category-wise expenditure analysis
-- Spending habit summaries
-
-### 📸 OCR Receipt Scanner
+### 📄 OCR Receipt Scanner
 - Upload receipt images
-- Automatically extract:
-  - Merchant
-  - Amount
-  - Purchase Date
-- Auto-fill expense forms using **Tesseract.js**
+- Extract merchant, amount, and purchase date using **Tesseract.js**
+- Auto-fill expense forms
 
-### 🎯 Savings Goals
-- Create multiple savings goals
-- Track progress visually
-- Monitor remaining target amount
+### 🤖 AI Financial Coach
+- Personalized spending insights
+- Budget risk alerts
+- Month-end expense prediction
+- Context-aware responses (e.g., "Can I order pizza?")
 
-### 🔄 Recurring Expenses
-Manage subscriptions and recurring payments including:
-- Rent
-- Netflix
-- Gym
-- Mobile Recharge
-- Other recurring bills
+### 📊 Analytics Dashboard
+- Interactive Pie & Bar Charts
+- Monthly trends
+- Budget utilization
+- Printable reports
 
-### 🏆 Gamification
-Earn badges and maintain spending streaks to encourage healthy financial habits.
+### 🎯 Savings & Rewards
+- Savings Goals
+- Recurring Expenses
+- Cashback Vault
+- Virtual Coins
+- Coupon Rewards
+- Spending Streaks
+- Achievement Badges
 
-### 👤 Authentication
-- Secure Email Authentication
+### 📱 Modern User Experience
+- Progressive Web App (PWA)
+- Dark / Light Theme
+- Glassmorphism UI
+- Responsive Design
+- Onboarding Wizard
+
+### 🔒 Security
+- Supabase Authentication
 - Email Verification
 - Protected Routes
-- User-specific data using Supabase Authentication
-
-### 📱 Progressive Web App
-- Installable on desktop and mobile
-- Responsive interface
-- Glassmorphism UI
-- Dark / Light Theme
-
----
+- Row Level Security (RLS)
 
 # 🛠 Tech Stack
 
@@ -78,38 +67,40 @@ Earn badges and maintain spending streaks to encourage healthy financial habits.
 |----------|--------------|
 | Frontend | React 18, Vite, React Router |
 | Backend | Supabase |
-| Database | PostgreSQL (Supabase) |
+| Database | PostgreSQL |
 | Authentication | Supabase Auth |
-| Charts | Chart.js, react-chartjs-2 |
 | OCR | Tesseract.js |
+| Charts | Chart.js |
+| CSV Parsing | PapaParse |
 | Styling | HTML5, CSS3, Glassmorphism UI |
-| Data Export | PapaParse |
-| Deployment | Vercel / Netlify *(recommended)* |
+| PWA | Manifest, Service Worker |
 
----
 
-# 📂 Project Structure
+## 🏗 System Architecture
 
 ```
-CASHCRUSH
-│
-├── client
-│   ├── src
-│   │   ├── components
-│   │   ├── pages
-│   │   ├── styles
-│   │   └── lib
-│   ├── public
-│   └── package.json
-│
-└── README.md
+                 React + Vite
+                      │
+                      ▼
+               Supabase Backend
+        ┌───────────┼───────────┐
+        ▼           ▼           ▼
+ Authentication  PostgreSQL   Storage
+                      │
+        ┌─────────────┼──────────────┐
+        ▼             ▼              ▼
+ Expense Engine   AI Insights   OCR Scanner
+        │
+        ▼
+ Rewards Engine
+        │
+        ▼
+ Dashboard & Reports
 ```
-
----
 
 # 🚀 Getting Started
 
-## 1️⃣ Clone the Repository
+## 1️ Clone the Repository
 
 ```bash
 git clone https://github.com/Ariha1510/CASHCRUSH.git
@@ -119,7 +110,7 @@ cd CASHCRUSH/client
 
 ---
 
-## 2️⃣ Install Dependencies
+## 2️ Install Dependencies
 
 ```bash
 npm install
@@ -127,7 +118,7 @@ npm install
 
 ---
 
-## 3️⃣ Configure Supabase
+## 3️ Configure Supabase
 
 Create a `.env` file inside the `client` directory.
 
@@ -138,22 +129,7 @@ VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 
 ---
 
-## 4️⃣ Create Database Tables
-
-Run the SQL schema provided in the **Supabase SQL Editor** (available in `database.sql` in root).
-
-The project uses the following tables:
-
-- profiles
-- budgets
-- expenses
-- savings_goals
-- recurring_expenses
-- user_badges
-
----
-
-## 5️⃣ Start Development Server
+## 4 Start Development Server
 
 ```bash
 npm run dev
@@ -193,115 +169,23 @@ http://localhost:3000
 
 ---
 
-# 📸 Screenshots
+# 🌱 Future Enhancements
 
-> Add screenshots of:
-
-- Dashboard
-- Expense Management
-- Reports
-- OCR Scanner
-- Savings Goals
-- Mobile View
-
----
-
-# 🌱 Future Enhancements & Feature Roadmap
-
-## 🥇 Tier 1 — Features that make it feel like a real product
-
-### 1. AI Financial Assistant ⭐⭐⭐⭐⭐
-Instead of just showing AI insights, add a chatbot.
-Examples:
-> "Why did I spend so much this month?"
-> "How can I save ₹1000?"
-> "Show me my biggest expenses."
-> "Compare this month with last month."
-Use an LLM with your own spending data to generate personalized responses.
-
-### 2. Financial Health Score ⭐⭐⭐⭐⭐
-Create a score out of 100.
-Example:
-```text
-Financial Health
-82 / 100
-★★★★★
-Excellent
-```
-Factors:
-* Stayed under budget
-* Savings progress
-* Spending consistency
-* Emergency savings
-* Number of impulse purchases
-
-### 3. AI Receipt Categorization ⭐⭐⭐⭐⭐
-After OCR extracts receipt text:
-```
-Starbucks
-₹280
-Latte
-```
-Automatically classify it as:
-```
-Food & Drinks
-```
-
-### 4. Smart Budget Recommendations ⭐⭐⭐⭐⭐
-Show recommended budgets:
-```
-Recommended Budget
-Food ₹2500
-Travel ₹1000
-Shopping ₹800
-Savings ₹2000
-```
-Based on the user's spending history.
-
-### 5. Monthly Financial Report ⭐⭐⭐⭐⭐
-Automatically generate a report summary and allow export as PDF.
+- AI Chat Assistant
+- PDF Report Export
+- Shared Budgets
+- Expense Splitting
+- Multi-language Support
+- Push Notifications
+- Offline Data Synchronization
 
 ---
 
-## 🥈 Tier 2 — Features inspired by modern finance apps
-- **Savings Challenges**: e.g., "No Coffee Challenge (7 days)" to earn app points.
-- **Smart Notifications**: e.g., "You've spent 80% of your food budget. Avoid ordering online this week."
-- **Spending Heatmap**: GitHub-style contribution graph representing daily expenditure intensity.
-- **Daily Spending Timeline**: Hourly breakdown of logged expenditures.
-- **Voice Expense Entry**: Natural speech processing, e.g., "Spent 250 rupees on groceries."
+## 🎯 Why CASHCRUSH?
 
----
+Unlike traditional expense trackers, CASHCRUSH combines budgeting, AI-powered financial guidance, OCR receipt scanning, savings management, gamification, and a virtual rewards ecosystem into a single platform designed specifically for students.
 
-## 🥉 Tier 3 — Collaborative features
-- **Shared Budgets**: Multiple members contributing to a single budget pool.
-- **Expense Splitting**: Splitwise-style splits among friends.
-- **Group Trip Budget**: Tracking trip expenses collectively.
-
----
-
-## 🗺️ Tier 4 — Data and visualization
-- **Sankey Diagram**: Visualizing money flow from income to categories.
-- **Spending Forecast**: Predict the next 30 days based on current trends.
-- **Category Trends**: Month-over-month category percentage change.
-- **Net Savings Graph**: Plotting Income, Expenses, and Savings together over time.
-
----
-
-## 🚀 Tier 5 — Premium-quality polish
-- **Offline Mode**: Cache new expenses locally and auto-sync when online.
-- **Theme Customization**: Accent palettes like Emerald, Ocean, Purple, and Sunset.
-- **Personalized Dashboard**: Drag-and-drop widget reordering.
-- **Achievements Hub**: Trophies for savers (e.g. 30-Day Streak).
-- **Smart Natural Search**: Natural query filtering (e.g. "Food last month").
-- **Testing & E2E**: Unit testing with Vitest/RTL, and E2E validation with Playwright/Cypress.
-
----
-
-# 👨💻 Author
-
-**Ariha Shree**
-
-GitHub: https://github.com/Ariha1510
+The application encourages responsible spending through predictive analytics, intelligent alerts, and positive reinforcement instead of simply recording transactions.
 
 ---
 

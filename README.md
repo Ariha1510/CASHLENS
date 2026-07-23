@@ -1,4 +1,4 @@
-# 💸 CASHCRUSH
+#  CASHCRUSH
 
 > An AI-powered personal finance companion for students that combines expense tracking, OCR receipt scanning, intelligent budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
 
@@ -13,33 +13,33 @@ CASHCRUSH is a modern Progressive Web App (PWA) built using **React**, **Supabas
 
 ---
 
-## ✨ Feature Highlights
+##  Feature Highlights
 
-### 💰 Smart Expense Management
+###  Smart Expense Management
 - Add, edit, delete, search, and filter expenses
 - Category-based tracking
 - Monthly budget management
 - CSV import from bank statements
 - CSV export
 
-### 📄 OCR Receipt Scanner
+###  OCR Receipt Scanner
 - Upload receipt images
 - Extract merchant, amount, and purchase date using **Tesseract.js**
 - Auto-fill expense forms
 
-### 🤖 AI Financial Coach
+###  AI Financial Coach
 - Personalized spending insights
 - Budget risk alerts
 - Month-end expense prediction
 - Context-aware responses (e.g., "Can I order pizza?")
 
-### 📊 Analytics Dashboard
+###  Analytics Dashboard
 - Interactive Pie & Bar Charts
 - Monthly trends
 - Budget utilization
 - Printable reports
 
-### 🎯 Savings & Rewards
+###  Savings & Rewards
 - Savings Goals
 - Recurring Expenses
 - Cashback Vault
@@ -48,20 +48,20 @@ CASHCRUSH is a modern Progressive Web App (PWA) built using **React**, **Supabas
 - Spending Streaks
 - Achievement Badges
 
-### 📱 Modern User Experience
+###  Modern User Experience
 - Progressive Web App (PWA)
 - Dark / Light Theme
 - Glassmorphism UI
 - Responsive Design
 - Onboarding Wizard
 
-### 🔒 Security
+###  Security
 - Supabase Authentication
 - Email Verification
 - Protected Routes
 - Row Level Security (RLS)
 
-# 🛠 Tech Stack
+#  Tech Stack
 
 | Category | Technologies |
 |----------|--------------|
@@ -76,7 +76,7 @@ CASHCRUSH is a modern Progressive Web App (PWA) built using **React**, **Supabas
 | PWA | Manifest, Service Worker |
 
 
-## 🏗 System Architecture
+##  System Architecture
 
 ```
                  React + Vite
@@ -98,7 +98,7 @@ CASHCRUSH is a modern Progressive Web App (PWA) built using **React**, **Supabas
  Dashboard & Reports
 ```
 
-# 🚀 Getting Started
+#  Getting Started
 
 ## 1️ Clone the Repository
 
@@ -159,7 +159,7 @@ http://localhost:3000
 
 ---
 
-# 🔒 Security
+#  Security
 
 - Row Level Security (RLS)
 - Protected Routes
@@ -169,7 +169,7 @@ http://localhost:3000
 
 ---
 
-# 🌱 Future Enhancements
+#  Future Enhancements
 
 - AI Chat Assistant
 - PDF Report Export
@@ -181,7 +181,7 @@ http://localhost:3000
 
 ---
 
-## 🎯 Why CASHCRUSH?
+##  Why CASHCRUSH?
 
 Unlike traditional expense trackers, CASHCRUSH combines budgeting, AI-powered financial guidance, OCR receipt scanning, savings management, gamification, and a virtual rewards ecosystem into a single platform designed specifically for students.
 
@@ -189,4 +189,4 @@ The application encourages responsible spending through predictive analytics, in
 
 ---
 
-## ⭐ If you found this project useful, consider giving it a star!
+##  If you found this project useful, consider giving it a star!

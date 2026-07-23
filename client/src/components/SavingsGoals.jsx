@@ -92,9 +92,22 @@ export default function SavingsGoals({ goals, onAddGoal, onAddSavings, currency 
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {goals.length === 0 ? (
-          <p style={{ color: 'var(--text-muted)', fontSize: '13px', textAlign: 'center' }}>
-            No savings goals set. Define goals to visual savings milestones.
-          </p>
+          <div style={{ padding: '16px', textAlign: 'center', background: 'rgba(255,255,255,0.01)', borderRadius: '12px', border: '1px dashed var(--border-glass)' }}>
+            <p style={{ color: 'var(--text-primary)', fontSize: '14.5px', fontWeight: '700', marginBottom: '8px' }}>
+              🎯 No goals yet
+            </p>
+            <p style={{ color: 'var(--text-muted)', fontSize: '12px', marginBottom: '12px', lineHeight: '1.6' }}>
+              Define targets to track savings for:<br />
+              • Laptop &nbsp;&nbsp;• Bike &nbsp;&nbsp;• Semester Fees
+            </p>
+            <button 
+              onClick={() => setShowAddForm(true)} 
+              className="btn btn-primary" 
+              style={{ padding: '6px 12px', fontSize: '12.5px' }}
+            >
+              Create Goal
+            </button>
+          </div>
         ) : (
           goals.map(goal => {
             const percent = goal.target_amount > 0 ? (goal.saved_amount / goal.target_amount) * 100 : 0;

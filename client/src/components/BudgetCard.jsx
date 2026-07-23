@@ -57,7 +57,7 @@ export default function BudgetCard({ budget, spent }) {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)' }}>
-        <span>Spent: ₹{spent.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+        <span>Spent: ₹{spent.toLocaleString('en-IN', { maximumFractionDigits: 0 })} / ₹{budget.toLocaleString('en-IN', { maximumFractionDigits: 0 })}</span>
         <span>{percentage.toFixed(0)}% used</span>
       </div>
 

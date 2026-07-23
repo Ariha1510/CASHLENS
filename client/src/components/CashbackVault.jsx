@@ -50,6 +50,20 @@ export default function CashbackVault({ wallet = 120.00, coins = 2400, currency 
         </div>
       </div>
 
+      {/* Rewards Milestones Progress */}
+      <div style={{ padding: '12px', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-glass)', borderRadius: '12px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px' }}>
+          <span style={{ color: 'var(--text-muted)' }}>Next Reward Milestone</span>
+          <span style={{ fontWeight: '700', color: 'var(--primary)' }}>Need 600 more CashCoins</span>
+        </div>
+        <div className="progress-bar-container">
+          <div className="progress-bar green" style={{ width: '80%' }}></div>
+        </div>
+        <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginTop: '6px' }}>
+          80% Completed (2400 / 3000 Coins)
+        </span>
+      </div>
+
       {/* Coupons */}
       <div>
         <span style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>

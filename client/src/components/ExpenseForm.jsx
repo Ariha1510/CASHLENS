@@ -12,11 +12,17 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
   const [scanning, setScanning] = useState(false);
+  const [receiptPreview, setReceiptPreview] = useState(null);
+  const [scanSuccess, setScanSuccess] = useState(false);
+  const [merchant, setMerchant] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('UPI');
 
   const handleReceiptScan = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    setReceiptPreview(URL.createObjectURL(file));
+    setScanSuccess(false);
     setScanning(true);
     try {
       const { data: { text } } = await Tesseract.recognize(
@@ -87,6 +93,7 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
       setExpenseDate(parsedDate);
       setCategory(matchedCategory);
       setDescription('Scanned via Tesseract OCR.');
+      setScanSuccess(true);
 
     } catch (err) {
       console.error('OCR Error:', err);
@@ -102,8 +109,12 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
       setCategory(initialData.category || 'Food');
       setExpenseDate(initialData.expense_date || '');
       setDescription(initialData.description || '');
+      setMerchant(initialData.merchant || '');
+      setPaymentMethod(initialData.payment_method || 'UPI');
     } else {
       setExpenseDate(new Date().toISOString().split('T')[0]);
+      setMerchant('');
+      setPaymentMethod('UPI');
     }
   }, [initialData]);
 
@@ -127,7 +138,9 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
       amount: parseFloat(amount),
       category,
       expense_date: expenseDate,
-      description
+      description,
+      merchant: merchant || 'Unknown Merchant',
+      payment_method: paymentMethod
     });
 
     if (!initialData) {
@@ -136,6 +149,8 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
       setCategory('Food');
       setExpenseDate(new Date().toISOString().split('T')[0]);
       setDescription('');
+      setMerchant('');
+      setPaymentMethod('UPI');
     }
   };
 
@@ -164,6 +179,24 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
               </div>
             )}
           </label>
+        </div>
+      )}
+
+      {!initialData && receiptPreview && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-glass)', borderRadius: '10px' }}>
+          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Receipt Image Preview:</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img src={receiptPreview} alt="Receipt" style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--border-glass)' }} />
+            {scanSuccess ? (
+              <span style={{ fontSize: '12.5px', color: 'var(--success)', fontWeight: '600' }}>
+                ✓ Autofilled: "{title}" {amount ? `(${amount})` : ''}
+              </span>
+            ) : (
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                {scanning ? 'Extracting details...' : 'Image loaded.'}
+              </span>
+            )}
+          </div>
         </div>
       )}
 
@@ -211,6 +244,34 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
             {CATEGORIES.map(cat => (
               <option key={cat} value={cat}>{cat}</option>
             ))}
+          </select>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div className="form-group">
+          <label className="form-label">Merchant</label>
+          <input 
+            type="text" 
+            value={merchant} 
+            onChange={(e) => setMerchant(e.target.value)} 
+            className="form-control" 
+            placeholder="e.g. Swiggy, Amazon"
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">Payment Method</label>
+          <select 
+            value={paymentMethod} 
+            onChange={(e) => setPaymentMethod(e.target.value)} 
+            className="form-control"
+          >
+            <option value="UPI">UPI</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Cash">Cash</option>
+            <option value="Wallet">Wallet</option>
+            <option value="Bank Transfer">Bank Transfer</option>
           </select>
         </div>
       </div>

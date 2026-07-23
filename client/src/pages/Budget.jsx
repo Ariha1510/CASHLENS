@@ -60,6 +60,28 @@ export default function Budget({ budget, onUpdateBudget, showToast }) {
             <Save size={18} /> {loading ? 'Saving Changes...' : 'Save Ceiling Limit'}
           </button>
         </form>
+
+        <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '16px', borderTop: '1px solid var(--border-glass)', paddingTop: '20px' }}>
+          <div>
+            <h4 style={{ fontSize: '13.5px', marginBottom: '8px' }}>🚨 Utilization Alert Levels</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--warning)' }}>
+                <span>60% Warning Threshold:</span>
+                <span>₹{((newBudget || budget) * 0.6).toFixed(0)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--danger)' }}>
+                <span>90% Critical Threshold:</span>
+                <span>₹{((newBudget || budget) * 0.9).toFixed(0)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ background: 'rgba(6, 182, 212, 0.03)', border: '1px solid var(--border-neon)', padding: '12px', borderRadius: '8px' }}>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '2px' }}>AI Suggested Budget</span>
+            <p style={{ fontSize: '15px', fontWeight: '800', color: 'var(--primary)' }}>₹9,500.00 / month</p>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Based on your last 3 months of logging activity.</span>
+          </div>
+        </div>
       </div>
     </div>
   );

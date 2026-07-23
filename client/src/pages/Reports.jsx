@@ -49,6 +49,28 @@ export default function Reports({ expenses, currency = '₹' }) {
     };
   }, [expenses]);
 
+  const paymentMethodData = useMemo(() => {
+    const methods = {};
+    expenses.forEach(exp => {
+      const pm = exp.payment_method || 'UPI';
+      methods[pm] = (methods[pm] || 0) + parseFloat(exp.amount);
+    });
+    return {
+      labels: Object.keys(methods),
+      data: Object.values(methods)
+    };
+  }, [expenses]);
+
+  const topCategoriesRanking = useMemo(() => {
+    const categories = {};
+    expenses.forEach(exp => {
+      categories[exp.category] = (categories[exp.category] || 0) + parseFloat(exp.amount);
+    });
+    return Object.entries(categories)
+      .sort((a, b) => b[1] - a[1])
+      .map(([category, amount]) => ({ category, amount }));
+  }, [expenses]);
+
   // Date/trend summary for Bar Chart
   const trendData = useMemo(() => {
     const dates = {};
@@ -73,8 +95,8 @@ export default function Reports({ expenses, currency = '₹' }) {
           <h2 style={{ fontSize: '32px', fontWeight: '800' }}>Expenditure Reports</h2>
           <p style={{ color: 'var(--text-muted)' }}>Visualize your categorical shares and daily trends.</p>
         </div>
-        <button onClick={handlePrint} className="btn btn-secondary no-print">
-          <Printer size={16} /> Print Report
+        <button onClick={handlePrint} className="btn btn-primary no-print" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Printer size={16} /> Generate Monthly Statement (PDF)
         </button>
       </div>
 
@@ -162,6 +184,74 @@ export default function Reports({ expenses, currency = '₹' }) {
               <h3 style={{ marginBottom: '16px' }}>Recent Spending Trend</h3>
               <div style={{ flex: 1, minHeight: '0' }}>
                 <TrendBarChart data={trendData.data} labels={trendData.labels} />
+              </div>
+            </div>
+          </div>
+
+          {/* Top Categories and Payment Methods Side-by-Side Grid */}
+          <div className="grid-cols-2" style={{ marginTop: '24px' }}>
+            {/* Top Spending Categories List */}
+            <div className="glass animated">
+              <h3 style={{ marginBottom: '16px' }}>🏆 Top Spending Categories</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {topCategoriesRanking.length > 0 ? (
+                  topCategoriesRanking.map((item, idx) => (
+                    <div 
+                      key={item.category}
+                      style={{ 
+                        display: 'flex', 
+                        justifyContent: 'space-between', 
+                        alignItems: 'center', 
+                        padding: '10px 16px', 
+                        borderRadius: '8px', 
+                        background: 'rgba(255,255,255,0.01)', 
+                        border: '1px solid var(--border-glass)' 
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span style={{ 
+                          fontWeight: '800', 
+                          color: idx === 0 ? '#f59e0b' : idx === 1 ? '#94a3b8' : idx === 2 ? '#b45309' : 'var(--text-muted)',
+                          fontSize: '14px'
+                        }}>
+                          #{idx + 1}
+                        </span>
+                        <span style={{ fontWeight: '600', fontSize: '13px' }}>{item.category}</span>
+                      </div>
+                      <span style={{ fontWeight: '700', color: 'var(--primary)', fontSize: '13px' }}>
+                        {currency}{item.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>No category details logged.</p>
+                )}
+              </div>
+            </div>
+
+            {/* Payment Methods Distribution */}
+            <div className="glass animated">
+              <h3 style={{ marginBottom: '16px' }}>💳 Payment Methods Distribution</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {paymentMethodData.labels.length > 0 ? (
+                  paymentMethodData.labels.map((method, idx) => {
+                    const amt = paymentMethodData.data[idx];
+                    const pct = stats.total > 0 ? (amt / stats.total) * 100 : 0;
+                    return (
+                      <div key={method} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12.5px' }}>
+                          <span style={{ fontWeight: '600' }}>{method}</span>
+                          <span style={{ color: 'var(--text-muted)' }}>{currency}{amt.toFixed(0)} ({pct.toFixed(0)}%)</span>
+                        </div>
+                        <div className="progress-bar-container" style={{ height: '6px' }}>
+                          <div className="progress-bar green" style={{ width: `${pct}%` }}></div>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>No payment methods logged.</p>
+                )}
               </div>
             </div>
           </div>

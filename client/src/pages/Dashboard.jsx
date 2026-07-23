@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BudgetCard from '../components/BudgetCard';
 import SavingsGoals from '../components/SavingsGoals';
 import RecurringList from '../components/RecurringList';
 import Gamification from '../components/Gamification';
 import AIChatbot from '../components/AIChatbot';
 import CashbackVault from '../components/CashbackVault';
-import { IndianRupee, Landmark, TrendingUp, Calendar, AlertCircle, Sparkles, Info, ShieldAlert, Award } from 'lucide-react';
+import { IndianRupee, Landmark, TrendingUp, Calendar, AlertCircle, Sparkles, Info, ShieldAlert, Award, Camera, Plus, FileSpreadsheet, ArrowUpRight } from 'lucide-react';
 
 export default function Dashboard({ 
   expenses, 
@@ -21,8 +22,10 @@ export default function Dashboard({
   onAddRecurring,
   onDeleteRecurring
 }) {
+  const navigate = useNavigate();
   const [totalSpent, setTotalSpent] = useState(0);
   const [todaySpent, setTodaySpent] = useState(0);
+  const [insightIndex, setInsightIndex] = useState(0);
 
   useEffect(() => {
     const total = expenses.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
@@ -115,6 +118,14 @@ export default function Dashboard({
     return list;
   }, [expenses, budget, totalSpent, prediction, currency]);
 
+  useEffect(() => {
+    if (insights.length <= 1) return;
+    const interval = setInterval(() => {
+      setInsightIndex(prev => (prev + 1) % insights.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [insights]);
+
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0' }}>
@@ -128,9 +139,28 @@ export default function Dashboard({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-      <div>
-        <h2 style={{ fontSize: '32px', fontWeight: '800' }}>Dashboard</h2>
-        <p style={{ color: 'var(--text-muted)' }}>Real-time statistics of your student expenditures.</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+        <div>
+          <h2 style={{ fontSize: '32px', fontWeight: '800' }}>Dashboard</h2>
+          <p style={{ color: 'var(--text-muted)' }}>Real-time statistics of your student expenditures.</p>
+        </div>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', fontSize: '12.5px' }}>
+            <Plus size={15} /> Add Expense
+          </button>
+          <button onClick={() => navigate('/expenses')} className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', fontSize: '12.5px' }}>
+            <Camera size={15} /> Scan Receipt
+          </button>
+          <button onClick={() => {
+            const el = document.getElementById('savings-goals-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }} className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', fontSize: '12.5px' }}>
+            <Award size={15} /> Add Goal
+          </button>
+          <button onClick={() => navigate('/expenses')} className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', fontSize: '12.5px' }}>
+            <FileSpreadsheet size={15} /> Import CSV
+          </button>
+        </div>
       </div>
 
       {error && (
@@ -143,7 +173,12 @@ export default function Dashboard({
       {/* KPI Cards Grid */}
       <div className="grid-cols-3">
         {/* Spent */}
-        <div className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div 
+          onClick={() => navigate('/expenses')} 
+          className="glass animated" 
+          style={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', position: 'relative' }}
+          title="Click to view all expenses"
+        >
           <div style={{ 
             background: 'rgba(219, 39, 119, 0.1)', 
             border: '1px solid rgba(219, 39, 119, 0.3)',
@@ -155,7 +190,9 @@ export default function Dashboard({
             <IndianRupee size={24} />
           </div>
           <div>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Total Spent</span>
+            <span style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              Total Spent <ArrowUpRight size={12} />
+            </span>
             <h3 style={{ fontSize: '24px', fontWeight: '800', marginTop: '4px' }}>
               {currency}{totalSpent.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </h3>
@@ -163,7 +200,12 @@ export default function Dashboard({
         </div>
 
         {/* Today's Spending */}
-        <div className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div 
+          onClick={() => navigate('/expenses')} 
+          className="glass animated" 
+          style={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', position: 'relative' }}
+          title="Click to view today's expenses"
+        >
           <div style={{ 
             background: 'rgba(6, 182, 212, 0.1)', 
             border: '1px solid rgba(6, 182, 212, 0.3)',
@@ -175,7 +217,9 @@ export default function Dashboard({
             <Calendar size={24} />
           </div>
           <div>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Today's Spent</span>
+            <span style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              Today's Spent <ArrowUpRight size={12} />
+            </span>
             <h3 style={{ fontSize: '24px', fontWeight: '800', marginTop: '4px' }}>
               {currency}{todaySpent.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </h3>
@@ -183,7 +227,12 @@ export default function Dashboard({
         </div>
 
         {/* Remaining Budget */}
-        <div className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div 
+          onClick={() => navigate('/budget')} 
+          className="glass animated" 
+          style={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', position: 'relative' }}
+          title="Click to adjust monthly budget"
+        >
           <div style={{ 
             background: remaining >= 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)', 
             border: `1px solid ${remaining >= 0 ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
@@ -195,7 +244,9 @@ export default function Dashboard({
             <TrendingUp size={24} />
           </div>
           <div>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Remaining Limit</span>
+            <span style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              Remaining Limit <ArrowUpRight size={12} />
+            </span>
             <h3 style={{ 
               fontSize: '24px', 
               fontWeight: '800', 
@@ -228,6 +279,12 @@ export default function Dashboard({
                 {currency}{prediction.projected.toFixed(2)}
               </span>
             </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '8px' }}>
+              <span style={{ fontSize: '13.5px', color: 'var(--text-muted)' }}>Expected Savings:</span>
+              <span style={{ fontWeight: '700', color: 'var(--success)' }}>
+                {currency}{Math.max(0, budget - prediction.projected).toFixed(2)}
+              </span>
+            </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '13.5px', color: 'var(--text-muted)' }}>Exceeding Risk Level:</span>
               <span style={{ 
@@ -248,7 +305,12 @@ export default function Dashboard({
 
       {/* Financial Health & Smart Recommendations */}
       <div className="grid-cols-2">
-        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div 
+          onClick={() => navigate('/reports')}
+          className="glass animated" 
+          style={{ display: 'flex', flexDirection: 'column', gap: '16px', cursor: 'pointer' }}
+          title="Click to view detailed analytics"
+        >
           <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Award size={20} className="text-secondary" style={{ color: 'var(--secondary)' }} /> Financial Health Score
           </h3>
@@ -261,10 +323,10 @@ export default function Dashboard({
                 Habits: <strong style={{ color: 'var(--text-primary)' }}>{healthLevel}</strong>
               </p>
             </div>
-            <div style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'right' }}>
-              <span>• Stayed under budget</span>
-              <span>• Active savings target</span>
-              <span>• Low impulse spend</span>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'right' }}>
+              <span style={{ color: 'var(--success)' }}>+10 Stayed within budget</span>
+              <span style={{ color: 'var(--success)' }}>+5 Logged expenses daily</span>
+              <span style={{ color: 'var(--warning)' }}>-2 Food spending slightly high</span>
             </div>
           </div>
         </div>
@@ -274,12 +336,21 @@ export default function Dashboard({
             <Landmark size={20} className="text-primary" style={{ color: 'var(--primary)' }} /> Smart Recommendations
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {recommendedBudgets.map(rec => (
-              <div key={rec.category} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '4px' }}>
-                <span style={{ color: 'var(--text-muted)' }}>{rec.category}</span>
-                <span style={{ fontWeight: '600' }}>{currency}{rec.amount.toFixed(0)}</span>
-              </div>
-            ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '4px' }}>
+              <span>🍔</span>
+              <span style={{ color: 'var(--text-muted)', flex: 1 }}>Reduce Food spending by:</span>
+              <span style={{ fontWeight: '700', color: 'var(--success)' }}>{currency}400</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '4px' }}>
+              <span>🚕</span>
+              <span style={{ color: 'var(--text-muted)', flex: 1 }}>Walking twice weekly saves:</span>
+              <span style={{ fontWeight: '700', color: 'var(--success)' }}>{currency}250</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '4px' }}>
+              <span>📚</span>
+              <span style={{ color: 'var(--text-muted)', flex: 1 }}>Buy used textbooks to save:</span>
+              <span style={{ fontWeight: '700', color: 'var(--success)' }}>{currency}600</span>
+            </div>
           </div>
         </div>
       </div>
@@ -287,23 +358,40 @@ export default function Dashboard({
       {/* AI Insights & Achievements */}
       <div className="grid-cols-2">
         {/* Explainable Insights */}
-        <div className="glass animated">
-          <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Sparkles size={20} className="text-secondary" style={{ color: 'var(--secondary)' }} /> Explainable Coach
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {insights.map((insight, index) => (
+        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '200px' }}>
+          <div>
+            <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Sparkles size={20} className="text-secondary" style={{ color: 'var(--secondary)' }} /> Explainable Coach
+            </h3>
+            {insights.length > 0 ? (
               <div 
-                key={index}
-                className="insight-alert" 
+                className="insight-alert animated" 
+                key={insightIndex}
                 style={{ 
                   margin: 0,
-                  background: insight.type === 'warning' ? 'rgba(249, 115, 22, 0.08)' : 'rgba(6, 182, 212, 0.08)',
-                  border: `1px solid ${insight.type === 'warning' ? 'var(--warning)' : 'var(--primary)'}`
+                  background: insights[insightIndex].type === 'warning' ? 'rgba(249, 115, 22, 0.08)' : 'rgba(6, 182, 212, 0.08)',
+                  border: `1px solid ${insights[insightIndex].type === 'warning' ? 'var(--warning)' : 'var(--primary)'}`
                 }}
               >
-                <span style={{ fontSize: '13.5px' }}>{insight.text}</span>
+                <span style={{ fontSize: '13.5px' }}>{insights[insightIndex].text}</span>
               </div>
+            ) : (
+              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Healthy budget utilization detected.</p>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: '6px', marginTop: '16px', justifyContent: 'center' }}>
+            {insights.map((_, idx) => (
+              <div 
+                key={idx} 
+                onClick={() => setInsightIndex(idx)}
+                style={{ 
+                  width: '6px', 
+                  height: '6px', 
+                  borderRadius: '50%', 
+                  background: idx === insightIndex ? 'var(--primary)' : 'rgba(255,255,255,0.2)',
+                  cursor: 'pointer'
+                }} 
+              />
             ))}
           </div>
         </div>

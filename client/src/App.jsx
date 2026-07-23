@@ -10,6 +10,9 @@ import Reports from './pages/Reports';
 import Budget from './pages/Budget';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Landing from './pages/Landing';
+import Profile from './pages/Profile';
+import NotificationDrawer from './components/NotificationDrawer';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -25,6 +28,26 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeAccent, setThemeAccent] = useState(localStorage.getItem('theme-accent') || '');
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, type: 'info', text: 'Welcome to CashCrush! Let\'s build a budget.', time: 'Just now' },
+    { id: 2, type: 'success', text: 'Cashback Credited: +20 Coins added to vault.', time: '2 mins ago' }
+  ]);
+
+  const handleUpdateProfile = async (profileData) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update(profileData)
+        .eq('id', user.id);
+      if (error) throw error;
+      setProfile(prev => ({ ...prev, ...profileData }));
+      return { success: true };
+    } catch (err) {
+      showToast(err.message, 'error');
+      return { error: err };
+    }
+  };
 
   // Theme Accent Effect
   useEffect(() => {
@@ -114,6 +137,18 @@ export default function App() {
     }
   }, [user]);
 
+  // Fetch data silently on tab focus / visibility change
+  useEffect(() => {
+    if (!user) return;
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        fetchData(true);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, [user]);
+
   const showToast = (message, type = 'info') => {
     setToast({ message, type });
   };
@@ -130,8 +165,8 @@ export default function App() {
     }
   };
 
-  const fetchData = async () => {
-    setLoading(true);
+  const fetchData = async (silent = false) => {
+    if (!silent) setLoading(true);
     setError(null);
     try {
       // 1. Fetch budget
@@ -211,7 +246,7 @@ export default function App() {
       setError(err.message);
       showToast(err.message, 'error');
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -439,6 +474,15 @@ export default function App() {
           toggleDarkMode={toggleDarkMode} 
           theme={themeAccent}
           setTheme={setThemeAccent}
+          onToggleNotifications={() => setNotificationsOpen(!notificationsOpen)}
+          notificationCount={notifications.length}
+        />
+
+        <NotificationDrawer 
+          isOpen={notificationsOpen} 
+          onClose={() => setNotificationsOpen(false)} 
+          notifications={notifications} 
+          onClear={() => setNotifications([])} 
         />
         
         {/* Onboarding Trigger */}
@@ -450,6 +494,10 @@ export default function App() {
           <Routes>
             <Route 
               path="/" 
+              element={<Landing user={user} />} 
+            />
+            <Route 
+              path="/dashboard" 
               element = {
                 <ProtectedRoute>
                   <Dashboard 
@@ -508,15 +556,29 @@ export default function App() {
               } 
             />
             <Route 
+              path="/profile" 
+              element={
+                <ProtectedRoute>
+                  <Profile 
+                    user={user} 
+                    profile={profile} 
+                    onUpdateProfile={handleUpdateProfile} 
+                    onUpdateBudget={handleUpdateBudget} 
+                    showToast={showToast}
+                  />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
               path="/login" 
               element={
-                user ? <Navigate to="/" replace /> : <Login showToast={showToast} />
+                user ? <Navigate to="/dashboard" replace /> : <Login showToast={showToast} />
               } 
             />
             <Route 
               path="/register" 
               element={
-                user ? <Navigate to="/" replace /> : <Register showToast={showToast} />
+                user ? <Navigate to="/dashboard" replace /> : <Register showToast={showToast} />
               } 
             />
           </Routes>

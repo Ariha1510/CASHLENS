@@ -137,18 +137,6 @@ export default function App() {
     }
   }, [user]);
 
-  // Fetch data silently on tab focus / visibility change
-  useEffect(() => {
-    if (!user) return;
-    const handleVisibility = () => {
-      if (document.visibilityState === 'visible') {
-        fetchData(true);
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [user]);
-
   const showToast = (message, type = 'info') => {
     setToast({ message, type });
   };
@@ -165,8 +153,8 @@ export default function App() {
     }
   };
 
-  const fetchData = async (silent = false) => {
-    if (!silent) setLoading(true);
+  const fetchData = async () => {
+    setLoading(true);
     setError(null);
     try {
       // 1. Fetch budget
@@ -246,7 +234,7 @@ export default function App() {
       setError(err.message);
       showToast(err.message, 'error');
     } finally {
-      if (!silent) setLoading(false);
+      setLoading(false);
     }
   };
 

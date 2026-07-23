@@ -33,16 +33,22 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
 
       // Amount extraction
       let parsedAmount = '';
-      const totalRegex = /(?:total|amt|net|sum|due)\s*[:=]?\s*[$₹]?\s*(\d+(?:\.\d{2})?)/i;
-      const amountMatch = text.match(totalRegex);
-      if (amountMatch) {
-        parsedAmount = amountMatch[1];
+      const grandTotalRegex = /(?:payable\s+amount|payable|grand\s+total|total\s+payable|net\s+due)\s*[:=]?\s*[$₹]?\s*(\d+(?:\.\d{2})?)/i;
+      const grandMatch = text.match(grandTotalRegex);
+      if (grandMatch) {
+        parsedAmount = grandMatch[1];
       } else {
-        const numberRegex = /(\d+\.\d{2})/g;
-        const numbers = text.match(numberRegex);
-        if (numbers && numbers.length > 0) {
-          const parsedNums = numbers.map(n => parseFloat(n));
-          parsedAmount = Math.max(...parsedNums).toString();
+        const totalRegex = /\b(?:total|amt|due|sum)\b\s*[:=]?\s*[$₹]?\s*(\d+(?:\.\d{2})?)/i;
+        const totalMatch = text.match(totalRegex);
+        if (totalMatch) {
+          parsedAmount = totalMatch[1];
+        } else {
+          const numberRegex = /(\d+\.\d{2})/g;
+          const numbers = text.match(numberRegex);
+          if (numbers && numbers.length > 0) {
+            const parsedNums = numbers.map(n => parseFloat(n));
+            parsedAmount = Math.max(...parsedNums).toString();
+          }
         }
       }
 
@@ -62,36 +68,93 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
         parsedDate = new Date().toISOString().split('T')[0];
       }
 
-      // Merchant/Title extraction
-      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      let parsedTitle = lines[0] || 'Scanned Expense';
-      if (parsedTitle.length > 30) parsedTitle = parsedTitle.substring(0, 30);
+      // Smarter Merchant, Title & Category classification
+      const lowerText = text.toLowerCase();
+      let parsedTitle = '';
+      let parsedMerchant = '';
+      let matchedCategory = 'Others';
 
-      // Auto Category Heuristic mapping
-      const lowerTitle = parsedTitle.toLowerCase();
-      let matchedCategory = 'Food';
-      if (lowerTitle.match(/starbucks|cafe|coffee|cafeteria|mcdonalds|food|lunch|dinner|restaurant/)) {
-        matchedCategory = 'Food';
-      } else if (lowerTitle.match(/uber|bus|metro|train|taxi|transport|fuel|commute/)) {
-        matchedCategory = 'Transport';
-      } else if (lowerTitle.match(/amazon|nike|shopping|zara|store|clothes|sneakers/)) {
+      if (lowerText.includes('big bazaar') || lowerText.includes('bigbazaar')) {
+        parsedTitle = 'Big Bazaar Shopping';
+        parsedMerchant = 'Big Bazaar';
         matchedCategory = 'Shopping';
-      } else if (lowerTitle.match(/textbook|college|course|education|exam|school|book/)) {
-        matchedCategory = 'Education';
-      } else if (lowerTitle.match(/movie|cinema|netflix|spotify|gym|entertainment/)) {
-        matchedCategory = 'Entertainment';
-      } else if (lowerTitle.match(/rent|bill|recharge|electricity|gas|hostel/)) {
-        matchedCategory = 'Bills';
-      } else if (lowerTitle.match(/pharmacy|doctor|hospital|medicine|medical/)) {
-        matchedCategory = 'Medical';
-      } else {
-        matchedCategory = 'Others';
+      } else if (lowerText.includes('starbucks')) {
+        parsedTitle = 'Starbucks Coffee';
+        parsedMerchant = 'Starbucks';
+        matchedCategory = 'Food';
+      } else if (lowerText.includes('mcdonald')) {
+        parsedTitle = 'McDonalds';
+        parsedMerchant = 'McDonalds';
+        matchedCategory = 'Food';
+      } else if (lowerText.includes('domino')) {
+        parsedTitle = 'Domino\'s Pizza';
+        parsedMerchant = 'Domino\'s';
+        matchedCategory = 'Food';
+      } else if (lowerText.includes('swiggy')) {
+        parsedTitle = 'Swiggy Order';
+        parsedMerchant = 'Swiggy';
+        matchedCategory = 'Food';
+      } else if (lowerText.includes('zomato')) {
+        parsedTitle = 'Zomato Order';
+        parsedMerchant = 'Zomato';
+        matchedCategory = 'Food';
+      } else if (lowerText.includes('uber')) {
+        parsedTitle = 'Uber Ride';
+        parsedMerchant = 'Uber';
+        matchedCategory = 'Transport';
+      } else if (lowerText.includes('amazon')) {
+        parsedTitle = 'Amazon Purchase';
+        parsedMerchant = 'Amazon';
+        matchedCategory = 'Shopping';
+      }
+
+      // Fallback first line title extraction
+      if (!parsedTitle) {
+        const lines = text.split('\n')
+          .map(l => l.trim())
+          .filter(l => l.length > 0 && !l.toLowerCase().match(/making india beautiful|future retail|tax invoice|invoice|welcome|receipt|bill no/));
+        
+        parsedTitle = lines[0] || 'Scanned Expense';
+        if (parsedTitle.length > 30) parsedTitle = parsedTitle.substring(0, 30);
+        parsedMerchant = parsedTitle;
+
+        // Auto Category mapping
+        const lowerTitle = parsedTitle.toLowerCase();
+        if (lowerTitle.match(/starbucks|cafe|coffee|cafeteria|mcdonalds|food|lunch|dinner|restaurant/)) {
+          matchedCategory = 'Food';
+        } else if (lowerTitle.match(/uber|bus|metro|train|taxi|transport|fuel|commute/)) {
+          matchedCategory = 'Transport';
+        } else if (lowerTitle.match(/amazon|nike|shopping|zara|store|clothes|sneakers/)) {
+          matchedCategory = 'Shopping';
+        } else if (lowerTitle.match(/textbook|college|course|education|exam|school|book/)) {
+          matchedCategory = 'Education';
+        } else if (lowerTitle.match(/movie|cinema|netflix|spotify|gym|entertainment/)) {
+          matchedCategory = 'Entertainment';
+        } else if (lowerTitle.match(/rent|bill|recharge|electricity|gas|hostel/)) {
+          matchedCategory = 'Bills';
+        } else if (lowerTitle.match(/pharmacy|doctor|hospital|medicine|medical/)) {
+          matchedCategory = 'Medical';
+        }
+      }
+
+      // Detect Payment Method
+      let parsedPaymentMethod = 'UPI';
+      if (lowerText.includes('cash')) {
+        parsedPaymentMethod = 'Cash';
+      } else if (lowerText.includes('card') || lowerText.includes('credit') || lowerText.includes('debit')) {
+        parsedPaymentMethod = 'Credit Card';
+      } else if (lowerText.includes('wallet') || lowerText.includes('paytm') || lowerText.includes('gpay')) {
+        parsedPaymentMethod = 'Wallet';
+      } else if (lowerText.includes('netbanking') || lowerText.includes('transfer')) {
+        parsedPaymentMethod = 'Bank Transfer';
       }
 
       setTitle(parsedTitle);
       if (parsedAmount) setAmount(parsedAmount);
       setExpenseDate(parsedDate);
       setCategory(matchedCategory);
+      setMerchant(parsedMerchant);
+      setPaymentMethod(parsedPaymentMethod);
       setDescription('Scanned via Tesseract OCR.');
       setScanSuccess(true);
 

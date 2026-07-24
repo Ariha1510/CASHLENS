@@ -222,17 +222,36 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
       <h3>{initialData ? '✏️ Edit Expense' : '➕ Add Expense'}</h3>
 
       {!initialData && (
-        <div style={{ padding: '12px', background: 'rgba(255, 255, 255, 0.02)', border: '1px dashed var(--border-glass)', borderRadius: '10px', textAlign: 'center' }}>
-          <label style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+        <div 
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file) handleReceiptScan({ target: { files: [file] } });
+          }}
+          style={{ 
+            padding: '24px 16px', 
+            background: 'rgba(255, 255, 255, 0.02)', 
+            border: '2px dashed rgba(255, 255, 255, 0.15)', 
+            borderRadius: '16px', 
+            textAlign: 'center',
+            transition: 'border-color 0.2s ease',
+            cursor: 'pointer'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
+          onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)'}
+        >
+          <label style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             {scanning ? (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                <RefreshCw size={24} style={{ color: 'var(--primary)', animation: 'spin 1s linear infinite' }} />
-                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Processing receipt OCR...</span>
+                <RefreshCw size={28} style={{ color: 'var(--primary)', animation: 'spin 1s linear infinite' }} />
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500' }}>Processing receipt OCR...</span>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                <Camera size={24} style={{ color: 'var(--primary)' }} />
-                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Scan Receipt Image (Auto-Fill)</span>
+                <Camera size={28} style={{ color: 'var(--primary)' }} />
+                <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600' }}>Drag & Drop Receipt or Click to Upload</span>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Supports JPG, PNG, WEBP</span>
                 <input 
                   type="file" 
                   accept="image/*" 

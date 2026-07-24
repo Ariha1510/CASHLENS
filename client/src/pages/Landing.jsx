@@ -28,7 +28,7 @@ export default function Landing({ user }) {
           Crush Your Budget, <span style={{ color: 'var(--primary)' }}>Multiply</span> Your Savings.
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '18px', maxWidth: '600px', margin: 0 }}>
-          An intelligent personal finance companion designed to help students track spending, avoid debt, and earn rewards for healthy saving habits.
+          An AI-powered personal finance assistant designed to help students track spending, avoid debt, and earn rewards for healthy saving habits.
         </p>
         <div style={{ display: 'flex', gap: '16px', marginTop: '12px' }}>
           {user ? (

@@ -7,6 +7,7 @@ export default function AIChatbot({ expenses, budget, currency = '₹' }) {
     { sender: 'bot', text: 'Hey there! I am your CASHCRUSH AI Coach. Ask me anything about your student spending logs!' }
   ]);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
   const analyzeData = (query) => {
     const q = query.toLowerCase();
@@ -87,11 +88,13 @@ export default function AIChatbot({ expenses, budget, currency = '₹' }) {
 
     setMessages(prev => [...prev, { sender: 'user', text: query }]);
     setInput('');
+    setIsTyping(true);
 
     setTimeout(() => {
       const response = analyzeData(query);
       setMessages(prev => [...prev, { sender: 'bot', text: response }]);
-    }, 500);
+      setIsTyping(false);
+    }, 800);
   };
 
   return (
@@ -149,25 +152,58 @@ export default function AIChatbot({ expenses, budget, currency = '₹' }) {
           </div>
 
           {/* Messages list */}
-          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px', paddingRight: '4px' }}>
+          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px', paddingRight: '4px' }}>
             {messages.map((m, idx) => (
               <div 
                 key={idx}
                 style={{
+                  display: 'flex',
+                  gap: '8px',
                   alignSelf: m.sender === 'bot' ? 'flex-start' : 'flex-end',
-                  background: m.sender === 'bot' ? 'rgba(255,255,255,0.03)' : 'var(--primary-glow)',
-                  border: `1px solid ${m.sender === 'bot' ? 'var(--border-glass)' : 'var(--primary)'}`,
-                  padding: '8px 12px',
-                  borderRadius: '12px',
-                  maxWidth: '85%',
-                  fontSize: '13px',
-                  lineHeight: '1.4',
-                  whiteSpace: 'pre-line'
+                  maxWidth: '85%'
                 }}
               >
-                {m.text}
+                {m.sender === 'bot' && (
+                  <div style={{ background: 'var(--primary-glow)', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
+                    <Bot size={16} />
+                  </div>
+                )}
+                <div 
+                  style={{
+                    background: m.sender === 'bot' ? 'rgba(255,255,255,0.03)' : 'linear-gradient(135deg, var(--primary), var(--secondary))',
+                    color: m.sender === 'bot' ? 'var(--text-primary)' : '#0f172a',
+                    border: m.sender === 'bot' ? '1px solid rgba(255,255,255,0.08)' : 'none',
+                    padding: '10px 14px',
+                    borderRadius: m.sender === 'bot' ? '0px 16px 16px 16px' : '16px 16px 0px 16px',
+                    fontSize: '13px',
+                    lineHeight: '1.4',
+                    whiteSpace: 'pre-line',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+                  }}
+                >
+                  {m.text}
+                </div>
               </div>
             ))}
+            {isTyping && (
+              <div style={{ display: 'flex', gap: '8px', alignSelf: 'flex-start' }}>
+                <div style={{ background: 'var(--primary-glow)', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
+                  <Bot size={16} />
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '10px 14px', borderRadius: '0px 16px 16px 16px', display: 'flex', gap: '4px', alignItems: 'center' }}>
+                  <span style={{ width: '6px', height: '6px', background: 'var(--text-muted)', borderRadius: '50%', display: 'inline-block', animation: 'bounce 1.4s infinite ease-in-out both' }}></span>
+                  <span style={{ width: '6px', height: '6px', background: 'var(--text-muted)', borderRadius: '50%', display: 'inline-block', animation: 'bounce 1.4s infinite ease-in-out both 0.2s' }}></span>
+                  <span style={{ width: '6px', height: '6px', background: 'var(--text-muted)', borderRadius: '50%', display: 'inline-block', animation: 'bounce 1.4s infinite ease-in-out both 0.4s' }}></span>
+                </div>
+              </div>
+            )}
+            
+            <style>{`
+              @keyframes bounce {
+                0%, 80%, 100% { transform: scale(0); }
+                40% { transform: scale(1.0); }
+              }
+            `}</style>
           </div>
 
           {/* Quick suggestions */}

@@ -1,209 +1,147 @@
-#  CASHCRUSH
+# 💸 CASHCRUSH
 
-> An AI-powered personal finance companion for students that combines expense tracking, OCR receipt scanning, intelligent budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
+> An intelligent personal finance companion for students that combines expense tracking, OCR receipt scanning, predictive budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
 
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)]()
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase)]()
-[![Vite](https://img.shields.io/badge/Vite-Frontend-646CFF?logo=vite)]()
-[![Chart.js](https://img.shields.io/badge/Chart.js-Analytics-FF6384?logo=chartdotjs)]()
+🌐 [Live Demo](https://cashcrush.vercel.app) • 📄 [Database Schema](file:///d:/CASHCRUSH/database.sql) • ⭐ Star this repository
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)]()
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white)]()
+[![Vite](https://img.shields.io/badge/Vite-Frontend-646CFF?logo=vite&logoColor=white)]()
+[![Chart.js](https://img.shields.io/badge/Chart.js-Analytics-FF6384?logo=chartdotjs&logoColor=white)]()
 [![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8)]()
 [![License](https://img.shields.io/badge/License-MIT-green)]()
 
-CASHCRUSH is a modern Progressive Web App (PWA) built using **React**, **Supabase**, and **PostgreSQL**. It helps students automatically organize expenses, predict overspending, track recurring payments, manage savings goals, earn virtual rewards, and receive personalized financial insights—all through an intuitive, responsive interface.
+---
+
+## 🚀 Why CASHCRUSH?
+
+Unlike traditional, tedious budget trackers, **CASHCRUSH** is built specifically for students. It combines rule-based predictive budgeting, local WebAssembly OCR receipt scanning, virtual cashback rewards, and interactive analytics to make financial discipline gamified, educational, and secure.
 
 ---
 
-##  Feature Highlights
+## 📊 Key Statistics & Scope
 
-###  Smart Expense Management
-- Add, edit, delete, search, and filter expenses
-- Category-based tracking
-- Monthly budget management
-- CSV import from bank statements
-- CSV export
+- **🔐 Authentication**: Supabase Auth (JWT protected)
+- **💾 Database**: PostgreSQL with Row-Level Security (RLS)
+- **📱 PWA Status**: 100% installable offline-capable web application
+- **🧾 OCR Engine**: Client-side Tesseract.js (no image uploads)
+- **📈 Chart Analytics**: Interactive Category and Trend charts
 
-###  OCR Receipt Scanner
-- Upload receipt images
-- Extract merchant, amount, and purchase date using **Tesseract.js**
-- Auto-fill expense forms
+---
 
-###  AI Financial Coach
-- Personalized spending insights
-- Budget risk alerts
-- Month-end expense prediction
-- Context-aware responses (e.g., "Can I order pizza?")
+## ✨ Features
 
-###  Analytics Dashboard
-- Interactive Pie & Bar Charts
-- Monthly trends
-- Budget utilization
-- Printable reports
+### 💰 Expense & Budget Management
+- **Interactive Dashboard**: Clickable metric cards with quick action shortcuts.
+- **Statement Importer**: Import bank statement CSV files with automatic categorization heuristics.
+- **Merchant & Payment Fields**: Track specific vendors (e.g. Swiggy, Amazon) and modes (UPI, Cards, Cash).
 
-###  Savings & Rewards
-- Savings Goals
-- Recurring Expenses
-- Cashback Vault
-- Virtual Coins
-- Coupon Rewards
-- Spending Streaks
-- Achievement Badges
+### 📸 OCR Receipt Scanning
+- Snap bill photos to instantly extract merchant names, transaction dates, and total payable amounts using local client-side WebAssembly OCR.
 
-###  Modern User Experience
-- Progressive Web App (PWA)
-- Dark / Light Theme
-- Glassmorphism UI
-- Responsive Design
-- Onboarding Wizard
+### 🧠 Intelligent Budget Coach
+- **Heuristic Advice**: Real-time spending suggestions (e.g., pizza affordability analysis).
+- **Projections**: Predicts month-end totals based on average daily spending trends.
+- **Budget Thresholds**: Warns users at 60% and 90% budget utilization.
 
-###  Security
-- Supabase Authentication
-- Email Verification
-- Protected Routes
-- Row Level Security (RLS)
+### 🏆 Gamification & Rewards
+- **Cashback Vault**: Accumulate virtual coins through healthy savings habits.
+- **Achievement Badges**: Unlock milestones (e.g., Budget Guard, Savings Master).
+- **Coupon Vouchers**: Claim virtual student deals (e.g. Domino's coupons).
 
-#  Tech Stack
+---
 
-| Category | Technologies |
-|----------|--------------|
-| Frontend | React 18, Vite, React Router |
-| Backend | Supabase |
-| Database | PostgreSQL |
-| Authentication | Supabase Auth |
-| OCR | Tesseract.js |
-| Charts | Chart.js |
-| CSV Parsing | PapaParse |
-| Styling | HTML5, CSS3, Glassmorphism UI |
-| PWA | Manifest, Service Worker |
+## 🛠️ Tech Stack
 
+- **Frontend**: React 18, Vite, React Router, Lucide Icons
+- **Backend & Auth**: Supabase, PostgreSQL
+- **Data & Charts**: Chart.js, PapaParse, Tesseract.js
+- **Styling**: Vanilla CSS, Neon Glassmorphism UI
 
-##  System Architecture
+---
 
-##  Technical Implementations
+## 📂 Project Structure
 
-### 🔄 Offline Synchronization Queue
-Rather than basic static file caching, CASHCRUSH implements a **reactive offline sync engine**:
+```text
+client/                         # React Frontend
+    components/                 # Reusable widgets (AIChatbot, CashbackVault, etc.)
+    pages/                      # Core screens (Dashboard, Expenses, Reports, Profile)
+    lib/                        # Supabase client instance
+    styles/                     # Glassmorphism design system tokens
+database.sql                    # PostgreSQL DB schema with RLS policies
+```
+
+---
+
+## ⚙️ System Flow
+
+```text
+User Action
+    │
+    ▼
+React + Vite UI
+    │
+    ▼
+Supabase Authentication
+    │
+    ▼
+PostgreSQL Database
+    │
+    ├─ RLS Policies (User Isolation)
+    │
+    ▼
+Core Modules
+    ├── Heuristic Spend Coach
+    ├── WebAssembly OCR Scanner
+    ├── CSV Import Engine
+    └── Gamified Cashback Vault
+```
+
+---
+
+## 🔄 Technical Implementations
+
+### 1. Offline Synchronization Queue
 - **Offline Writes**: Transactions created when offline are stored locally in the browser's `localStorage` queue.
-- **Online Sync**: The app listens for the window `online` event. Once internet connectivity is restored, the queue is uploaded to Supabase, and a toast confirms synchronization.
+- **Online Sync**: Uses the browser's window `online` event listener to upload pending changes to Supabase once connectivity returns.
 
-### 🧠 Intelligent Spending Coach
-Insights are generated using deterministic rule engines and predictive calculations:
-- **Heuristic Advice**: Automatically scans category balances and compares them with budget limits to generate recommendations (e.g. "Can I buy pizza?").
-- **Month-End Projections**: Uses the average daily spend from current records to predict month-end totals and flag overspending risks.
+### 2. Secure Data Isolation
+- Enforces strict PostgreSQL **Row-Level Security (RLS)**. No user can read, insert, or write rows belonging to another authenticated session ID.
 
-### 📊 Bank CSV Import Engine
-Allows secure statement parsing:
-- **Client-Side Parsing**: Leverages **PapaParse** to read raw bank CSV transaction logs on the client.
-- **Heuristic Auto-Categorization**: Scans merchant descriptions and automatically assigns the correct categories before database insertion.
+---
 
-```
-                 React + Vite
-                      │
-                      ▼
-               Supabase Backend
-        ┌───────────┼───────────┐
-        ▼           ▼           ▼
- Authentication  PostgreSQL   Storage
-                      │
-        ┌─────────────┼──────────────┐
-        ▼             ▼              ▼
- Expense Engine   AI Insights   OCR Scanner
-        │
-        ▼
- Rewards Engine
-        │
-        ▼
- Dashboard & Reports
-```
+## 🚀 Getting Started
 
-#  Getting Started
-
-## 1️ Clone the Repository
-
+### 1. Clone & Install
 ```bash
 git clone https://github.com/Ariha1510/CASHCRUSH.git
-
 cd CASHCRUSH/client
-```
-
----
-
-## 2️ Install Dependencies
-
-```bash
 npm install
 ```
 
----
-
-## 3️ Configure Supabase
-
-Create a `.env` file inside the `client` directory.
-
+### 2. Configure Environment
+Create a `.env` file in the `client` directory:
 ```env
 VITE_SUPABASE_URL=YOUR_SUPABASE_URL
 VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 ```
 
----
-
-## 4 Start Development Server
-
+### 3. Run Locally
 ```bash
 npm run dev
 ```
 
-The application will be available at:
-
+### 4. Build & Deploy
+```bash
+npm run build
 ```
-http://localhost:3000
-```
+Deploy the generated `dist/` directory to **Vercel** or **Netlify** with automatic SSL/HTTPS.
 
 ---
 
-# 📈 Core Modules
+## 🤝 Acknowledgements
 
-- Dashboard
-- Expense Tracker
-- Budget Manager
-- Savings Goals
-- Recurring Expenses
-- Reports & Analytics
-- OCR Receipt Scanner
-- AI Spending Insights
-- Gamification
-- User Profile
-- Authentication
-
----
-
-#  Security
-
-- Row Level Security (RLS)
-- Protected Routes
-- Secure Authentication
-- Environment Variable Configuration
-- User-isolated Data Access
-
----
-
-#  Future Enhancements
-
-- AI Chat Assistant
-- PDF Report Export
-- Shared Budgets
-- Expense Splitting
-- Multi-language Support
-- Push Notifications
-- Offline Data Synchronization
-
----
-
-##  Why CASHCRUSH?
-
-Unlike traditional expense trackers, CASHCRUSH combines budgeting, AI-powered financial guidance, OCR receipt scanning, savings management, gamification, and a virtual rewards ecosystem into a single platform designed specifically for students.
-
-The application encourages responsible spending through predictive analytics, intelligent alerts, and positive reinforcement instead of simply recording transactions.
-
----
-
-##  If you found this project useful, consider giving it a star!
+- **Supabase** for DB infrastructure & Auth.
+- **Tesseract.js** for client-side OCR.
+- **Chart.js** for interactive analytics.
+- **PapaParse** for statement CSV parsing.

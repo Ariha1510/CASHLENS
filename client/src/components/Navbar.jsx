@@ -16,8 +16,9 @@ export default function Navbar({ user, isDarkMode, toggleDarkMode, theme, setThe
 
   return (
     <nav className="navbar">
-      <Link to="/" className="nav-brand">
-        💸 CASHCRUSH
+      <Link to="/" className="nav-brand" style={{ fontWeight: '700', fontFamily: 'Poppins' }}>
+        <img src="/logo.png" alt="CASHCRUSH Logo" style={{ width: '32px', height: '32px', marginRight: '4px' }} />
+        <span>CASHCRUSH</span>
       </Link>
       
       {user && (

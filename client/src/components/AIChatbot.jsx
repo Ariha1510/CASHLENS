@@ -87,6 +87,9 @@ export default function AIChatbot({ expenses, budget, currency = '₹' }) {
     const query = textToSend || input;
     if (!query.trim()) return;
 
+    // Capture snapshot of history before state updates asynchronously
+    const currentHistory = [...messages];
+
     setMessages(prev => [...prev, { sender: 'user', text: query }]);
     setInput('');
     setIsTyping(true);
@@ -106,7 +109,7 @@ export default function AIChatbot({ expenses, budget, currency = '₹' }) {
       };
 
       const { data, error } = await supabase.functions.invoke('ai-chat', {
-        body: { query, context }
+        body: { query, chatHistory: currentHistory, context }
       });
 
       if (error) throw error;

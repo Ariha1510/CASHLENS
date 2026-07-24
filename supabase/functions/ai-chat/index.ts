@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { query, context } = await req.json();
+    const { query, chatHistory, context } = await req.json();
     const apiKey = Deno.env.get("OPENAI_API_KEY");
     if (!apiKey) {
       throw new Error("Missing OPENAI_API_KEY secret.");
@@ -34,6 +34,21 @@ Rules:
 3. Do not make up numbers. Only use the provided context.
 4. Reference their actual highest spending category or recent transactions where helpful.`;
 
+    const apiMessages = [
+      { role: "system", content: systemPrompt }
+    ];
+
+    if (chatHistory && chatHistory.length > 0) {
+      chatHistory.forEach((msg: any) => {
+        apiMessages.push({
+          role: msg.sender === "user" ? "user" : "assistant",
+          content: msg.text
+        });
+      });
+    }
+
+    apiMessages.push({ role: "user", content: query });
+
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -42,10 +57,7 @@ Rules:
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: query }
-        ],
+        messages: apiMessages,
         temperature: 0.7,
       }),
     });

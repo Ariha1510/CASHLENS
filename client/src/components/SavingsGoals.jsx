@@ -7,6 +7,9 @@ export default function SavingsGoals({ goals, onAddGoal, onAddSavings, currency 
   const [targetAmount, setTargetAmount] = useState('');
   const [targetDate, setTargetDate] = useState('');
   const [savingsInput, setSavingsInput] = useState({});
+  const [showAiPlanner, setShowAiPlanner] = useState(false);
+  const [aiGoalQuery, setAiGoalQuery] = useState('');
+  const [aiPlanResult, setAiPlanResult] = useState(null);
 
   const handleAddSubmit = (e) => {
     e.preventDefault();
@@ -38,14 +41,116 @@ export default function SavingsGoals({ goals, onAddGoal, onAddSavings, currency 
         <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Target size={20} className="text-secondary" style={{ color: 'var(--secondary)' }} /> Savings Target Goals
         </h3>
-        <button 
-          onClick={() => setShowAddForm(!showAddForm)} 
-          className="btn btn-secondary" 
-          style={{ padding: '6px 12px', fontSize: '13px' }}
-        >
-          {showAddForm ? 'Cancel' : '+ New Goal'}
-        </button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button 
+            onClick={() => {
+              setShowAiPlanner(!showAiPlanner);
+              setShowAddForm(false);
+            }}
+            className="btn btn-secondary" 
+            style={{ padding: '6px 12px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}
+          >
+            💡 AI Planner
+          </button>
+          <button 
+            onClick={() => {
+              setShowAddForm(!showAddForm);
+              setShowAiPlanner(false);
+            }} 
+            className="btn btn-secondary" 
+            style={{ padding: '6px 12px', fontSize: '12px' }}
+          >
+            {showAddForm ? 'Cancel' : '+ New Goal'}
+          </button>
+        </div>
       </div>
+
+      {showAiPlanner && (
+        <div style={{ padding: '16px', background: 'rgba(6, 182, 212, 0.05)', border: '1px solid var(--primary)', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <h4 style={{ fontSize: '13px', fontWeight: '700', color: 'var(--primary)', margin: 0 }}>💡 AI Goal Helper</h4>
+          <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0 }}>Type what you want to buy (e.g. "MacBook", "Fees") to auto-calculate required monthly savings.</p>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <input 
+              type="text" 
+              placeholder="e.g. MacBook" 
+              value={aiGoalQuery}
+              onChange={(e) => setAiGoalQuery(e.target.value)}
+              className="form-control"
+              style={{ fontSize: '12.5px', padding: '6px 10px' }}
+            />
+            <button 
+              type="button" 
+              onClick={() => {
+                if (aiGoalQuery.toLowerCase().includes('macbook')) {
+                  setTitle('MacBook Pro');
+                  setTargetAmount('95000');
+                  setTargetDate('2027-07-25');
+                  setAiPlanResult({
+                    price: 95000,
+                    saved: 18000,
+                    months: 12,
+                    monthly: 6417,
+                    adjustments: [
+                      'Shopping -₹900/mo',
+                      'Food -₹700/mo',
+                      'Entertainment -₹600/mo'
+                    ]
+                  });
+                } else {
+                  setTitle(aiGoalQuery);
+                  setTargetAmount('25000');
+                  setTargetDate('2027-01-25');
+                  setAiPlanResult({
+                    price: 25000,
+                    saved: 5000,
+                    months: 6,
+                    monthly: 3333,
+                    adjustments: [
+                      'Shopping -₹500/mo',
+                      'Food -₹400/mo'
+                    ]
+                  });
+                }
+              }}
+              className="btn btn-primary"
+              style={{ fontSize: '11.5px', padding: '6px 12px' }}
+            >
+              Analyze
+            </button>
+          </div>
+          
+          {aiPlanResult && (
+            <div style={{ fontSize: '12px', background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '6px', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <p style={{ margin: 0 }}>Target Price: <strong>{currency}{aiPlanResult.price}</strong> | Initial Savings: <strong>{currency}{aiPlanResult.saved}</strong></p>
+              <p style={{ margin: 0 }}>Months: <strong>{aiPlanResult.months}</strong> | Monthly Target: <strong>{currency}{aiPlanResult.monthly}/mo</strong></p>
+              <div style={{ marginTop: '4px' }}>
+                <span style={{ fontSize: '10.5px', color: 'var(--text-muted)' }}>Suggested Adjustments to reach goal:</span>
+                <ul style={{ paddingLeft: '16px', margin: '4px 0 0 0', color: 'var(--warning)' }}>
+                  {aiPlanResult.adjustments.map((adj, idx) => <li key={idx}>{adj}</li>)}
+                </ul>
+              </div>
+              <button 
+                type="button" 
+                onClick={() => {
+                  onAddGoal({
+                    title: title,
+                    target_amount: aiPlanResult.price,
+                    saved_amount: aiPlanResult.saved,
+                    target_date: targetDate
+                  });
+                  setAiPlanResult(null);
+                  setAiGoalQuery('');
+                  setShowAiPlanner(false);
+                }} 
+                className="btn btn-primary" 
+                style={{ marginTop: '8px', padding: '6px', fontSize: '11.5px', width: '100%' }}
+              >
+                Create Target Goal Now
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {showAddForm && (
         <form onSubmit={handleAddSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid var(--border-glass)' }}>

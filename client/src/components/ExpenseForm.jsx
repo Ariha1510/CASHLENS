@@ -265,20 +265,33 @@ export default function ExpenseForm({ onSubmit, initialData = null, onCancel }) 
       )}
 
       {!initialData && receiptPreview && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '12px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-glass)', borderRadius: '10px' }}>
-          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Receipt Image Preview:</span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '16px', background: 'rgba(34, 197, 94, 0.05)', border: '1px solid var(--success)', borderRadius: '16px' }}>
+          <span style={{ fontSize: '11px', color: 'var(--success)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Receipt Detected</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <img src={receiptPreview} alt="Receipt" style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--border-glass)' }} />
-            {scanSuccess ? (
-              <span style={{ fontSize: '12.5px', color: 'var(--success)', fontWeight: '600' }}>
-                ✓ Autofilled: "{title}" {amount ? `(${amount})` : ''}
-              </span>
-            ) : (
-              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-                {scanning ? 'Extracting details...' : 'Image loaded.'}
-              </span>
-            )}
+            <img src={receiptPreview} alt="Receipt" style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px', border: '1px solid var(--border-glass)' }} />
+            <div style={{ flex: 1 }}>
+              {scanSuccess ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <p style={{ fontSize: '13px', margin: 0 }}>Merchant: <strong>{merchant || 'Unknown'}</strong></p>
+                  <p style={{ fontSize: '13px', margin: 0 }}>Amount: <strong>₹{amount}</strong> | Category: <strong>{category}</strong></p>
+                </div>
+              ) : (
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                  {scanning ? 'Extracting details...' : 'Receipt loaded.'}
+                </span>
+              )}
+            </div>
           </div>
+          {scanSuccess && (
+            <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+              <button type="submit" className="btn btn-primary" style={{ padding: '6px 12px', fontSize: '12px' }}>
+                Save Expense
+              </button>
+              <button type="button" onClick={() => setScanSuccess(false)} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }}>
+                Edit Manually
+              </button>
+            </div>
+          )}
         </div>
       )}
 

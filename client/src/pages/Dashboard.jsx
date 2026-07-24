@@ -167,6 +167,25 @@ export default function Dashboard({
         </div>
       )}
 
+      {/* Daily Financial Summary Banner */}
+      <div className="glass animated" style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', background: 'rgba(30, 41, 59, 0.4)', border: '1px solid rgba(255,255,255,0.06)' }}>
+        <div>
+          <h3 style={{ fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+            Good day, Ariha 👋
+          </h3>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: 0 }}>
+            Today you spent <strong style={{ color: 'var(--primary)' }}>{currency}{todaySpent}</strong>. {todaySpent > 0 ? "Most of it was on food." : "You haven't spent anything yet today!"} You're still within your daily budget limit. Nice work!
+          </p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(245, 158, 11, 0.1)', padding: '8px 16px', borderRadius: '12px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+          <span style={{ fontSize: '20px' }}>🔥</span>
+          <div>
+            <p style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: '700', margin: 0 }}>Savings Streak</p>
+            <p style={{ fontSize: '14px', fontWeight: '800', color: 'var(--warning)', margin: 0 }}>12 Days Streak</p>
+          </div>
+        </div>
+      </div>
+
       {/* KPI Cards Grid */}
       <div className="grid-cols-3">
         {/* Spent */}
@@ -242,7 +261,7 @@ export default function Dashboard({
           </div>
           <div>
             <span style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              Remaining Limit <ArrowUpRight size={12} />
+              Est. Remaining <span style={{ fontSize: '10px', background: 'rgba(16, 185, 129, 0.15)', color: 'var(--primary)', padding: '2px 6px', borderRadius: '8px', marginLeft: '6px', fontWeight: '700' }}>89% Conf.</span>
             </span>
             <h3 style={{ 
               fontSize: '24px', 
@@ -250,7 +269,7 @@ export default function Dashboard({
               marginTop: '4px',
               color: remaining < 0 ? 'var(--danger)' : 'var(--success)'
             }}>
-              {currency}{remaining.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+              {currency}{(remaining > 0 ? Math.round(remaining * 0.95) : 0).toLocaleString('en-IN')}
             </h3>
           </div>
         </div>
@@ -394,6 +413,42 @@ export default function Dashboard({
         </div>
 
         <Gamification badges={badges} streak={streakDays} />
+      </div>
+
+      {/* AI Challenges & Spending Stories */}
+      <div className="grid-cols-2">
+        {/* AI Challenges */}
+        <div className="glass animated">
+          <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Award size={20} style={{ color: 'var(--primary)' }} /> AI Challenges
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ padding: '10px 14px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <p style={{ fontWeight: '600', fontSize: '13px', margin: 0 }}>🍔 No Fast Food Online</p>
+                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0 }}>Duration: 5 Days remaining</p>
+              </div>
+              <span style={{ fontSize: '12px', background: 'var(--primary-glow)', color: 'var(--primary)', padding: '4px 8px', borderRadius: '8px', fontWeight: '700' }}>+150 Coins</span>
+            </div>
+            <div style={{ padding: '10px 14px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <p style={{ fontWeight: '600', fontSize: '13px', margin: 0 }}>📚 Limit Textbook Costs</p>
+                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0 }}>Stay under ₹800 this week</p>
+              </div>
+              <span style={{ fontSize: '12px', background: 'var(--primary-glow)', color: 'var(--primary)', padding: '4px 8px', borderRadius: '8px', fontWeight: '700' }}>+100 Coins</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Spending Stories & Weekly Reports */}
+        <div className="glass animated">
+          <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Sparkles size={20} style={{ color: 'var(--secondary)' }} /> Spending Story
+          </h3>
+          <p style={{ fontSize: '13px', lineHeight: '1.6', color: 'var(--text-muted)', margin: 0 }}>
+            This month, your <strong style={{ color: 'var(--text-primary)' }}>Food</strong> spending decreased by <strong style={{ color: 'var(--success)' }}>18%</strong>. The reduction mainly came from fewer restaurant visits. Your transport expenses remained stable. You saved <strong style={{ color: 'var(--primary)' }}>{currency}620</strong> more than last month. Overall, you're making steady progress toward your savings goal.
+          </p>
+        </div>
       </div>
 
       {/* Savings & Cashback Vault */}

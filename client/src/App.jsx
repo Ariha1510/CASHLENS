@@ -32,8 +32,8 @@ export default function App() {
   const [themeAccent, setThemeAccent] = useState(localStorage.getItem('theme-accent') || '');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, type: 'info', text: 'Welcome to CashCrush! Let\'s build a budget.', time: 'Just now' },
-    { id: 2, type: 'success', text: 'Cashback Credited: +20 Coins added to vault.', time: '2 mins ago' }
+    { id: 1, type: 'info', text: 'Welcome to CashCrush! Let\'s build a budget.', time: 'Just now', unread: true },
+    { id: 2, type: 'success', text: 'Cashback Credited: +20 Coins added to vault.', time: '2 mins ago', unread: true }
   ]);
 
   const handleUpdateProfile = async (profileData) => {
@@ -466,7 +466,7 @@ export default function App() {
           theme={themeAccent}
           setTheme={setThemeAccent}
           onToggleNotifications={() => setNotificationsOpen(!notificationsOpen)}
-          notificationCount={notifications.length}
+          notificationCount={notifications.filter(n => n.unread).length}
         />
 
         <NotificationDrawer 
@@ -474,6 +474,7 @@ export default function App() {
           onClose={() => setNotificationsOpen(false)} 
           notifications={notifications} 
           onClear={() => setNotifications([])} 
+          onMarkRead={(id) => setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n))}
         />
         
         {/* Onboarding Trigger */}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Bell, X, Info, AlertTriangle, CheckCircle2, DollarSign } from 'lucide-react';
+import { Bell, X, Info, AlertTriangle, CheckCircle2, Check } from 'lucide-react';
 
-export default function NotificationDrawer({ isOpen, onClose, notifications = [], onClear }) {
+export default function NotificationDrawer({ isOpen, onClose, notifications = [], onClear, onMarkRead }) {
   if (!isOpen) return null;
 
   return (
@@ -11,14 +11,14 @@ export default function NotificationDrawer({ isOpen, onClose, notifications = []
         position: 'fixed',
         top: '80px',
         right: '24px',
-        width: '320px',
-        maxHeight: '400px',
+        width: '340px',
+        maxHeight: '420px',
         zIndex: 1000,
         display: 'flex',
         flexDirection: 'column',
         padding: '16px',
         boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
-        border: '1px solid var(--border-neon)'
+        border: '1px solid var(--border-glass)'
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', borderBottom: '1px solid var(--border-glass)', paddingBottom: '8px' }}>
@@ -41,14 +41,15 @@ export default function NotificationDrawer({ isOpen, onClose, notifications = []
             <div 
               key={n.id} 
               style={{
-                padding: '8px 12px',
+                padding: '10px 12px',
                 borderRadius: '8px',
-                background: 'rgba(255,255,255,0.01)',
-                border: '1px solid var(--border-glass)',
-                fontSize: '12px',
+                background: n.unread ? 'rgba(6, 182, 212, 0.04)' : 'rgba(255,255,255,0.01)',
+                border: n.unread ? '1px solid var(--primary)' : '1px solid var(--border-glass)',
+                fontSize: '12.5px',
                 display: 'flex',
                 alignItems: 'flex-start',
-                gap: '8px'
+                gap: '8px',
+                position: 'relative'
               }}
             >
               <div style={{ marginTop: '2px' }}>
@@ -60,10 +61,30 @@ export default function NotificationDrawer({ isOpen, onClose, notifications = []
                   <Info size={14} style={{ color: 'var(--primary)' }} />
                 )}
               </div>
-              <div>
-                <p style={{ fontWeight: '500' }}>{n.text}</p>
-                <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{n.time}</span>
+              <div style={{ flex: 1, paddingRight: '20px' }}>
+                <p style={{ fontWeight: n.unread ? '600' : '400', margin: 0, color: n.unread ? 'var(--text-primary)' : 'var(--text-muted)' }}>{n.text}</p>
+                <span style={{ fontSize: '10px', color: 'var(--text-muted)', display: 'block', marginTop: '4px' }}>{n.time}</span>
               </div>
+              {n.unread && (
+                <button 
+                  onClick={() => onMarkRead && onMarkRead(n.id)}
+                  title="Mark as Read"
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    top: '8px',
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--primary)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '2px'
+                  }}
+                >
+                  <Check size={14} />
+                </button>
+              )}
             </div>
           ))
         )}

@@ -11,81 +11,56 @@ serve(async (req) => {
   }
 
   try {
-    const { query, expenses = [], budget = 8000, goals = [], recurring = [], currency = "₹" } = await req.json();
+    const { query, context } = await req.json();
     const apiKey = Deno.env.get("OPENAI_API_KEY");
-
     if (!apiKey) {
-      return new Response(
-        JSON.stringify({ error: "OpenAI API Key is not configured." }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      throw new Error("Missing OPENAI_API_KEY secret.");
     }
 
-    // Build context details
-    const totalSpent = expenses.reduce((sum: number, exp: any) => sum + parseFloat(exp.amount), 0);
-    const categoryBreakdown = expenses.reduce((acc: any, exp: any) => {
-      acc[exp.category] = (acc[exp.category] || 0) + parseFloat(exp.amount);
-      return acc;
-    }, {});
+    const systemPrompt = `You are CASHCRUSH AI, a friendly and realistic financial coach for college students.
+Analyze the user's spending context and help them balance their allowance, cut impulse spending, and build smart habits.
 
-    const recentList = expenses.slice(0, 5).map((e: any) => `• ${e.title} (${e.category}): ${currency}${e.amount}`).join("\n");
-    const goalsList = goals.map((g: any) => `• ${g.title}: Saved ${currency}${g.saved_amount} of ${currency}${g.target_amount}`).join("\n");
+User Context:
+- Currency: ${context.currency || "₹"}
+- Monthly Budget Limit: ${context.monthlyBudget}
+- Total Spent: ${context.totalSpent}
+- Category Breakdown: ${JSON.stringify(context.categoryTotals)}
+- Savings Goals progress: ${JSON.stringify(context.goals)}
+- Recurring Subscriptions: ${JSON.stringify(context.recurring)}
 
-    const prompt = `
-You are CASHCRUSH AI, a friendly, encouraging personal finance coach for college students.
-Use the following real-time financial context of the student to answer their question. Keep recommendations highly practical, simple, and tailored for a student budget.
+Rules:
+1. Speak directly, encouragingly, and like a peer.
+2. Keep responses brief (under 130 words).
+3. Do not make up numbers. Only use the provided context.
+4. Reference their actual highest spending category or recent transactions where helpful.`;
 
-Student Monthly Budget limit: ${currency}${budget}
-Total Spent this month: ${currency}${totalSpent}
-Remaining limit: ${currency}${budget - totalSpent}
-
-Spending Category Breakdown:
-${Object.entries(categoryBreakdown).map(([cat, val]) => `- ${cat}: ${currency}${val}`).join("\n")}
-
-Recent Transactions:
-${recentList || "None"}
-
-Savings Targets:
-${goalsList || "None"}
-
-User Question: "${query}"
-
-Guidelines:
-1. Address the student's question directly and helpfully.
-2. Reference their actual spending figures (e.g. total spent, budget, or categories) to make it highly personalized.
-3. If they ask about buying a specific item (e.g. "Can I order pizza?"), estimate the item's cost (e.g., ₹400 for pizza), subtract it from their remaining budget or category allowance, and advise them accordingly.
-4. Keep the response friendly, concise, and under 150 words. Never make up numbers.
-`;
-
-    const openAiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [
-          { role: "system", content: "You are CASHCRUSH AI, a helpful financial assistant for students." },
-          { role: "user", content: prompt }
+          { role: "system", content: systemPrompt },
+          { role: "user", content: query }
         ],
         temperature: 0.7,
-        max_tokens: 250,
       }),
     });
 
-    const aiData = await openAiResponse.json();
-    const replyText = aiData.choices?.[0]?.message?.content || "Sorry, I am having trouble thinking right now. Please try again.";
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content || "Coach offline. Let's try again in a bit!";
 
-    return new Response(
-      JSON.stringify({ reply: replyText }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
-
-  } catch (error: any) {
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ reply }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 400,
+    });
   }
 });

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MessageSquare, Send, X, Bot, Sparkles } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-export default function AIChatbot({ expenses, budget, goals = [], recurring = [], currency = '₹' }) {
+export default function AIChatbot({ expenses, budget, currency = '₹' }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { sender: 'bot', text: 'Hey there! I am your CASHCRUSH AI Coach. Ask me anything about your student spending logs!' }
@@ -92,17 +92,30 @@ export default function AIChatbot({ expenses, budget, goals = [], recurring = []
     setIsTyping(true);
 
     try {
+      const totalSpent = expenses.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+      const categoryTotals = {};
+      expenses.forEach(exp => {
+        categoryTotals[exp.category] = (categoryTotals[exp.category] || 0) + parseFloat(exp.amount);
+      });
+
+      const context = {
+        currency,
+        monthlyBudget: budget,
+        totalSpent,
+        categoryTotals
+      };
+
       const { data, error } = await supabase.functions.invoke('ai-chat', {
-        body: { query, expenses, budget, goals, recurring, currency }
+        body: { query, context }
       });
 
       if (error) throw error;
-
-      setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
+      
+      setMessages(prev => [...prev, { sender: 'bot', text: data.reply || "Coach offline. Let's try again in a bit!" }]);
     } catch (err) {
-      console.error('AI Edge Function Error, falling back to local engine:', err);
-      const response = analyzeData(query);
-      setMessages(prev => [...prev, { sender: 'bot', text: response }]);
+      console.error("AI Coach Error:", err);
+      const fallbackResponse = analyzeData(query);
+      setMessages(prev => [...prev, { sender: 'bot', text: `[Heuristics Coach] ${fallbackResponse}` }]);
     } finally {
       setIsTyping(false);
     }

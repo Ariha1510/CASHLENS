@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { MessageSquare, Send, X, Bot, Sparkles } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
-export default function AIChatbot({ expenses, budget, currency = '₹' }) {
+export default function AIChatbot({ expenses, budget, goals = [], recurring = [], currency = '₹' }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { sender: 'bot', text: 'Hey there! I am your CASHCRUSH AI Coach. Ask me anything about your student spending logs!' }
@@ -82,7 +83,7 @@ export default function AIChatbot({ expenses, budget, currency = '₹' }) {
     return "I can help analyze your spending! Try asking:\n- 'Why did I spend so much?'\n- 'How can I save ₹1000?'\n- 'Show me my biggest expenses.'\n- 'Compare this month with last month.'";
   };
 
-  const handleSend = (textToSend) => {
+  const handleSend = async (textToSend) => {
     const query = textToSend || input;
     if (!query.trim()) return;
 
@@ -90,11 +91,21 @@ export default function AIChatbot({ expenses, budget, currency = '₹' }) {
     setInput('');
     setIsTyping(true);
 
-    setTimeout(() => {
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-chat', {
+        body: { query, expenses, budget, goals, recurring, currency }
+      });
+
+      if (error) throw error;
+
+      setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
+    } catch (err) {
+      console.error('AI Edge Function Error, falling back to local engine:', err);
       const response = analyzeData(query);
       setMessages(prev => [...prev, { sender: 'bot', text: response }]);
+    } finally {
       setIsTyping(false);
-    }, 800);
+    }
   };
 
   return (

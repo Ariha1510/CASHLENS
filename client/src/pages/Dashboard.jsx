@@ -6,6 +6,7 @@ import RecurringList from '../components/RecurringList';
 import Gamification from '../components/Gamification';
 import AIChatbot from '../components/AIChatbot';
 import CashbackVault from '../components/CashbackVault';
+import SkeletonLoader from '../components/SkeletonLoader';
 import { IndianRupee, Landmark, TrendingUp, Calendar, AlertCircle, Sparkles, Info, ShieldAlert, Award, Camera, Plus, FileSpreadsheet, ArrowUpRight } from 'lucide-react';
 
 export default function Dashboard({ 
@@ -127,11 +128,7 @@ export default function Dashboard({
   }, [insights]);
 
   if (loading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0' }}>
-        <p style={{ color: 'var(--text-muted)' }}>Synching with Supabase logs...</p>
-      </div>
-    );
+    return <SkeletonLoader type="dashboard" />;
   }
 
   const remaining = budget - totalSpent;

@@ -78,6 +78,23 @@ CASHCRUSH is a modern Progressive Web App (PWA) built using **React**, **Supabas
 
 ##  System Architecture
 
+##  Technical Implementations
+
+### 🔄 Offline Synchronization Queue
+Rather than basic static file caching, CASHCRUSH implements a **reactive offline sync engine**:
+- **Offline Writes**: Transactions created when offline are stored locally in the browser's `localStorage` queue.
+- **Online Sync**: The app listens for the window `online` event. Once internet connectivity is restored, the queue is uploaded to Supabase, and a toast confirms synchronization.
+
+### 🧠 Intelligent Spending Coach
+Insights are generated using deterministic rule engines and predictive calculations:
+- **Heuristic Advice**: Automatically scans category balances and compares them with budget limits to generate recommendations (e.g. "Can I buy pizza?").
+- **Month-End Projections**: Uses the average daily spend from current records to predict month-end totals and flag overspending risks.
+
+### 📊 Bank CSV Import Engine
+Allows secure statement parsing:
+- **Client-Side Parsing**: Leverages **PapaParse** to read raw bank CSV transaction logs on the client.
+- **Heuristic Auto-Categorization**: Scans merchant descriptions and automatically assigns the correct categories before database insertion.
+
 ```
                  React + Vite
                       │

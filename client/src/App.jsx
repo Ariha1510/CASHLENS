@@ -13,6 +13,8 @@ import Register from './pages/Register';
 import Landing from './pages/Landing';
 import Profile from './pages/Profile';
 import NotificationDrawer from './components/NotificationDrawer';
+import ErrorBoundary from './components/ErrorBoundary';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -454,8 +456,9 @@ export default function App() {
   };
 
   return (
-    <Router>
-      <div className="app-container">
+    <ErrorBoundary>
+      <Router>
+        <div className="app-container">
         <Navbar 
           user={user} 
           isDarkMode={isDarkMode} 
@@ -569,6 +572,10 @@ export default function App() {
                 user ? <Navigate to="/dashboard" replace /> : <Register showToast={showToast} />
               } 
             />
+            <Route 
+              path="*" 
+              element={<NotFound />} 
+            />
           </Routes>
         </main>
 
@@ -581,5 +588,6 @@ export default function App() {
         )}
       </div>
     </Router>
+   </ErrorBoundary>
   );
 }

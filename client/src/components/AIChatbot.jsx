@@ -46,7 +46,8 @@ export default function AIChatbot({ expenses, budget, currency = '₹', goals = 
       setMessages(prev => [...prev, { sender: 'bot', text: data.reply || "Coach offline. Let's try again in a bit!" }]);
     } catch (err) {
       console.error("AI Coach Error:", err);
-      setMessages(prev => [...prev, { sender: 'bot', text: "AI Coach offline. Let's try again in a bit!" }]);
+      const errMsg = err?.message || JSON.stringify(err);
+      setMessages(prev => [...prev, { sender: 'bot', text: `AI Coach offline (${errMsg}). Let's try again in a bit!` }]);
     } finally {
       setIsTyping(false);
     }

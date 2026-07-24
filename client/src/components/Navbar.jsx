@@ -39,28 +39,6 @@ export default function Navbar({ user, isDarkMode, toggleDarkMode, theme, setThe
       )}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <select 
-          value={theme} 
-          onChange={(e) => setTheme(e.target.value)}
-          className="form-control"
-          style={{ width: '100px', padding: '6px', fontSize: '12px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-glass)' }}
-          title="Accent Theme"
-        >
-          <option value="">Default</option>
-          <option value="theme-emerald">Emerald</option>
-          <option value="theme-ocean">Ocean</option>
-          <option value="theme-purple">Purple</option>
-          <option value="theme-sunset">Sunset</option>
-        </select>
-
-        <button
-          onClick={toggleDarkMode}
-          className="btn btn-secondary"
-          style={{ padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center' }}
-          title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        >
-          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
 
         {user && (
           <button

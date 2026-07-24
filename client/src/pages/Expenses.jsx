@@ -12,6 +12,7 @@ export default function Expenses({ expenses, onAdd, onUpdate, onDelete, loading,
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [sortBy, setSortBy] = useState('expense_date');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const handleFormSubmit = async (expenseData) => {
     if (editingExpense) {
@@ -27,10 +28,8 @@ export default function Expenses({ expenses, onAdd, onUpdate, onDelete, loading,
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleDeleteClick = async (id) => {
-    if (window.confirm('Are you sure you want to delete this expense?')) {
-      await onDelete(id);
-    }
+  const handleDeleteClick = (id) => {
+    setDeleteTargetId(id);
   };
 
   // Filter & Search
@@ -247,6 +246,47 @@ export default function Expenses({ expenses, onAdd, onUpdate, onDelete, loading,
           </div>
         </div>
       </div>
+      {deleteTargetId !== null && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(15, 23, 42, 0.75)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <div className="glass animated" style={{ maxWidth: '400px', width: '90%', padding: '24px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <h4 style={{ fontSize: '16px', fontWeight: '700', marginBottom: '12px' }}>ARE YOU SURE YOU WANT TO DELETE THIS?</h4>
+            <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginBottom: '24px' }}>This action cannot be undone. The expense record will be permanently removed.</p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button 
+                onClick={() => setDeleteTargetId(null)} 
+                className="btn btn-secondary"
+                style={{ flex: 1, padding: '10px' }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={async () => {
+                  const id = deleteTargetId;
+                  setDeleteTargetId(null);
+                  await onDelete(id);
+                  showToast('expense deleted', 'success');
+                }} 
+                className="btn btn-primary"
+                style={{ flex: 1, padding: '10px', background: 'var(--danger)', color: '#fff', boxShadow: 'none' }}
+              >
+                YES
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

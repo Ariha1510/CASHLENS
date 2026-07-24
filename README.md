@@ -1,4 +1,4 @@
-# 💸 CASHCRUSH
+#  CASHCRUSH
 
 > An intelligent personal finance companion for students that combines expense tracking, OCR receipt scanning, predictive budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
 
@@ -13,45 +13,45 @@
 
 ---
 
-## 🚀 Why CASHCRUSH?
+##  Why CASHCRUSH?
 
 Unlike traditional, tedious budget trackers, **CASHCRUSH** is built specifically for students. It combines rule-based predictive budgeting, local WebAssembly OCR receipt scanning, virtual cashback rewards, and interactive analytics to make financial discipline gamified, educational, and secure.
 
 ---
 
-## 📊 Key Statistics & Scope
+##  Key Statistics & Scope
 
-- **🔐 Authentication**: Supabase Auth (JWT protected)
-- **💾 Database**: PostgreSQL with Row-Level Security (RLS)
-- **📱 PWA Status**: 100% installable offline-capable web application
-- **🧾 OCR Engine**: Client-side Tesseract.js (no image uploads)
-- **📈 Chart Analytics**: Interactive Category and Trend charts
+- **Authentication**: Supabase Auth (JWT protected)
+- **Database**: PostgreSQL with Row-Level Security (RLS)
+- **PWA Status**: 100% installable offline-capable web application
+- **OCR Engine**: Client-side Tesseract.js (no image uploads)
+- **Chart Analytics**: Interactive Category and Trend charts
 
 ---
 
-## ✨ Features
+##  Features
 
-### 💰 Expense & Budget Management
+###  Expense & Budget Management
 - **Interactive Dashboard**: Clickable metric cards with quick action shortcuts.
 - **Statement Importer**: Import bank statement CSV files with automatic categorization heuristics.
 - **Merchant & Payment Fields**: Track specific vendors (e.g. Swiggy, Amazon) and modes (UPI, Cards, Cash).
 
-### 📸 OCR Receipt Scanning
+###  OCR Receipt Scanning
 - Snap bill photos to instantly extract merchant names, transaction dates, and total payable amounts using local client-side WebAssembly OCR.
 
-### 🧠 Intelligent Budget Coach
+###  Intelligent Budget Coach
 - **Heuristic Advice**: Real-time spending suggestions (e.g., pizza affordability analysis).
 - **Projections**: Predicts month-end totals based on average daily spending trends.
 - **Budget Thresholds**: Warns users at 60% and 90% budget utilization.
 
-### 🏆 Gamification & Rewards
+###  Gamification & Rewards
 - **Cashback Vault**: Accumulate virtual coins through healthy savings habits.
 - **Achievement Badges**: Unlock milestones (e.g., Budget Guard, Savings Master).
 - **Coupon Vouchers**: Claim virtual student deals (e.g. Domino's coupons).
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Frontend**: React 18, Vite, React Router, Lucide Icons
 - **Backend & Auth**: Supabase, PostgreSQL
@@ -60,7 +60,7 @@ Unlike traditional, tedious budget trackers, **CASHCRUSH** is built specifically
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 client/                         # React Frontend
@@ -73,7 +73,7 @@ database.sql                    # PostgreSQL DB schema with RLS policies
 
 ---
 
-## ⚙️ System Flow
+##  System Flow
 
 ```text
 User Action
@@ -99,7 +99,7 @@ Core Modules
 
 ---
 
-## 🔄 Technical Implementations
+##  Technical Implementations
 
 ### 1. Offline Synchronization Queue
 - **Offline Writes**: Transactions created when offline are stored locally in the browser's `localStorage` queue.
@@ -110,7 +110,7 @@ Core Modules
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Clone & Install
 ```bash
@@ -139,7 +139,7 @@ Deploy the generated `dist/` directory to **Vercel** or **Netlify** with automat
 
 ---
 
-## 🤝 Acknowledgements
+##  Acknowledgements
 
 - **Supabase** for DB infrastructure & Auth.
 - **Tesseract.js** for client-side OCR.

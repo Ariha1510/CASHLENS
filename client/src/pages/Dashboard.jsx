@@ -471,7 +471,7 @@ export default function Dashboard({
         <RecurringList recurring={recurring} onAddRecurring={onAddRecurring} onDeleteRecurring={onDeleteRecurring} currency={currency} />
       </div>
 
-      <AIChatbot expenses={expenses} budget={budget} currency={currency} />
+      <AIChatbot expenses={expenses} budget={budget} currency={currency} goals={goals} recurring={recurring} />
     </div>
   );
 }

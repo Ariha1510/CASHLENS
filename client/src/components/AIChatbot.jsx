@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MessageSquare, Send, X, Bot, Sparkles } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-export default function AIChatbot({ expenses, budget, currency = '₹' }) {
+export default function AIChatbot({ expenses, budget, currency = '₹', goals = [], recurring = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { sender: 'bot', text: 'Hey there! I am your CASHCRUSH AI Coach. Ask me anything about your student spending logs!' }
@@ -32,7 +32,9 @@ export default function AIChatbot({ expenses, budget, currency = '₹' }) {
         currency,
         monthlyBudget: budget,
         totalSpent,
-        categoryTotals
+        categoryTotals,
+        goals,
+        recurring
       };
 
       const { data, error: invokeError } = await supabase.functions.invoke('ai-chat', {

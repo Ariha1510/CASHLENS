@@ -173,19 +173,19 @@ export default function Dashboard({
             <h3 style={{ marginBottom: '16px' }}>Getting Started Checklist</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Add your first expense</span>
+                <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>1.</span> <span>Add your first expense</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Set your first savings goal</span>
+                <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>2.</span> <span>Set your first savings goal</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Scan a receipt</span>
+                <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>3.</span> <span>Scan a receipt</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Import your bank CSV</span>
+                <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>4.</span> <span>Import your bank CSV</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Ask the AI Coach a question</span>
+                <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>5.</span> <span>Ask the AI Coach a question</span>
               </div>
             </div>
           </div>

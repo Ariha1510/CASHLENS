@@ -542,6 +542,7 @@ export default function App() {
                     onUpdateBudget={handleUpdateBudget} 
                     showToast={showToast} 
                     currency={profile.currency}
+                    expenses={expenses}
                   />
                 </ProtectedRoute>
               } 

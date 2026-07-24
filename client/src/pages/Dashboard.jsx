@@ -4,7 +4,6 @@ import BudgetCard from '../components/BudgetCard';
 import SavingsGoals from '../components/SavingsGoals';
 import RecurringList from '../components/RecurringList';
 import Gamification from '../components/Gamification';
-import AIChatbot from '../components/AIChatbot';
 import CashbackVault from '../components/CashbackVault';
 import SkeletonLoader from '../components/SkeletonLoader';
 import { IndianRupee, Landmark, TrendingUp, Calendar, AlertCircle, Sparkles, Info, ShieldAlert, Award, Camera, Plus, FileSpreadsheet, ArrowUpRight, CheckCircle } from 'lucide-react';
@@ -185,7 +184,7 @@ export default function Dashboard({
                 <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>4.</span> <span>Import your bank CSV</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>5.</span> <span>Ask the AI Coach a question</span>
+                <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>5.</span> <span>Explore your spending analytics</span>
               </div>
             </div>
           </div>
@@ -195,13 +194,13 @@ export default function Dashboard({
           {/* AI Welcome Card */}
           <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <BotIcon size={20} /> AI Coach Welcome
+              <BotIcon size={20} /> AI Financial Coach
             </h3>
             <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-muted)', margin: 0 }}>
-              Hello Ariha 👋, I am your financial coach. I can help you create custom budgets, predict overspending, track recurring commitments, and earn rewards.
+              Hello Ariha 👋, I am your AI Financial Coach. Your monthly budget is set to {currency}{budget}. We suggest dividing this into:
             </p>
             <p style={{ fontSize: '12.5px', color: 'var(--primary)', margin: 0 }}>
-              Try asking me: <em>"How should I split my ₹{budget} budget?"</em>
+              🍔 Food & Drinks: {currency}{(budget * 0.35).toFixed(0)} | 📚 Bills/Fees: {currency}{(budget * 0.18).toFixed(0)} | 💰 Savings: {currency}{(budget * 0.20).toFixed(0)}
             </p>
           </div>
 
@@ -250,8 +249,6 @@ export default function Dashboard({
             </div>
           </div>
         </div>
-
-        <AIChatbot expenses={expenses} budget={budget} currency={currency} />
       </div>
     );
   }
@@ -470,8 +467,6 @@ export default function Dashboard({
       <div>
         <RecurringList recurring={recurring} onAddRecurring={onAddRecurring} onDeleteRecurring={onDeleteRecurring} currency={currency} />
       </div>
-
-      <AIChatbot expenses={expenses} budget={budget} currency={currency} goals={goals} recurring={recurring} />
     </div>
   );
 }

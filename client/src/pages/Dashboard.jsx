@@ -7,10 +7,10 @@ import Gamification from '../components/Gamification';
 import AIChatbot from '../components/AIChatbot';
 import CashbackVault from '../components/CashbackVault';
 import SkeletonLoader from '../components/SkeletonLoader';
-import { IndianRupee, Landmark, TrendingUp, Calendar, AlertCircle, Sparkles, Info, ShieldAlert, Award, Camera, Plus, FileSpreadsheet, ArrowUpRight } from 'lucide-react';
+import { IndianRupee, Landmark, TrendingUp, Calendar, AlertCircle, Sparkles, Info, ShieldAlert, Award, Camera, Plus, FileSpreadsheet, ArrowUpRight, CheckCircle } from 'lucide-react';
 
 export default function Dashboard({ 
-  expenses, 
+  expenses = [], 
   budget, 
   loading, 
   error, 
@@ -61,16 +61,6 @@ export default function Dashboard({
     return 'Poor ★★☆☆☆';
   }, [healthScore]);
 
-  const recommendedBudgets = useMemo(() => {
-    return [
-      { category: 'Food & Drinks', amount: budget * 0.35 },
-      { category: 'Transport', amount: budget * 0.15 },
-      { category: 'Shopping', amount: budget * 0.12 },
-      { category: 'Bills', amount: budget * 0.18 },
-      { category: 'Emergency Savings', amount: budget * 0.20 }
-    ];
-  }, [budget]);
-
   // Linear Month-End projection
   const prediction = useMemo(() => {
     const now = new Date();
@@ -90,7 +80,7 @@ export default function Dashboard({
     };
   }, [totalSpent, budget]);
 
-  // AI-powered spending insights
+  // AI spending insights
   const insights = useMemo(() => {
     const list = [];
     const categoryTotals = {};
@@ -108,7 +98,6 @@ export default function Dashboard({
     }
 
     if (prediction.risk === 'High') {
-      const daysRemaining = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate() - new Date().getDate();
       list.push({ type: 'warning', text: `⚠️ Alert: Continuing at this rate, you're projected to exceed your budget ceiling by ${currency}${(prediction.projected - budget).toFixed(0)}.` });
     }
 
@@ -133,7 +122,141 @@ export default function Dashboard({
 
   const remaining = budget - totalSpent;
   const streakDays = expenses.length > 0 ? Math.min(expenses.length, 7) : 0;
+  const hasData = expenses && expenses.length > 0;
 
+  // New User Layout
+  if (!hasData) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        {/* Welcome Hero banner */}
+        <div className="glass animated" style={{ padding: '32px', textAlign: 'center', background: 'rgba(30, 41, 59, 0.4)' }}>
+          <h2 style={{ fontSize: '28px', marginBottom: '8px' }}>👋 Welcome to CASHCRUSH, Ariha!</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '24px' }}>Let's build smarter money habits together. You've just started your financial journey.</p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '13.5px' }}>
+              <Plus size={16} /> Add Expense
+            </button>
+            <button onClick={() => navigate('/expenses')} className="btn btn-secondary" style={{ padding: '10px 20px', fontSize: '13.5px' }}>
+              <Camera size={16} /> Scan Receipt
+            </button>
+          </div>
+        </div>
+
+        <div className="grid-cols-2">
+          {/* Budget Card */}
+          <div className="glass animated">
+            <h3 style={{ marginBottom: '16px' }}>Monthly Budget Status</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+              <div>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Budget</span>
+                <p style={{ fontSize: '18px', fontWeight: '700', margin: '4px 0 0 0' }}>{currency}{budget}</p>
+              </div>
+              <div>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Spent</span>
+                <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--primary)', margin: '4px 0 0 0' }}>{currency}0</p>
+              </div>
+              <div>
+                <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Remaining</span>
+                <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--success)', margin: '4px 0 0 0' }}>{currency}{budget}</p>
+              </div>
+            </div>
+            <div className="progress-bar-container" style={{ height: '8px', marginBottom: '12px' }}>
+              <div className="progress-bar green" style={{ width: '0%' }}></div>
+            </div>
+            <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0 }}>
+              💡 Great start! Your entire monthly budget is available.
+            </p>
+          </div>
+
+          {/* Getting Started Checklist */}
+          <div className="glass animated">
+            <h3 style={{ marginBottom: '16px' }}>Getting Started Checklist</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Add your first expense</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Set your first savings goal</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Scan a receipt</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Import your bank CSV</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <span style={{ color: 'rgba(255,255,255,0.2)' }}>☐</span> <span>Ask the AI Coach a question</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid-cols-2">
+          {/* AI Welcome Card */}
+          <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <BotIcon size={20} /> AI Coach Welcome
+            </h3>
+            <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-muted)', margin: 0 }}>
+              Hello Ariha 👋, I am your financial coach. I can help you create custom budgets, predict overspending, track recurring commitments, and earn rewards.
+            </p>
+            <p style={{ fontSize: '12.5px', color: 'var(--primary)', margin: 0 }}>
+              Try asking me: <em>"How should I split my ₹{budget} budget?"</em>
+            </p>
+          </div>
+
+          {/* Rewards Journey */}
+          <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <h3>Your Rewards Journey</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px' }}>
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Current Coins:</span>
+              <span style={{ fontWeight: '700' }}>0 Coins</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px' }}>
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Next Achievement:</span>
+              <span style={{ fontWeight: '600', color: 'var(--primary)' }}>First Expense Badge</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Completion Reward:</span>
+              <span style={{ fontWeight: '700', color: 'var(--success)' }}>+50 Coins</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid-cols-2">
+          {/* Empty Savings target */}
+          <div className="glass animated">
+            <h3 style={{ marginBottom: '12px' }}>Savings Goals Targets</h3>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '16px' }}>No goals configured yet. What are you saving for?</p>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+              {['💻 Laptop', '✈️ Trip', '📚 Fees', '🚲 Bike'].map(item => (
+                <span key={item} style={{ background: 'rgba(255,255,255,0.03)', padding: '6px 12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', fontSize: '12.5px' }}>
+                  {item}
+                </span>
+              ))}
+            </div>
+            <button onClick={() => navigate('/budget')} className="btn btn-secondary" style={{ width: '100%' }}>Create Goal</button>
+          </div>
+
+          {/* Empty Activity & Analytics */}
+          <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center' }}>
+            <div>
+              <h3 style={{ fontSize: '15px', marginBottom: '6px' }}>📊 Analytics Placeholder</h3>
+              <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0 }}>Charts and reports will appear here once you log a few expenses.</p>
+            </div>
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
+              <h3 style={{ fontSize: '15px', marginBottom: '6px' }}>💸 Recent Activity</h3>
+              <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0 }}>No transactions yet. Once you add expenses, they will appear here.</p>
+            </div>
+          </div>
+        </div>
+
+        <AIChatbot expenses={expenses} budget={budget} currency={currency} />
+      </div>
+    );
+  }
+
+  // Dashboard with data (Existing User Layout)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
@@ -167,302 +290,197 @@ export default function Dashboard({
         </div>
       )}
 
-      {/* Daily Financial Summary Banner */}
-      <div className="glass animated" style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', background: 'rgba(30, 41, 59, 0.4)', border: '1px solid rgba(255,255,255,0.06)' }}>
-        <div>
-          <h3 style={{ fontSize: '16px', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-            Good day, Ariha 👋
-          </h3>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: 0 }}>
-            Today you spent <strong style={{ color: 'var(--primary)' }}>{currency}{todaySpent}</strong>. {todaySpent > 0 ? "Most of it was on food." : "You haven't spent anything yet today!"} You're still within your daily budget limit. Nice work!
-          </p>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(245, 158, 11, 0.1)', padding: '8px 16px', borderRadius: '12px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
-          <span style={{ fontSize: '20px' }}>🔥</span>
-          <div>
-            <p style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: '700', margin: 0 }}>Savings Streak</p>
-            <p style={{ fontSize: '14px', fontWeight: '800', color: 'var(--warning)', margin: 0 }}>12 Days Streak</p>
-          </div>
-        </div>
+      {/* Today's Focus Card */}
+      <div className="glass animated" style={{ padding: '16px', background: 'rgba(6, 182, 212, 0.05)', border: '1px solid var(--primary)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <Sparkles size={20} style={{ color: 'var(--primary)', flexShrink: 0 }} />
+        <p style={{ fontSize: '13px', margin: 0, fontWeight: '500' }}>
+          <strong>Today's Focus:</strong> You're on track to save {currency}{Math.round(remaining > 0 ? remaining * 0.9 : 0)} this month. Keep it up!
+        </p>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid-cols-3">
+      {/* Row 1: Spent, Remaining, Health Score, Compact Cashback Coins */}
+      <div className="grid-cols-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
         {/* Spent */}
-        <div 
-          onClick={() => navigate('/expenses')} 
-          className="glass animated" 
-          style={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', position: 'relative' }}
-          title="Click to view all expenses"
-        >
-          <div style={{ 
-            background: 'rgba(219, 39, 119, 0.1)', 
-            border: '1px solid rgba(219, 39, 119, 0.3)',
-            borderRadius: '12px',
-            padding: '12px',
-            color: 'var(--secondary)',
-            display: 'flex'
-          }}>
-            <IndianRupee size={24} />
+        <div onClick={() => navigate('/expenses')} className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer' }}>
+          <div style={{ background: 'rgba(219, 39, 119, 0.1)', padding: '10px', borderRadius: '12px', color: 'var(--secondary)' }}>
+            <IndianRupee size={20} />
           </div>
           <div>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              Total Spent <ArrowUpRight size={12} />
-            </span>
-            <h3 style={{ fontSize: '24px', fontWeight: '800', marginTop: '4px' }}>
-              {currency}{totalSpent.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-            </h3>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Spent</span>
+            <p style={{ fontSize: '18px', fontWeight: '800', margin: '2px 0 0 0' }}>{currency}{totalSpent.toFixed(0)}</p>
           </div>
         </div>
 
-        {/* Today's Spending */}
-        <div 
-          onClick={() => navigate('/expenses')} 
-          className="glass animated" 
-          style={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', position: 'relative' }}
-          title="Click to view today's expenses"
-        >
-          <div style={{ 
-            background: 'rgba(6, 182, 212, 0.1)', 
-            border: '1px solid rgba(6, 182, 212, 0.3)',
-            borderRadius: '12px',
-            padding: '12px',
-            color: 'var(--primary)',
-            display: 'flex'
-          }}>
-            <Calendar size={24} />
+        {/* Est. Remaining */}
+        <div onClick={() => navigate('/budget')} className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer' }}>
+          <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '10px', borderRadius: '12px', color: 'var(--success)' }}>
+            <TrendingUp size={20} />
           </div>
           <div>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              Today's Spent <ArrowUpRight size={12} />
-            </span>
-            <h3 style={{ fontSize: '24px', fontWeight: '800', marginTop: '4px' }}>
-              {currency}{todaySpent.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-            </h3>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Est. Remaining</span>
+            <p style={{ fontSize: '18px', fontWeight: '800', margin: '2px 0 0 0', color: 'var(--success)' }}>{currency}{(remaining > 0 ? Math.round(remaining) : 0)}</p>
           </div>
         </div>
 
-        {/* Remaining Budget */}
-        <div 
-          onClick={() => navigate('/budget')} 
-          className="glass animated" 
-          style={{ display: 'flex', alignItems: 'center', gap: '20px', cursor: 'pointer', position: 'relative' }}
-          title="Click to adjust monthly budget"
-        >
-          <div style={{ 
-            background: remaining >= 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)', 
-            border: `1px solid ${remaining >= 0 ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-            borderRadius: '12px',
-            padding: '12px',
-            color: remaining >= 0 ? 'var(--success)' : 'var(--danger)',
-            display: 'flex'
-          }}>
-            <TrendingUp size={24} />
+        {/* Health Score */}
+        <div onClick={() => navigate('/reports')} className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer' }}>
+          <div style={{ background: 'rgba(6, 182, 212, 0.1)', padding: '10px', borderRadius: '12px', color: 'var(--primary)' }}>
+            <Award size={20} />
           </div>
           <div>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              Est. Remaining <span style={{ fontSize: '10px', background: 'rgba(16, 185, 129, 0.15)', color: 'var(--primary)', padding: '2px 6px', borderRadius: '8px', marginLeft: '6px', fontWeight: '700' }}>89% Conf.</span>
-            </span>
-            <h3 style={{ 
-              fontSize: '24px', 
-              fontWeight: '800', 
-              marginTop: '4px',
-              color: remaining < 0 ? 'var(--danger)' : 'var(--success)'
-            }}>
-              {currency}{(remaining > 0 ? Math.round(remaining * 0.95) : 0).toLocaleString('en-IN')}
-            </h3>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Health Score</span>
+            <p style={{ fontSize: '18px', fontWeight: '800', margin: '2px 0 0 0' }}>{healthScore} <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>/100</span></p>
+          </div>
+        </div>
+
+        {/* Compact Cashback Coins */}
+        <div className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ background: 'rgba(245, 158, 11, 0.1)', padding: '10px', borderRadius: '12px', color: 'var(--warning)' }}>
+            <span style={{ fontSize: '20px' }}>🪙</span>
+          </div>
+          <div>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>CashCoins</span>
+            <p style={{ fontSize: '18px', fontWeight: '800', margin: '2px 0 0 0', color: 'var(--warning)' }}>2,400 Coins</p>
           </div>
         </div>
       </div>
 
-      {/* Progress, AI Coach, and linear predictors */}
+      {/* Row 2: Budget Progress, Month-End Prediction */}
       <div className="grid-cols-2">
         <BudgetCard budget={budget} spent={totalSpent} />
-
-        {/* Linear Month-End Predictor */}
+        
+        {/* Month-End Prediction */}
         <div className="glass animated">
           <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Sparkles size={20} className="text-primary" style={{ color: 'var(--primary)' }} /> Month-End Projection
+            <Sparkles size={20} style={{ color: 'var(--primary)' }} /> Month-End Projection
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '8px' }}>
-              <span style={{ fontSize: '13.5px', color: 'var(--text-muted)' }}>Average Daily Spend:</span>
-              <span style={{ fontWeight: '600' }}>{currency}{prediction.dailyAvg.toFixed(2)}</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '6px' }}>
+              <span style={{ color: 'var(--text-muted)' }}>Predicted Month-End Total:</span>
+              <strong style={{ color: prediction.risk === 'High' ? 'var(--danger)' : 'var(--success)' }}>{currency}{prediction.projected.toFixed(0)}</strong>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '8px' }}>
-              <span style={{ fontSize: '13.5px', color: 'var(--text-muted)' }}>Predicted Month-End Total:</span>
-              <span style={{ fontWeight: '700', color: prediction.risk === 'High' ? 'var(--danger)' : 'var(--success)' }}>
-                {currency}{prediction.projected.toFixed(2)}
-              </span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '8px' }}>
-              <span style={{ fontSize: '13.5px', color: 'var(--text-muted)' }}>Expected Savings:</span>
-              <span style={{ fontWeight: '700', color: 'var(--success)' }}>
-                {currency}{Math.max(0, budget - prediction.projected).toFixed(2)}
-              </span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '13.5px', color: 'var(--text-muted)' }}>Exceeding Risk Level:</span>
-              <span style={{ 
-                padding: '4px 10px', 
-                borderRadius: '16px', 
-                fontSize: '12px', 
-                fontWeight: '700',
-                background: prediction.risk === 'High' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-                color: prediction.risk === 'High' ? 'var(--danger)' : 'var(--success)',
-                border: `1px solid ${prediction.risk === 'High' ? 'var(--danger)' : 'var(--success)'}`
-              }}>
-                {prediction.risk}
-              </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '6px' }}>
+              <span style={{ color: 'var(--text-muted)' }}>Risk Assessment:</span>
+              <strong style={{ color: prediction.risk === 'High' ? 'var(--danger)' : 'var(--success)' }}>{prediction.risk} Risk</strong>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Financial Health & Smart Recommendations */}
+      {/* Row 3: Spending Story, AI Coach Carousel */}
       <div className="grid-cols-2">
-        <div 
-          onClick={() => navigate('/reports')}
-          className="glass animated" 
-          style={{ display: 'flex', flexDirection: 'column', gap: '16px', cursor: 'pointer' }}
-          title="Click to view detailed analytics"
-        >
-          <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Award size={20} className="text-secondary" style={{ color: 'var(--secondary)' }} /> Financial Health Score
-          </h3>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px' }}>
-            <div>
-              <p style={{ fontSize: '32px', fontWeight: '800', color: 'var(--primary)' }}>
-                {healthScore} <span style={{ fontSize: '18px', color: 'var(--text-muted)' }}>/ 100</span>
-              </p>
-              <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                Habits: <strong style={{ color: 'var(--text-primary)' }}>{healthLevel}</strong>
-              </p>
-            </div>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'right' }}>
-              <span style={{ color: 'var(--success)' }}>+10 Stayed within budget</span>
-              <span style={{ color: 'var(--success)' }}>+5 Logged expenses daily</span>
-              <span style={{ color: 'var(--warning)' }}>-2 Food spending slightly high</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Landmark size={20} className="text-primary" style={{ color: 'var(--primary)' }} /> Smart Recommendations
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '4px' }}>
-              <span>🍔</span>
-              <span style={{ color: 'var(--text-muted)', flex: 1 }}>Reduce Food spending by:</span>
-              <span style={{ fontWeight: '700', color: 'var(--success)' }}>{currency}400</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '4px' }}>
-              <span>🚕</span>
-              <span style={{ color: 'var(--text-muted)', flex: 1 }}>Walking twice weekly saves:</span>
-              <span style={{ fontWeight: '700', color: 'var(--success)' }}>{currency}250</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '4px' }}>
-              <span>📚</span>
-              <span style={{ color: 'var(--text-muted)', flex: 1 }}>Buy used textbooks to save:</span>
-              <span style={{ fontWeight: '700', color: 'var(--success)' }}>{currency}600</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* AI Insights & Achievements */}
-      <div className="grid-cols-2">
-        {/* Explainable Insights */}
-        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '200px' }}>
+        {/* Compact Spending Story */}
+        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justify: 'space-between' }}>
           <div>
-            <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Sparkles size={20} className="text-secondary" style={{ color: 'var(--secondary)' }} /> Explainable Coach
+            <h3 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Sparkles size={20} style={{ color: 'var(--secondary)' }} /> Spending Story
+            </h3>
+            <p style={{ fontSize: '13.5px', lineHeight: '1.6', color: 'var(--text-muted)', margin: 0 }}>
+              This month, your <strong>Food</strong> spending decreased by <strong style={{ color: 'var(--success)' }}>18%</strong>. The decrease mainly came from fewer restaurant visits. You saved <strong>{currency}620</strong> more than last month.
+            </p>
+          </div>
+          <button onClick={() => navigate('/reports')} className="btn btn-secondary" style={{ padding: '6px', fontSize: '11px', alignSelf: 'flex-start', marginTop: '12px' }}>
+            Read Full Analysis →
+          </button>
+        </div>
+
+        {/* Explainable Insights Carousel */}
+        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div>
+            <h3 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Sparkles size={20} style={{ color: 'var(--primary)' }} /> AI Coach Insights
             </h3>
             {insights.length > 0 ? (
-              <div 
-                className="insight-alert animated" 
-                key={insightIndex}
-                style={{ 
-                  margin: 0,
-                  background: insights[insightIndex].type === 'warning' ? 'rgba(249, 115, 22, 0.08)' : 'rgba(6, 182, 212, 0.08)',
-                  border: `1px solid ${insights[insightIndex].type === 'warning' ? 'var(--warning)' : 'var(--primary)'}`
-                }}
-              >
-                <span style={{ fontSize: '13.5px' }}>{insights[insightIndex].text}</span>
+              <div className="insight-alert animated" key={insightIndex} style={{ margin: 0, padding: '10px 14px', borderRadius: '12px', background: 'rgba(6,182,212,0.06)', border: '1px solid var(--primary)' }}>
+                <span style={{ fontSize: '13px' }}>{insights[insightIndex].text}</span>
               </div>
             ) : (
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Healthy budget utilization detected.</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: 0 }}>Healthy spending habits detected.</p>
             )}
           </div>
-          <div style={{ display: 'flex', gap: '6px', marginTop: '16px', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '6px', marginTop: '12px', justifyContent: 'center' }}>
             {insights.map((_, idx) => (
-              <div 
-                key={idx} 
-                onClick={() => setInsightIndex(idx)}
-                style={{ 
-                  width: '6px', 
-                  height: '6px', 
-                  borderRadius: '50%', 
-                  background: idx === insightIndex ? 'var(--primary)' : 'rgba(255,255,255,0.2)',
-                  cursor: 'pointer'
-                }} 
-              />
+              <div key={idx} onClick={() => setInsightIndex(idx)} style={{ width: '6px', height: '6px', borderRadius: '50%', background: idx === insightIndex ? 'var(--primary)' : 'rgba(255,255,255,0.2)', cursor: 'pointer' }} />
             ))}
           </div>
         </div>
-
-        <Gamification badges={badges} streak={streakDays} />
       </div>
 
-      {/* AI Challenges & Spending Stories */}
+      {/* Row 4: AI Challenges & Achievements */}
       <div className="grid-cols-2">
-        {/* AI Challenges */}
-        <div className="glass animated">
-          <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Award size={20} style={{ color: 'var(--primary)' }} /> AI Challenges
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ padding: '10px 14px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* Compact Challenges */}
+        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justify: 'space-between' }}>
+          <div>
+            <h3 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Award size={20} style={{ color: 'var(--primary)' }} /> Active Challenge
+            </h3>
+            <div style={{ padding: '10px', borderRadius: '10px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <p style={{ fontWeight: '600', fontSize: '13px', margin: 0 }}>🍔 No Fast Food Online</p>
-                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0 }}>Duration: 5 Days remaining</p>
+                <p style={{ fontWeight: '700', fontSize: '13px', margin: 0 }}>🍔 No Fast Food Online</p>
+                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0 }}>3 Days left</p>
               </div>
-              <span style={{ fontSize: '12px', background: 'var(--primary-glow)', color: 'var(--primary)', padding: '4px 8px', borderRadius: '8px', fontWeight: '700' }}>+150 Coins</span>
-            </div>
-            <div style={{ padding: '10px 14px', borderRadius: '12px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <p style={{ fontWeight: '600', fontSize: '13px', margin: 0 }}>📚 Limit Textbook Costs</p>
-                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0 }}>Stay under ₹800 this week</p>
-              </div>
-              <span style={{ fontSize: '12px', background: 'var(--primary-glow)', color: 'var(--primary)', padding: '4px 8px', borderRadius: '8px', fontWeight: '700' }}>+100 Coins</span>
+              <span style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: '700' }}>+150 Coins</span>
             </div>
           </div>
+          <button onClick={() => navigate('/budget')} className="btn btn-secondary" style={{ padding: '6px', fontSize: '11px', alignSelf: 'flex-start', marginTop: '12px' }}>
+            View More Challenges →
+          </button>
         </div>
 
-        {/* Spending Stories & Weekly Reports */}
-        <div className="glass animated">
-          <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Sparkles size={20} style={{ color: 'var(--secondary)' }} /> Spending Story
-          </h3>
-          <p style={{ fontSize: '13px', lineHeight: '1.6', color: 'var(--text-muted)', margin: 0 }}>
-            This month, your <strong style={{ color: 'var(--text-primary)' }}>Food</strong> spending decreased by <strong style={{ color: 'var(--success)' }}>18%</strong>. The reduction mainly came from fewer restaurant visits. Your transport expenses remained stable. You saved <strong style={{ color: 'var(--primary)' }}>{currency}620</strong> more than last month. Overall, you're making steady progress toward your savings goal.
+        {/* Compact Achievements */}
+        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justify: 'space-between' }}>
+          <div>
+            <h3 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              🏆 Achievements
+            </h3>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: 0 }}>
+              You have unlocked <strong>{badges.length} Badges</strong>. Keep building streaks to unlock premium rewards!
+            </p>
+          </div>
+          <button onClick={() => navigate('/budget')} className="btn btn-secondary" style={{ padding: '6px', fontSize: '11px', alignSelf: 'flex-start', marginTop: '12px' }}>
+            View Badges →
+          </button>
+        </div>
+      </div>
+
+      {/* Row 5: Savings Goals & Compact Vault */}
+      <div id="savings-goals-section" className="grid-cols-2">
+        <SavingsGoals goals={goals} onAddGoal={onAddGoal} onAddSavings={onAddSavings} currency={currency} />
+        
+        {/* Compact Cashback Vault */}
+        <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <h3>Cashback Vault</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Wallet Balance</span>
+              <p style={{ fontSize: '20px', fontWeight: '800', margin: '4px 0 0 0' }}>{currency}120.00</p>
+            </div>
+            <div>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Coins Earned</span>
+              <p style={{ fontSize: '20px', fontWeight: '800', color: 'var(--warning)', margin: '4px 0 0 0' }}>2,400 Coins</p>
+            </div>
+          </div>
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>
+            🎉 You are only <strong>600 Coins away</strong> from claiming your next Domino's voucher reward!
           </p>
         </div>
       </div>
 
-      {/* Savings & Cashback Vault */}
-      <div className="grid-cols-2">
-        <SavingsGoals goals={goals} onAddGoal={onAddGoal} onAddSavings={onAddSavings} currency={currency} />
-        <CashbackVault wallet={120.00} coins={2400} currency={currency} />
-      </div>
-
-      {/* Subscriptions */}
+      {/* Row 6: Subscriptions */}
       <div>
         <RecurringList recurring={recurring} onAddRecurring={onAddRecurring} onDeleteRecurring={onDeleteRecurring} currency={currency} />
       </div>
 
       <AIChatbot expenses={expenses} budget={budget} currency={currency} />
+    </div>
+  );
+}
+
+// BotIcon Helper
+function BotIcon({ size = 20 }) {
+  return (
+    <div style={{ background: 'var(--primary-glow)', width: '28px', height: '28px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+      <Sparkles size={size * 0.7} />
     </div>
   );
 }

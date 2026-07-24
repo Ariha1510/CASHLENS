@@ -63,6 +63,11 @@ Rules:
     });
 
     const data = await response.json();
+    console.log(data);
+
+    if (!response.ok) {
+      throw new Error(JSON.stringify(data));
+    }
     const reply = data.choices?.[0]?.message?.content || "Coach offline. Let's try again in a bit!";
 
     return new Response(JSON.stringify({ reply }), {

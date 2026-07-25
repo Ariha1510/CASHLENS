@@ -36,8 +36,8 @@ export default function Login({ showToast }) {
     }
   };
 
-  // --- Render Light Mode Login Page ---
-  if (isLightMode) {
+  // --- Render Dark Mode Redesigned Login Page ---
+  if (!isLightMode) {
     return (
       <div style={{ maxWidth: '440px', margin: '40px auto', width: '100%' }}>
         <div className="glass animated" style={{ padding: '36px' }}>
@@ -114,7 +114,7 @@ export default function Login({ showToast }) {
     );
   }
 
-  // --- Render Original Dark Mode Login Page ---
+  // --- Render Original Light Mode Login Page ---
   return (
     <div style={{ maxWidth: '420px', margin: '60px auto', width: '100%' }}>
       <div className="glass animated" style={{ padding: '36px' }}>

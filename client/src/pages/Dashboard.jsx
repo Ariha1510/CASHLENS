@@ -52,7 +52,7 @@ export default function Dashboard({
   const [applyMessage, setApplyMessage] = useState(null);
   const [insightIndex, setInsightIndex] = useState(0);
   
-  // Search and Filter states for Light Mode
+  // Search and Filter states for Redesigned Mode
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('All'); // 'All', 'Today', 'This Week', 'This Month', 'Food', 'Travel', 'Shopping'
 
@@ -151,7 +151,7 @@ export default function Dashboard({
     return () => clearInterval(interval);
   }, [insights]);
 
-  // Filtered Expenses for Light Mode Search/Filters
+  // Filtered Expenses for Redesigned Search/Filters
   const filteredExpenses = useMemo(() => {
     return expenses.filter(exp => {
       // Search filter
@@ -191,15 +191,15 @@ export default function Dashboard({
     return <SkeletonLoader type="dashboard" />;
   }
 
-  // --- 1. RENDER DARK MODE LAYOUT (100% untouched layout/look/aesthetics) ---
-  if (isDarkMode) {
+  // --- 1. RENDER LIGHT MODE LAYOUT (Original simple layout) ---
+  if (!isDarkMode) {
     const hasData = expenses && expenses.length > 0;
     if (!hasData) {
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
           {/* Welcome Hero banner */}
-          <div className="glass animated" style={{ padding: '32px', textAlign: 'center', background: 'rgba(30, 41, 59, 0.4)' }}>
-            <h2 style={{ fontSize: '28px', marginBottom: '8px' }}>👋 Welcome to CASHLENS, Ariha!</h2>
+          <div className="glass animated" style={{ padding: '32px', textAlign: 'center', background: 'var(--bg-card)' }}>
+            <h2 style={{ fontSize: '28px', marginBottom: '8px', color: 'var(--text-primary)' }}>👋 Welcome to CASHLENS, Ariha!</h2>
             <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '24px' }}>Let's build smarter money habits together. You've just started your financial journey.</p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
               <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '13.5px' }}>
@@ -214,11 +214,11 @@ export default function Dashboard({
           <div className="grid-cols-2">
             {/* Budget Card */}
             <div className="glass animated">
-              <h3 style={{ marginBottom: '16px' }}>Monthly Budget Status</h3>
+              <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Monthly Budget Status</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '20px' }}>
                 <div>
                   <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Budget</span>
-                  <p style={{ fontSize: '18px', fontWeight: '700', margin: '4px 0 0 0' }}>{currency}{budget}</p>
+                  <p style={{ fontSize: '18px', fontWeight: '700', margin: '4px 0 0 0', color: 'var(--text-primary)' }}>{currency}{budget}</p>
                 </div>
                 <div>
                   <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Spent</span>
@@ -239,21 +239,21 @@ export default function Dashboard({
 
             {/* Getting Started Checklist */}
             <div className="glass animated">
-              <h3 style={{ marginBottom: '16px' }}>Getting Started Checklist</h3>
+              <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Getting Started Checklist</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--text-primary)' }}>
                   <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>1.</span> <span>Add your first expense</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--text-primary)' }}>
                   <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>2.</span> <span>Set your first savings goal</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--text-primary)' }}>
                   <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>3.</span> <span>Scan a receipt</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--text-primary)' }}>
                   <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>4.</span> <span>Import your bank CSV</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--text-primary)' }}>
                   <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>5.</span> <span>Explore your spending analytics</span>
                 </div>
               </div>
@@ -263,7 +263,7 @@ export default function Dashboard({
           <div className="grid-cols-2">
             {/* AI Welcome Card */}
             <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
                 <BotIcon size={20} /> AI Financial Coach
               </h3>
               <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-muted)', margin: 0 }}>
@@ -276,12 +276,12 @@ export default function Dashboard({
 
             {/* Rewards Journey */}
             <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <h3>Your Rewards Journey</h3>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px' }}>
+              <h3 style={{ color: 'var(--text-primary)' }}>Your Rewards Journey</h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '6px' }}>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Current Coins:</span>
-                <span style={{ fontWeight: '700' }}>0 Coins</span>
+                <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>0 Coins</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-glass)', paddingBottom: '6px' }}>
                 <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Next Achievement:</span>
                 <span style={{ fontWeight: '600', color: 'var(--primary)' }}>First Expense Badge</span>
               </div>
@@ -299,7 +299,7 @@ export default function Dashboard({
       <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <div>
-            <h2 style={{ fontSize: '32px', fontWeight: '800' }}>Dashboard</h2>
+            <h2 style={{ fontSize: '32px', fontWeight: '800', color: 'var(--text-primary)' }}>Dashboard</h2>
             <p style={{ color: 'var(--text-muted)' }}>Real-time statistics of your student expenditures.</p>
           </div>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -315,17 +315,17 @@ export default function Dashboard({
         {/* Row 1: spent cards */}
         <div className="grid-cols-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px' }}>
           <div onClick={() => navigate('/expenses')} className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer' }}>
-            <div style={{ background: 'rgba(219, 39, 119, 0.1)', padding: '10px', borderRadius: '12px', color: 'var(--secondary)' }}>
+            <div style={{ background: 'var(--primary-glow)', padding: '10px', borderRadius: '12px', color: 'var(--secondary)' }}>
               <IndianRupee size={20} />
             </div>
             <div>
               <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Spent</span>
-              <p style={{ fontSize: '18px', fontWeight: '800', margin: '2px 0 0 0' }}>{currency}{totalSpent.toFixed(0)}</p>
+              <p style={{ fontSize: '18px', fontWeight: '800', margin: '2px 0 0 0', color: 'var(--text-primary)' }}>{currency}{totalSpent.toFixed(0)}</p>
             </div>
           </div>
 
           <div onClick={() => navigate('/budget')} className="glass animated" style={{ display: 'flex', alignItems: 'center', gap: '16px', cursor: 'pointer' }}>
-            <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '10px', borderRadius: '12px', color: 'var(--success)' }}>
+            <div style={{ background: 'var(--primary-glow)', padding: '10px', borderRadius: '12px', color: 'var(--success)' }}>
               <TrendingUp size={20} />
             </div>
             <div>
@@ -340,7 +340,7 @@ export default function Dashboard({
             </div>
             <div>
               <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Health Score</span>
-              <p style={{ fontSize: '18px', fontWeight: '800', margin: '2px 0 0 0' }}>{healthScore} <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>/100</span></p>
+              <p style={{ fontSize: '18px', fontWeight: '800', margin: '2px 0 0 0', color: 'var(--text-primary)' }}>{healthScore} <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>/100</span></p>
             </div>
           </div>
 
@@ -360,7 +360,7 @@ export default function Dashboard({
           <BudgetCard budget={budget} spent={totalSpent} />
           
           <div className="glass animated">
-            <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
               <Sparkles size={20} style={{ color: 'var(--primary)' }} /> Month-End Projection
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13px' }}>
@@ -379,7 +379,7 @@ export default function Dashboard({
         <div className="grid-cols-2">
           <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justify: 'space-between' }}>
             <div>
-              <h3 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h3 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
                 <Sparkles size={20} style={{ color: 'var(--secondary)' }} /> Spending Story
               </h3>
               <p style={{ fontSize: '13.5px', lineHeight: '1.6', color: 'var(--text-muted)', margin: 0 }}>
@@ -393,7 +393,7 @@ export default function Dashboard({
 
           <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
-              <h3 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h3 style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
                 <Sparkles size={20} style={{ color: 'var(--primary)' }} /> AI Coach Insights
               </h3>
               {insights.length > 0 ? (
@@ -417,11 +417,11 @@ export default function Dashboard({
           <SavingsGoals goals={goals} onAddGoal={onAddGoal} onAddSavings={onAddSavings} currency={currency} />
           
           <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h3>Cashback Vault</h3>
+            <h3 style={{ color: 'var(--text-primary)' }}>Cashback Vault</h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <div>
                 <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Wallet Balance</span>
-                <p style={{ fontSize: '20px', fontWeight: '800', margin: '4px 0 0 0' }}>{currency}120.00</p>
+                <p style={{ fontSize: '20px', fontWeight: '800', margin: '4px 0 0 0', color: 'var(--text-primary)' }}>{currency}120.00</p>
               </div>
               <div>
                 <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Coins Earned</span>
@@ -441,7 +441,7 @@ export default function Dashboard({
     );
   }
 
-  // --- 2. RENDER NEW LIGHT MODE LAYOUT (Standardized Light Theme design direction) ---
+  // --- 2. RENDER DARK MODE LAYOUT (Redesigned premium layout using system vars) ---
   const hasData = expenses && expenses.length > 0;
   const currentStreak = streakDays;
   const cashCoins = 1450; 
@@ -464,7 +464,7 @@ export default function Dashboard({
         'rgba(139, 92, 246, 0.75)', 
         'rgba(239, 68, 68, 0.75)'
       ],
-      borderColor: '#ffffff',
+      borderColor: 'var(--bg-card)',
       borderWidth: 2,
     }]
   };
@@ -497,7 +497,7 @@ export default function Dashboard({
     plugins: {
       legend: {
         position: 'bottom',
-        labels: { font: { family: 'Poppins', size: 11 }, color: '#6B7280' }
+        labels: { font: { family: 'Poppins', size: 11 }, color: 'var(--text-muted)' }
       }
     }
   };
@@ -513,24 +513,24 @@ export default function Dashboard({
       {/* Personalized Greeting */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 style={{ fontSize: '28px', fontWeight: '700', color: '#111827', margin: 0 }}>
+          <h2 style={{ fontSize: '28px', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>
             {greeting}, Ariha 👋
           </h2>
-          <p style={{ color: '#6B7280', fontSize: '14.5px', marginTop: '4px', margin: 0 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '14.5px', marginTop: '4px', margin: 0 }}>
             Here's how your money is doing today.
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px', fontSize: '13px', fontWeight: '600' }}>
-          <span style={{ background: '#E0F2FE', color: '#0369A1', padding: '6px 12px', borderRadius: '12px' }}>+12% Savings</span>
-          <span style={{ background: '#DCFCE7', color: '#15803D', padding: '6px 12px', borderRadius: '12px' }}>-5% Spending</span>
+          <span style={{ background: 'var(--primary-glow)', color: 'var(--primary)', padding: '6px 12px', borderRadius: '12px' }}>+12% Savings</span>
+          <span style={{ background: 'rgba(239, 68, 68, 0.15)', color: 'var(--danger)', padding: '6px 12px', borderRadius: '12px' }}>-5% Spending</span>
         </div>
       </div>
 
       {/* Row 1: Total Balance Card (Large Card) */}
       <div className="glass animated" style={{ borderTop: '4px solid #10B981', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <span style={{ fontSize: '13px', color: '#6B7280', fontWeight: '700' }}>💰 TOTAL BALANCE</span>
-          <p style={{ fontSize: '36px', fontWeight: '800', color: '#111827', margin: '4px 0 0 0' }}>
+          <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '700' }}>💰 TOTAL BALANCE</span>
+          <p style={{ fontSize: '36px', fontWeight: '800', color: 'var(--text-primary)', margin: '4px 0 0 0' }}>
             {currency}{totalBalance.toLocaleString()}
           </p>
         </div>
@@ -543,10 +543,10 @@ export default function Dashboard({
         {/* Budget */}
         <div className="glass animated" style={{ borderTop: '4px solid #3B82F6', padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '12.5px', color: '#6B7280', fontWeight: '700' }}>💰 Budget</span>
+            <span style={{ fontSize: '12.5px', color: 'var(--text-muted)', fontWeight: '700' }}>💰 Budget</span>
             <span style={{ fontSize: '16px' }}>🏦</span>
           </div>
-          <p style={{ fontSize: '24px', fontWeight: '800', margin: '8px 0 0 0', color: '#111827' }}>
+          <p style={{ fontSize: '24px', fontWeight: '800', margin: '8px 0 0 0', color: 'var(--text-primary)' }}>
             {currency}{budget.toLocaleString()}
           </p>
         </div>
@@ -554,10 +554,10 @@ export default function Dashboard({
         {/* Savings */}
         <div className="glass animated" style={{ borderTop: '4px solid #10B981', padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '12.5px', color: '#6B7280', fontWeight: '700' }}>🎯 Savings</span>
+            <span style={{ fontSize: '12.5px', color: 'var(--text-muted)', fontWeight: '700' }}>🎯 Savings</span>
             <span style={{ fontSize: '16px' }}>📈</span>
           </div>
-          <p style={{ fontSize: '24px', fontWeight: '800', margin: '8px 0 0 0', color: '#111827' }}>
+          <p style={{ fontSize: '24px', fontWeight: '800', margin: '8px 0 0 0', color: 'var(--text-primary)' }}>
             {currency}{totalSaved.toLocaleString()}
           </p>
         </div>
@@ -565,10 +565,10 @@ export default function Dashboard({
         {/* Rewards */}
         <div className="glass animated" style={{ borderTop: '4px solid #8B5CF6', padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '12.5px', color: '#6B7280', fontWeight: '700' }}>🎁 Rewards</span>
+            <span style={{ fontSize: '12.5px', color: 'var(--text-muted)', fontWeight: '700' }}>🎁 Rewards</span>
             <span style={{ fontSize: '16px' }}>🏆</span>
           </div>
-          <p style={{ fontSize: '24px', fontWeight: '800', margin: '8px 0 0 0', color: '#111827' }}>
+          <p style={{ fontSize: '24px', fontWeight: '800', margin: '8px 0 0 0', color: 'var(--text-primary)' }}>
             {cashCoins.toLocaleString()} Coins
           </p>
         </div>
@@ -580,9 +580,9 @@ export default function Dashboard({
         
         {/* Charts block */}
         <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <h3 style={{ fontSize: '18px', fontWeight: '700', margin: 0 }}>📊 Expense Breakdown</h3>
+          <h3 style={{ fontSize: '18px', fontWeight: '700', margin: 0, color: 'var(--text-primary)' }}>📊 Expense Breakdown</h3>
           {!hasData ? (
-            <div style={{ padding: '40px 0', textAlign: 'center', color: '#6B7280' }}>
+            <div style={{ padding: '40px 0', textAlign: 'center', color: 'var(--text-muted)' }}>
               <span style={{ fontSize: '32px', display: 'block', marginBottom: '8px' }}>📂</span>
               <p style={{ fontSize: '14px', margin: 0 }}>No expenses logged yet.</p>
             </div>
@@ -601,25 +601,25 @@ export default function Dashboard({
         {/* AI suggestions Advisor */}
         <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justify: 'space-between', gap: '16px' }}>
           <div>
-            <h3 style={{ fontSize: '18px', fontWeight: '700', margin: 0 }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '700', margin: 0, color: 'var(--text-primary)' }}>
               🤖 AI Advisor Suggestions
             </h3>
             {applyMessage && (
-              <div style={{ marginTop: '12px', padding: '8px 12px', borderRadius: '8px', background: 'rgba(16, 185, 129, 0.1)', color: '#10B981', fontSize: '12.5px', fontWeight: '600' }}>
+              <div style={{ marginTop: '12px', padding: '8px 12px', borderRadius: '8px', background: 'var(--primary-glow)', color: 'var(--primary)', fontSize: '12.5px', fontWeight: '600' }}>
                 {applyMessage}
               </div>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <CheckCircle size={16} style={{ color: '#10B981' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--text-primary)' }}>
+                <CheckCircle size={16} style={{ color: 'var(--primary)' }} />
                 <span>Food spending increased 18% compared to last week.</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <CheckCircle size={16} style={{ color: '#10B981' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--text-primary)' }}>
+                <CheckCircle size={16} style={{ color: 'var(--primary)' }} />
                 <span>You're likely to exceed your budget ceiling by {currency}750.</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                <CheckCircle size={16} style={{ color: '#10B981' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--text-primary)' }}>
+                <CheckCircle size={16} style={{ color: 'var(--primary)' }} />
                 <span>Save {currency}400 by reducing food delivery orders.</span>
               </div>
             </div>
@@ -637,7 +637,7 @@ export default function Dashboard({
         {/* Transaction cards list */}
         <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-            <h3 style={{ fontSize: '18px', fontWeight: '700', margin: 0 }}>Recent Expenses</h3>
+            <h3 style={{ fontSize: '18px', fontWeight: '700', margin: 0, color: 'var(--text-primary)' }}>Recent Expenses</h3>
             
             {/* Search Input bar */}
             <div style={{ position: 'relative' }}>
@@ -649,7 +649,7 @@ export default function Dashboard({
                 className="form-control"
                 style={{ padding: '8px 12px 8px 36px', fontSize: '12px', borderRadius: '10px', maxWidth: '180px' }}
               />
-              <Search size={14} style={{ position: 'absolute', left: '12px', top: '11px', color: '#6B7280' }} />
+              <Search size={14} style={{ position: 'absolute', left: '12px', top: '11px', color: 'var(--text-muted)' }} />
             </div>
           </div>
 
@@ -665,7 +665,7 @@ export default function Dashboard({
                   borderRadius: '12px', 
                   fontSize: '11px',
                   background: activeFilter === filter ? 'var(--primary)' : 'transparent',
-                  color: activeFilter === filter ? '#FFFFFF' : 'var(--text-primary)',
+                  color: activeFilter === filter ? '#0f172a' : 'var(--text-primary)',
                   borderColor: activeFilter === filter ? 'var(--primary)' : 'var(--border-glass)'
                 }}
               >
@@ -675,9 +675,9 @@ export default function Dashboard({
           </div>
 
           {!hasData ? (
-            <div style={{ padding: '40px 0', textAlign: 'center', color: '#6B7280' }}>
+            <div style={{ padding: '40px 0', textAlign: 'center', color: 'var(--text-muted)' }}>
               <span style={{ fontSize: '42px', display: 'block', marginBottom: '10px' }}>📄</span>
-              <p style={{ fontSize: '15px', fontWeight: '700', margin: '0 0 4px 0', color: '#111827' }}>No expenses yet</p>
+              <p style={{ fontSize: '15px', fontWeight: '700', margin: '0 0 4px 0', color: 'var(--text-primary)' }}>No expenses yet</p>
               <p style={{ fontSize: '12.5px', margin: '0 0 16px 0' }}>Add your first expense to begin!</p>
               <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ padding: '8px 16px', fontSize: '12px' }}>
                 Add Expense
@@ -692,22 +692,22 @@ export default function Dashboard({
                               exp.category === 'Education' ? '🎓' : 
                               exp.category === 'Rent' ? '🏠' : '⚡';
                 return (
-                  <div key={exp.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderRadius: '16px', background: '#FAFAFA', border: '1px solid #E5E7EB' }}>
+                  <div key={exp.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderRadius: '16px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <span style={{ fontSize: '20px' }}>{emoji}</span>
                       <div>
-                        <p style={{ fontWeight: '700', fontSize: '13.5px', margin: 0, color: '#111827' }}>{exp.description || exp.category}</p>
-                        <p style={{ fontSize: '11px', color: '#6B7280', margin: 0 }}>{exp.category} • {exp.expense_date}</p>
+                        <p style={{ fontWeight: '700', fontSize: '13.5px', margin: 0, color: 'var(--text-primary)' }}>{exp.description || exp.category}</p>
+                        <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0 }}>{exp.category} • {exp.expense_date}</p>
                       </div>
                     </div>
-                    <span style={{ fontWeight: '800', fontSize: '15px', color: '#111827' }}>
+                    <span style={{ fontWeight: '800', fontSize: '15px', color: 'var(--text-primary)' }}>
                       {currency}{parseFloat(exp.amount).toFixed(0)}
                     </span>
                   </div>
                 );
               })}
               {filteredExpenses.length === 0 && (
-                <p style={{ fontSize: '12.5px', color: '#6B7280', textAlign: 'center', padding: '12px 0' }}>No matching expenses found.</p>
+                <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', textAlign: 'center', padding: '12px 0' }}>No matching expenses found.</p>
               )}
             </div>
           )}
@@ -716,7 +716,7 @@ export default function Dashboard({
         {/* Streak and Savings progress card */}
         <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', justify: 'space-between', gap: '16px' }}>
           <div>
-            <h3 style={{ fontSize: '18px', fontWeight: '700', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '700', margin: 0, display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
               🎯 Current Streak & Goal
             </h3>
             
@@ -726,15 +726,15 @@ export default function Dashboard({
                 <p style={{ fontSize: '24px', fontWeight: '800', margin: 0, color: '#F59E0B' }}>
                   {currentStreak} Days Streak
                 </p>
-                <p style={{ fontSize: '12px', color: '#6B7280', margin: 0 }}>
+                <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>
                   Keep logging expenses to earn reward coins.
                 </p>
               </div>
             </div>
 
             {/* Savings Goal Target progress */}
-            <div style={{ marginTop: '16px', borderTop: '1px solid #E5E7EB', paddingTop: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: '600', marginBottom: '8px' }}>
+            <div style={{ marginTop: '16px', borderTop: '1px solid var(--border-glass)', paddingTop: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: '600', marginBottom: '8px', color: 'var(--text-primary)' }}>
                 <span>Vacation Fund Goal</span>
                 <span>{currency}9,500 / {currency}20,000</span>
               </div>
@@ -745,7 +745,7 @@ export default function Dashboard({
 
             {/* Rewards coins progress */}
             <div style={{ marginTop: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px', fontWeight: '600' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px', fontWeight: '600', color: 'var(--text-primary)' }}>
                 <span>Voucher Progress</span>
                 <span>{cashCoins} / 2000 Coins</span>
               </div>

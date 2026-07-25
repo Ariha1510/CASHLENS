@@ -98,30 +98,7 @@ export default function Landing({ user }) {
         </div>
       </section>
 
-      {/* Dashboard Preview block */}
-      <section className="glass animated" style={{ maxWidth: '960px', margin: '0 auto', width: '90%', padding: '24px', textAlign: 'center' }}>
-        <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>⚡ Premium Dashboard Interface Preview</h3>
-        <div style={{ border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', overflow: 'hidden', background: '#0a0f1d', padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '12px' }}>
-            <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--primary)' }}>CASHLENS LIVE FEED</span>
-            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Status: Active</span>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', fontSize: '12px' }}>
-            <div style={{ padding: '12px', borderRadius: '8px', background: '#13192b', border: '1px solid rgba(255,255,255,0.04)' }}>
-              <p style={{ color: 'var(--text-muted)', margin: '0 0 4px 0' }}>Spent This Month</p>
-              <p style={{ fontSize: '16px', fontWeight: '800', margin: 0 }}>₹4,200.00</p>
-            </div>
-            <div style={{ padding: '12px', borderRadius: '8px', background: '#13192b', border: '1px solid rgba(255,255,255,0.04)' }}>
-              <p style={{ color: 'var(--text-muted)', margin: '0 0 4px 0' }}>Est. Remaining</p>
-              <p style={{ fontSize: '16px', fontWeight: '800', color: 'var(--success)', margin: 0 }}>₹3,800.00</p>
-            </div>
-            <div style={{ padding: '12px', borderRadius: '8px', background: '#13192b', border: '1px solid rgba(255,255,255,0.04)' }}>
-              <p style={{ color: 'var(--text-muted)', margin: '0 0 4px 0' }}>Streak Multiplier</p>
-              <p style={{ fontSize: '16px', fontWeight: '800', color: 'var(--warning)', margin: 0 }}>1.2x Coins</p>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Footer */}
       <footer style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '12px', borderTop: '1px solid var(--border-glass)', paddingTop: '20px', marginTop: '20px' }}>

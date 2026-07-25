@@ -34,7 +34,7 @@ export default function Toast({ message, type = 'info', onClose }) {
     <div
       style={{
         position: 'fixed',
-        bottom: '24px',
+        top: '80px',
         right: '24px',
         display: 'flex',
         alignItems: 'center',

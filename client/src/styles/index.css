@@ -5,8 +5,8 @@
 
   /* Base Dark Theme Defaults (Original untouched styles) */
   --bg-dark: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.7);
-  --bg-card-hover: rgba(30, 41, 59, 0.85);
+  --bg-card: #1e293b;
+  --bg-card-hover: #243049;
   
   --primary: #10b981; /* Emerald Green */
   --primary-glow: rgba(16, 185, 129, 0.3);
@@ -22,7 +22,7 @@
   --text-muted: #94a3b8;
   --text-dark: #1e293b;
   
-  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass: rgba(255, 255, 255, 0.05);
   --border-neon: rgba(16, 185, 129, 0.15);
   
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -58,10 +58,10 @@
 }
 
 body {
-  background-color: var(--bg-dark);
+  background-color: #08111f;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 45%);
+    radial-gradient(circle at top left, #06b6d420, transparent 40%),
+    radial-gradient(circle at bottom right, #14b8a620, transparent 40%);
   color: var(--text-primary);
   font-family: var(--font-family-base);
   min-height: 100vh;
@@ -70,6 +70,7 @@ body {
 }
 
 :root.light body {
+  background-color: var(--bg-dark);
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 45%),
     radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 45%);

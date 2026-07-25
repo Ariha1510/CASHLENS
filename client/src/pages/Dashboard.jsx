@@ -196,17 +196,17 @@ export default function Dashboard({
     const hasData = expenses && expenses.length > 0;
     if (!hasData) {
       return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {/* Welcome Hero banner */}
-          <div className="glass animated" style={{ padding: '32px', textAlign: 'center', background: 'rgba(30, 41, 59, 0.4)' }}>
-            <h2 style={{ fontSize: '28px', marginBottom: '8px' }}>👋 Welcome to CASHLENS, Ariha!</h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '24px' }}>Let's build smarter money habits together. You've just started your financial journey.</p>
+          <div className="glass animated" style={{ padding: '24px', textAlign: 'center', background: 'rgba(30, 41, 59, 0.4)', minHeight: '180px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <h2 style={{ fontSize: '28px', marginBottom: '6px' }}>👋 Good Evening, Ariha</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '18px' }}>You have {currency}{budget.toLocaleString()} remaining this month.</p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-              <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '13.5px' }}>
-                <Plus size={16} /> Add Expense
+              <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ height: '52px', padding: '0 24px', fontSize: '14.5px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '12px' }}>
+                💰 Add Expense
               </button>
-              <button onClick={() => navigate('/expenses')} className="btn btn-secondary" style={{ padding: '10px 20px', fontSize: '13.5px' }}>
-                <Camera size={16} /> Scan Receipt
+              <button onClick={() => navigate('/expenses')} className="btn btn-secondary" style={{ height: '52px', padding: '0 24px', fontSize: '14.5px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '12px' }}>
+                📷 Scan Receipt
               </button>
             </div>
           </div>
@@ -217,44 +217,49 @@ export default function Dashboard({
               <h3 style={{ marginBottom: '16px' }}>Monthly Budget Status</h3>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '20px' }}>
                 <div>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Budget</span>
-                  <p style={{ fontSize: '18px', fontWeight: '700', margin: '4px 0 0 0' }}>{currency}{budget}</p>
+                  <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Budget</span>
+                  <p style={{ fontSize: '34px', fontWeight: '700', margin: '4px 0 0 0', color: 'var(--text-primary)' }}>{currency}{budget.toLocaleString()}</p>
                 </div>
                 <div>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Spent</span>
-                  <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--primary)', margin: '4px 0 0 0' }}>{currency}0</p>
+                  <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Spent</span>
+                  <p style={{ fontSize: '34px', fontWeight: '700', color: 'var(--primary)', margin: '4px 0 0 0' }}>{currency}0</p>
                 </div>
                 <div>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Remaining</span>
-                  <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--success)', margin: '4px 0 0 0' }}>{currency}{budget}</p>
+                  <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Remaining</span>
+                  <p style={{ fontSize: '34px', fontWeight: '700', color: 'var(--success)', margin: '4px 0 0 0' }}>{currency}{budget.toLocaleString()}</p>
                 </div>
               </div>
-              <div className="progress-bar-container" style={{ height: '8px', marginBottom: '12px' }}>
-                <div className="progress-bar green" style={{ width: '0%' }}></div>
+              
+              {/* Neutral / Empty state helper progress bar */}
+              <div style={{ marginBottom: '12px' }}>
+                <div className="progress-bar-container" style={{ height: '10px', background: 'rgba(255, 255, 255, 0.05)' }}>
+                  <div className="progress-bar" style={{ width: '0%', background: 'var(--primary)' }}></div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px', fontSize: '11px', color: 'var(--text-muted)' }}>
+                  <span>0% utilized</span>
+                  <span>No expenses yet</span>
+                </div>
               </div>
-              <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0 }}>
-                💡 Great start! Your entire monthly budget is available.
-              </p>
             </div>
 
             {/* Getting Started Checklist */}
             <div className="glass animated">
               <h3 style={{ marginBottom: '16px' }}>Getting Started Checklist</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                  <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>1.</span> <span>Add your first expense</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px' }}>
+                  <span>✅</span> <span>Add Expense</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                  <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>2.</span> <span>Set your first savings goal</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px' }}>
+                  <span>🎯</span> <span>Set Savings Goal</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                  <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>3.</span> <span>Scan a receipt</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px' }}>
+                  <span>📷</span> <span>Scan Receipt</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                  <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>4.</span> <span>Import your bank CSV</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px' }}>
+                  <span>📂</span> <span>Import CSV</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px' }}>
-                  <span style={{ color: 'var(--primary)', fontWeight: '700', minWidth: '20px' }}>5.</span> <span>Explore your spending analytics</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px' }}>
+                  <span>📈</span> <span>View Analytics</span>
                 </div>
               </div>
             </div>
@@ -262,32 +267,37 @@ export default function Dashboard({
 
           <div className="grid-cols-2">
             {/* AI Welcome Card */}
-            <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <BotIcon size={20} /> AI Financial Coach
-              </h3>
-              <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-muted)', margin: 0 }}>
-                Hello Ariha 👋, I am your AI Financial Coach. Your monthly budget is set to {currency}{budget}. We suggest dividing this into:
-              </p>
-              <p style={{ fontSize: '12.5px', color: 'var(--primary)', margin: 0 }}>
-                🍔 Food & Drinks: {currency}{(budget * 0.35).toFixed(0)} | 📚 Bills/Fees: {currency}{(budget * 0.18).toFixed(0)} | 💰 Savings: {currency}{(budget * 0.20).toFixed(0)}
-              </p>
+            <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'space-between' }}>
+              <div>
+                <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
+                  <BotIcon size={20} /> AI Coach
+                </h3>
+                <h4 style={{ fontSize: '14px', marginTop: '12px', marginBottom: '6px', color: 'var(--primary)' }}>Today's Tip</h4>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-primary)', margin: '0 0 6px 0' }}>
+                  You haven't spent anything today.
+                </p>
+                <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0 }}>
+                  Add your first expense to begin tracking.
+                </p>
+              </div>
+              <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ alignSelf: 'flex-start', padding: '8px 16px', fontSize: '12.5px', marginTop: '8px' }}>
+                Start Tracking
+              </button>
             </div>
 
             {/* Rewards Journey */}
             <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <h3>Your Rewards Journey</h3>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px' }}>
-                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Current Coins:</span>
-                <span style={{ fontWeight: '700' }}>0 Coins</span>
+              <h3>🎁 Rewards Progress</h3>
+              <div style={{ fontSize: '16px', color: 'var(--warning)', letterSpacing: '2px', margin: '4px 0' }}>
+                ★★★★★★☆☆☆☆
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '6px' }}>
-                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Next Achievement:</span>
-                <span style={{ fontWeight: '600', color: 'var(--primary)' }}>First Expense Badge</span>
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Progress:</span>
+                <span style={{ fontWeight: '700' }}>240 / 1000 Coins</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Completion Reward:</span>
-                <span style={{ fontWeight: '700', color: 'var(--success)' }}>+50 Coins</span>
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Next Reward:</span>
+                <span style={{ fontWeight: '700', color: 'var(--primary)' }}>Amazon Voucher</span>
               </div>
             </div>
           </div>

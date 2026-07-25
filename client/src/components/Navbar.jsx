@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { LayoutDashboard, ReceiptText, PieChart, Landmark, LogOut, Sun, Moon, Bell } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 export default function Navbar({ user, isDarkMode, toggleDarkMode, theme, setTheme, onToggleNotifications, notificationCount = 0 }) {
   const location = useLocation();
@@ -17,7 +18,7 @@ export default function Navbar({ user, isDarkMode, toggleDarkMode, theme, setThe
   return (
     <nav className="navbar">
       <Link to="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-        <img src="/logo.png" alt="CASHLENS Logo" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
+        <img src={logo} alt="CASHLENS Logo" style={{ height: '40px', width: 'auto', objectFit: 'contain' }} />
         <span style={{ fontFamily: 'Poppins', fontWeight: '700', fontSize: '22px', letterSpacing: '-0.02em' }}>CASHLENS</span>
       </Link>
       

@@ -28,7 +28,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [toast, setToast] = useState(null);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark');
   const [themeAccent, setThemeAccent] = useState(localStorage.getItem('theme-accent') || '');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState([
@@ -63,12 +63,12 @@ export default function App() {
   // Initialize theme
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-      setIsDarkMode(false);
-      document.documentElement.classList.add('light');
-    } else {
+    if (savedTheme === 'dark') {
       setIsDarkMode(true);
-      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
@@ -145,11 +145,11 @@ export default function App() {
 
   const toggleDarkMode = () => {
     if (isDarkMode) {
-      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
       setIsDarkMode(false);
     } else {
-      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
       setIsDarkMode(true);
     }

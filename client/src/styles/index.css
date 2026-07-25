@@ -28,6 +28,57 @@
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+:root.dark {
+  --bg-dark: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --bg-card-hover: rgba(30, 41, 59, 0.85);
+  
+  --primary: #10b981;
+  --primary-glow: rgba(16, 185, 129, 0.3);
+  --secondary: #06b6d4;
+  --secondary-glow: rgba(6, 182, 212, 0.3);
+  --accent-glow: #00FF99;
+  
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dark: #f8fafc;
+  
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-neon: rgba(16, 185, 129, 0.15);
+}
+
+:root.dark body {
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 45%);
+}
+
+:root.dark .glass {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+:root.dark .form-control {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-glass);
+}
+
+:root.dark .navbar {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+:root.dark .nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+:root.dark td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+:root.dark tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

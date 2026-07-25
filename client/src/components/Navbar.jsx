@@ -39,6 +39,14 @@ export default function Navbar({ user, isDarkMode, toggleDarkMode, theme, setThe
       )}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <button
+          onClick={toggleDarkMode}
+          className="btn btn-secondary"
+          style={{ padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center' }}
+          title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        >
+          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
 
         {user && (
           <button

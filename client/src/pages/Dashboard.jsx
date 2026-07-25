@@ -78,6 +78,10 @@ export default function Dashboard({
     return rem > 0 ? rem : 0;
   }, [budget, totalSpent]);
 
+  const streakDays = useMemo(() => {
+    return expenses.length > 0 ? Math.min(expenses.length, 8) : 0;
+  }, [expenses]);
+
   // Aggregate Category Totals
   const categoryData = useMemo(() => {
     const totals = { Food: 0, Travel: 0, Shopping: 0, Education: 0, Bills: 0 };

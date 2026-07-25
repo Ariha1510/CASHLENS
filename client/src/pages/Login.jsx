@@ -42,7 +42,7 @@ export default function Login({ showToast }) {
             💸 CASHLENS
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '8px' }}>
-            Crush budgets, not your allowance! (Supabase Portal)
+            Crush budgets, not your allowance!
           </p>
         </div>
 

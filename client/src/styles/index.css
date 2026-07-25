@@ -70,9 +70,13 @@ body {
 }
 
 :root.light body {
+  background-color: #f8fafc;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 45%);
+    radial-gradient(rgba(107, 114, 128, 0.03) 1.5px, transparent 1.5px),
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+    linear-gradient(135deg, #f8fafc 0%, #eef7ff 45%, #ffffff 100%);
+  background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {

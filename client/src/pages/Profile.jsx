@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { 
   User, 
-  Shield, 
   ShieldAlert, 
-  Key, 
   Globe, 
   Settings, 
   Download, 
   Trash, 
-  Mail, 
-  Lock,
-  QrCode,
-  CheckCircle
+  Mail
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -20,11 +15,6 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
   const [email] = useState(user?.email || '');
   const [currency, setCurrency] = useState(profile.currency || '₹');
   const [budgetVal, setBudgetVal] = useState(budget || '');
-
-  // Password change states
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordLoading, setPasswordLoading] = useState(false);
 
   // Custom Modal configuration state
   const [modalConfig, setModalConfig] = useState(null); // { title, message, onConfirm, isDanger }
@@ -68,35 +58,6 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
     }
   };
 
-  const handleChangePassword = async (e) => {
-    e.preventDefault();
-    if (!newPassword) {
-      showToast('Please enter a new password.', 'warning');
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      showToast('Passwords do not match.', 'error');
-      return;
-    }
-
-    setPasswordLoading(true);
-    try {
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword
-      });
-      if (error) throw error;
-
-      showToast('Password updated successfully!', 'success');
-      setNewPassword('');
-      setConfirmPassword('');
-    } catch (err) {
-      showToast(err.message, 'error');
-    } finally {
-      setPasswordLoading(false);
-    }
-  };
-
-
   const triggerExportData = () => {
     setModalConfig({
       title: '📦 Export Personal Data?',
@@ -125,7 +86,7 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
       {/* Title */}
       <div>
         <h2 style={{ fontSize: '32px', fontWeight: '800' }}>User Profile & Settings</h2>
-        <p style={{ color: 'var(--text-muted)' }}>Manage your personal details, secure your account, and export transactions.</p>
+        <p style={{ color: 'var(--text-muted)' }}>Manage your personal details, configure limits, and export transactions.</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'start' }}>
@@ -213,58 +174,9 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
           </button>
         </form>
 
-        {/* Right Side: Security & Danger Zone */}
+        {/* Right Side: Danger Zone */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
-          {/* Security & MFA section */}
-          <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '18px', margin: 0 }}>
-              <Shield size={20} style={{ color: 'var(--secondary)' }} /> Security
-            </h3>
-
-            {/* Change Password Form */}
-            <form onSubmit={handleChangePassword} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label">New Password</label>
-                <div style={{ position: 'relative' }}>
-                  <input 
-                    type="password" 
-                    value={newPassword} 
-                    onChange={(e) => setNewPassword(e.target.value)} 
-                    className="form-control"
-                    placeholder="••••••••"
-                    style={{ paddingLeft: '40px' }}
-                    required
-                  />
-                  <Lock size={16} style={{ position: 'absolute', left: '14px', top: '14px', color: 'var(--text-muted)' }} />
-                </div>
-              </div>
-
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label">Confirm New Password</label>
-                <div style={{ position: 'relative' }}>
-                  <input 
-                    type="password" 
-                    value={confirmPassword} 
-                    onChange={(e) => setConfirmPassword(e.target.value)} 
-                    className="form-control"
-                    placeholder="••••••••"
-                    style={{ paddingLeft: '40px' }}
-                    required
-                  />
-                  <Lock size={16} style={{ position: 'absolute', left: '14px', top: '14px', color: 'var(--text-muted)' }} />
-                </div>
-              </div>
-
-              <button type="submit" className="btn btn-secondary" style={{ width: '100%', display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'center' }} disabled={passwordLoading}>
-                <Key size={16} /> {passwordLoading ? 'Updating Password...' : 'Change Password'}
-              </button>
-            </form>
-
-
-          </div>
-
-          {/* Danger Zone */}
           <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '18px', margin: 0, color: 'var(--danger)' }}>
               <ShieldAlert size={20} /> Danger Zone

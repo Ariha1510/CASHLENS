@@ -4,7 +4,6 @@ import {
   ShieldAlert, 
   Globe, 
   Settings, 
-  Download, 
   Trash, 
   Mail
 } from 'lucide-react';
@@ -16,8 +15,11 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
   const [currency, setCurrency] = useState(profile.currency || '₹');
   const [budgetVal, setBudgetVal] = useState(budget || '');
 
+  // Delete reason state
+  const [deleteReason, setDeleteReason] = useState('');
+
   // Custom Modal configuration state
-  const [modalConfig, setModalConfig] = useState(null); // { title, message, onConfirm, isDanger }
+  const [modalConfig, setModalConfig] = useState(null); // { type, title, message, onConfirm, isDanger }
 
   // Update budget local state when budget prop loads
   useEffect(() => {
@@ -58,24 +60,19 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
     }
   };
 
-  const triggerExportData = () => {
-    setModalConfig({
-      title: '📦 Export Personal Data?',
-      message: 'Do you want to prepare and download your transaction statements, savings goals, and account activity as a CSV package?',
-      isDanger: false,
-      onConfirm: () => {
-        showToast('Preparing your user data export package...', 'info');
-      }
-    });
-  };
-
   const triggerDeleteAccount = () => {
+    setDeleteReason(''); // reset reason input
     setModalConfig({
-      title: '🚨 Delete Profile Account?',
+      type: 'delete',
+      title: '🚨 Delete My Account?',
       message: 'Are you absolutely sure you want to delete your CashLens profile? This action cannot be undone, and all your records will be cleared.',
       isDanger: true,
-      onConfirm: () => {
-        showToast('Account deletion request queued.', 'warning');
+      onConfirm: (reason) => {
+        if (!reason || !reason.trim()) {
+          showToast('Please provide a reason for account deletion.', 'warning');
+          return;
+        }
+        showToast(`Account deletion request queued. Reason: ${reason}`, 'warning');
       }
     });
   };
@@ -86,7 +83,7 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
       {/* Title */}
       <div>
         <h2 style={{ fontSize: '32px', fontWeight: '800' }}>User Profile & Settings</h2>
-        <p style={{ color: 'var(--text-muted)' }}>Manage your personal details, configure limits, and export transactions.</p>
+        <p style={{ color: 'var(--text-muted)' }}>Manage your personal details, configure limits, and close your account.</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'start' }}>
@@ -174,32 +171,24 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
           </button>
         </form>
 
-        {/* Right Side: Danger Zone */}
+        {/* Right Side: Account Settings Card */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
           <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '18px', margin: 0, color: 'var(--danger)' }}>
-              <ShieldAlert size={20} /> Danger Zone
+              <ShieldAlert size={20} /> ACCOUNT
             </h3>
             <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0 }}>
               Actions here are permanent. You can back up your files or close your account permanently.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <button 
-                type="button" 
-                onClick={triggerExportData} 
-                className="btn btn-secondary" 
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justify: 'center', gap: '8px', fontSize: '13px' }}
-              >
-                <Download size={14} /> Export Personal Data
-              </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '4px' }}>
               <button 
                 type="button" 
                 onClick={triggerDeleteAccount} 
                 className="btn btn-secondary" 
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justify: 'center', gap: '8px', fontSize: '13px', borderColor: 'var(--danger)', color: 'var(--danger)' }}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justify: 'center', gap: '8px', fontSize: '13px', borderColor: 'var(--danger)', color: 'var(--danger)', height: '48px', fontWeight: '700' }}
               >
-                <Trash size={14} /> Delete Profile Account
+                <Trash size={14} /> Delete My Account
               </button>
             </div>
           </div>
@@ -227,6 +216,22 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
             <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: 'var(--text-primary)' }}>{modalConfig.title}</h3>
             <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.5' }}>{modalConfig.message}</p>
             
+            {/* Conditional input field for reason on deletion modal */}
+            {modalConfig.type === 'delete' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', marginTop: '4px' }}>
+                <label className="form-label">Reason for deletion</label>
+                <input 
+                  type="text" 
+                  value={deleteReason} 
+                  onChange={(e) => setDeleteReason(e.target.value)} 
+                  placeholder="e.g., Privacy concerns / App alternative"
+                  className="form-control"
+                  style={{ background: 'rgba(15, 23, 42, 0.1)', borderColor: 'var(--border-glass)' }}
+                  required
+                />
+              </div>
+            )}
+
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '8px' }}>
               <button 
                 onClick={() => setModalConfig(null)} 
@@ -237,7 +242,11 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
               </button>
               <button 
                 onClick={() => {
-                  modalConfig.onConfirm();
+                  if (modalConfig.type === 'delete' && (!deleteReason || !deleteReason.trim())) {
+                    showToast('Please fill in the reason for deletion.', 'warning');
+                    return;
+                  }
+                  modalConfig.onConfirm(deleteReason);
                   setModalConfig(null);
                 }} 
                 className="btn btn-primary" 

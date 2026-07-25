@@ -26,9 +26,6 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordLoading, setPasswordLoading] = useState(false);
 
-  // Two-Factor Authentication states
-  const [tfaEnabled, setTfaEnabled] = useState(false);
-
   // Custom Modal configuration state
   const [modalConfig, setModalConfig] = useState(null); // { title, message, onConfirm, isDanger }
 
@@ -99,29 +96,6 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
     }
   };
 
-  const handleToggleTFA = () => {
-    if (!tfaEnabled) {
-      setModalConfig({
-        title: '🔑 Set Up Two-Factor Auth?',
-        message: 'Do you want to enable Two-Factor Authentication? We will configure this with your authenticator app (Google Authenticator / Duo).',
-        isDanger: false,
-        onConfirm: () => {
-          setTfaEnabled(true);
-          showToast('2FA setup complete!', 'success');
-        }
-      });
-    } else {
-      setModalConfig({
-        title: '⚠️ Disable Two-Factor Auth?',
-        message: 'Are you sure you want to disable Two-Factor Authentication? Your account login will be less secure.',
-        isDanger: true,
-        onConfirm: () => {
-          setTfaEnabled(false);
-          showToast('2FA disabled.', 'info');
-        }
-      });
-    }
-  };
 
   const triggerExportData = () => {
     setModalConfig({
@@ -287,31 +261,7 @@ export default function Profile({ user, profile, budget, onUpdateProfile, onUpda
               </button>
             </form>
 
-            {/* Two-Factor Authentication (Optional) */}
-            <div style={{ borderTop: '1px solid var(--border-glass)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <p style={{ fontWeight: '700', fontSize: '14px', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <QrCode size={16} style={{ color: 'var(--secondary)' }} /> Two-Factor Auth (2FA)
-                </p>
-                <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '2px 0 0 0' }}>
-                  Secure logins with an authenticator app.
-                </p>
-              </div>
-              <button 
-                onClick={handleToggleTFA} 
-                className="btn btn-secondary" 
-                style={{ 
-                  padding: '6px 12px', 
-                  fontSize: '12px', 
-                  borderRadius: '8px', 
-                  background: tfaEnabled ? 'rgba(16, 185, 129, 0.15)' : 'transparent',
-                  borderColor: tfaEnabled ? 'var(--primary)' : 'var(--border-glass)',
-                  color: tfaEnabled ? 'var(--primary)' : 'var(--text-primary)'
-                }}
-              >
-                {tfaEnabled ? '✓ Enabled' : 'Enable'}
-              </button>
-            </div>
+
           </div>
 
           {/* Danger Zone */}

@@ -24,16 +24,16 @@ export default function Navbar({ user, isDarkMode, toggleDarkMode, theme, setThe
       {user && (
         <div className="nav-links">
           <Link to="/dashboard" className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}>
-            {!isDarkMode ? <LayoutDashboard size={18} /> : null} {!isDarkMode ? "Dashboard" : "🏠 Dashboard"}
+            {isDarkMode ? <LayoutDashboard size={18} /> : null} {isDarkMode ? "Dashboard" : "🏠 Dashboard"}
           </Link>
           <Link to="/expenses" className={`nav-link ${isActive('/expenses') ? 'active' : ''}`}>
-            {!isDarkMode ? <ReceiptText size={18} /> : null} {!isDarkMode ? "Expenses" : "🟢 Expenses"}
+            {isDarkMode ? <ReceiptText size={18} /> : null} {isDarkMode ? "Expenses" : "🟢 Expenses"}
           </Link>
           <Link to="/reports" className={`nav-link ${isActive('/reports') ? 'active' : ''}`}>
-            {!isDarkMode ? <PieChart size={18} /> : null} {!isDarkMode ? "Reports" : "📈 Reports"}
+            {isDarkMode ? <PieChart size={18} /> : null} {isDarkMode ? "Reports" : "📈 Reports"}
           </Link>
           <Link to="/budget" className={`nav-link ${isActive('/budget') ? 'active' : ''}`}>
-            {!isDarkMode ? <Landmark size={18} /> : null} {!isDarkMode ? "Budget" : "🎁 Budget & Rewards"}
+            {isDarkMode ? <Landmark size={18} /> : null} {isDarkMode ? "Budget" : "🎁 Budget & Rewards"}
           </Link>
         </div>
       )}

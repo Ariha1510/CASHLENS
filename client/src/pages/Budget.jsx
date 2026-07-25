@@ -52,7 +52,7 @@ export default function Budget({ budget, onUpdateBudget, showToast, currency = '
               </div>
               <div>
                 <h3 style={{ fontSize: '20px', fontWeight: '700' }}>💰 Set Your Monthly Budget</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: '4px 0 0 0' }}>Choose a monthly spending limit to help CASHCRUSH monitor your expenses and provide insights.</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: '4px 0 0 0' }}>Choose a monthly spending limit to help CASHLENS monitor your expenses and provide insights.</p>
               </div>
             </div>
 

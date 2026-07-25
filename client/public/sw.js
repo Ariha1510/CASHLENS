@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cashcrush-cache-v1';
+const CACHE_NAME = 'cashlens-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',

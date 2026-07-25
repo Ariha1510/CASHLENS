@@ -33,7 +33,7 @@ export default function Profile({ user, profile, onUpdateProfile, onUpdateBudget
   };
 
   const handleDeleteAccount = () => {
-    const confirm = window.confirm("Are you absolutely sure you want to delete your CashCrush profile? This action is irreversible.");
+    const confirm = window.confirm("Are you absolutely sure you want to delete your CashLens profile? This action is irreversible.");
     if (confirm) {
       showToast('Account deletion request queued.', 'warning');
     }

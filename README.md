@@ -1,8 +1,8 @@
-#  CASHCRUSH
+#  CASHLENS
 
 > An intelligent personal finance companion for students that combines expense tracking, OCR receipt scanning, predictive budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
 
-🌐 [Live Demo](https://cashcrush.vercel.app) • 📄 [Database Schema](file:///d:/CASHCRUSH/database.sql) • ⭐ Star this repository
+🌐 [Live Demo](https://cashlens.vercel.app) • 📄 [Database Schema](file:///d:/CASHCRUSH/database.sql) • ⭐ Star this repository
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)]()
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white)]()
@@ -13,9 +13,9 @@
 
 ---
 
-##  Why CASHCRUSH?
+##  Why CASHLENS?
 
-Unlike traditional, tedious budget trackers, **CASHCRUSH** is built specifically for students. It combines rule-based predictive budgeting, local WebAssembly OCR receipt scanning, virtual cashback rewards, and interactive analytics to make financial discipline gamified, educational, and secure.
+Unlike traditional, tedious budget trackers, **CASHLENS** is built specifically for students. It combines rule-based predictive budgeting, local WebAssembly OCR receipt scanning, virtual cashback rewards, and interactive analytics to make financial discipline gamified, educational, and secure.
 
 ---
 

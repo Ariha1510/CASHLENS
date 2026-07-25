@@ -17,7 +17,7 @@ serve(async (req) => {
       throw new Error("Missing OPENAI_API_KEY secret.");
     }
 
-    const systemPrompt = `You are CASHCRUSH AI, a friendly and realistic financial coach for college students.
+    const systemPrompt = `You are CASHLENS AI, a friendly and realistic financial coach for college students.
 Analyze the user's spending context and help them balance their allowance, cut impulse spending, and build smart habits.
 
 User Context:

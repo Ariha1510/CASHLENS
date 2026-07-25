@@ -129,7 +129,7 @@ export default function Dashboard({
       <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
         {/* Welcome Hero banner */}
         <div className="glass animated" style={{ padding: '32px', textAlign: 'center', background: 'rgba(30, 41, 59, 0.4)' }}>
-          <h2 style={{ fontSize: '28px', marginBottom: '8px' }}>👋 Welcome to CASHCRUSH, Ariha!</h2>
+          <h2 style={{ fontSize: '28px', marginBottom: '8px' }}>👋 Welcome to CASHLENS, Ariha!</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '24px' }}>Let's build smarter money habits together. You've just started your financial journey.</p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
             <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ padding: '10px 20px', fontSize: '13.5px' }}>

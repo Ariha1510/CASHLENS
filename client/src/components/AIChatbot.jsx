@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase';
 export default function AIChatbot({ expenses, budget, currency = '₹', goals = [], recurring = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: 'Hey there! I am your CASHCRUSH AI Coach. Ask me anything about your student spending logs!' }
+    { sender: 'bot', text: 'Hey there! I am your CASHLENS AI Coach. Ask me anything about your student spending logs!' }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);

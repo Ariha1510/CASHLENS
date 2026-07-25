@@ -55,7 +55,7 @@ export default class ErrorBoundary extends Component {
             </div>
             <h3 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '12px' }}>Something went wrong</h3>
             <p style={{ color: '#94a3b8', fontSize: '13.5px', lineHeight: '1.5', marginBottom: '24px' }}>
-              CashCrush encountered an unexpected runtime error. We've logged this details. Click below to refresh.
+              CashLens encountered an unexpected runtime error. We've logged this details. Click below to refresh.
             </p>
             <button 
               onClick={this.handleReload} 

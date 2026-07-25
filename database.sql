@@ -1,5 +1,5 @@
 
--- PostgreSQL Supabase Database Schema for CASHCRUSH
+-- PostgreSQL Supabase Database Schema for CASHLENS
 -- Paste this script directly in the Supabase SQL Editor
 
 -- 1. Profiles Table

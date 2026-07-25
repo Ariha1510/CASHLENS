@@ -30,7 +30,7 @@ export default function Landing({ user }) {
           Smart Financial Companion for Students
         </div>
         <h1 style={{ fontSize: '48px', fontWeight: '900', lineHeight: '1.2', maxWidth: '800px', margin: 0, fontFamily: 'var(--font-family-title)' }}>
-          Take Control of Your Student Finances with <span style={{ color: 'var(--primary)' }}>CASHCRUSH</span>
+          Take Control of Your Student Finances with <span style={{ color: 'var(--primary)' }}>CASHLENS</span>
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '17px', maxWidth: '600px', margin: 0, lineHeight: '1.6' }}>
           Stop worrying about allowance limits. Monitor your student expenses, calculate saving goals with AI, and get rewarded for keeping your budget on track.
@@ -103,7 +103,7 @@ export default function Landing({ user }) {
         <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>⚡ Premium Dashboard Interface Preview</h3>
         <div style={{ border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', overflow: 'hidden', background: '#0a0f1d', padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '12px' }}>
-            <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--primary)' }}>CASHCRUSH LIVE FEED</span>
+            <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--primary)' }}>CASHLENS LIVE FEED</span>
             <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Status: Active</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', fontSize: '12px' }}>
@@ -125,7 +125,7 @@ export default function Landing({ user }) {
 
       {/* Footer */}
       <footer style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '12px', borderTop: '1px solid var(--border-glass)', paddingTop: '20px', marginTop: '20px' }}>
-        <p>© 2026 CASHCRUSH Inc. Built with love for students. All rights reserved.</p>
+        <p>© 2026 CASHLENS Inc. Built with love for students. All rights reserved.</p>
       </footer>
     </div>
   );

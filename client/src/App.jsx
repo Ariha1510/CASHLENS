@@ -32,7 +32,7 @@ export default function App() {
   const [themeAccent, setThemeAccent] = useState(localStorage.getItem('theme-accent') || '');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: 1, type: 'info', text: 'Welcome to CashCrush! Let\'s build a budget.', time: 'Just now', unread: true },
+    { id: 1, type: 'info', text: 'Welcome to CashLens! Let\'s build a budget.', time: 'Just now', unread: true },
     { id: 2, type: 'success', text: 'Cashback Credited: +20 Coins added to vault.', time: '2 mins ago', unread: true }
   ]);
 
@@ -261,7 +261,7 @@ export default function App() {
 
       setBudget(setupData.budget);
       setProfile({ currency: setupData.currency, onboarded: true });
-      showToast('Wizard setup complete! Welcome to CASHCRUSH!', 'success');
+      showToast('Wizard setup complete! Welcome to CASHLENS!', 'success');
     } catch (err) {
       showToast(err.message, 'error');
     }

@@ -58,7 +58,7 @@ export default function Register({ showToast }) {
       <div className="glass animated" style={{ padding: '36px' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h2 style={{ fontSize: '28px', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            💸 Join CASHCRUSH
+            💸 Join CASHLENS
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '8px' }}>
             Sign up to track your college spending limit!

@@ -88,7 +88,7 @@ export default function Expenses({ expenses, onAdd, onUpdate, onDelete, loading,
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.setAttribute("download", `cashcrush_expenses_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute("download", `cashlens_expenses_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

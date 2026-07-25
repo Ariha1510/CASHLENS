@@ -25,7 +25,7 @@ export default function Login({ showToast }) {
 
       if (error) throw error;
 
-      showToast('Welcome back to CASHCRUSH!', 'success');
+      showToast('Welcome back to CASHLENS!', 'success');
       navigate('/');
     } catch (err) {
       showToast(err.message, 'error');
@@ -39,7 +39,7 @@ export default function Login({ showToast }) {
       <div className="glass animated" style={{ padding: '36px' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h2 style={{ fontSize: '28px', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            💸 CASHCRUSH
+            💸 CASHLENS
           </h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '8px' }}>
             Crush budgets, not your allowance! (Supabase Portal)
@@ -85,7 +85,7 @@ export default function Login({ showToast }) {
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: 'var(--text-muted)' }}>
-          New to CASHCRUSH?{' '}
+          New to CASHLENS?{' '}
           <Link to="/register" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: '600' }}>
             Create an account
           </Link>

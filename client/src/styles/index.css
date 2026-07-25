@@ -26,6 +26,9 @@
   --border-neon: rgba(16, 185, 129, 0.15);
   
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --aurora-blob-1: rgba(6, 182, 212, 0.15);
+  --aurora-blob-2: rgba(16, 185, 129, 0.15);
+  --aurora-blob-3: rgba(139, 92, 246, 0.1);
 }
 
 /* Light Theme Variables Override (Enables light theme when .light class is added to html/root) */
@@ -49,6 +52,9 @@
   
   --border-glass: #E5E7EB; /* Subtle grey border */
   --border-neon: rgba(16, 185, 129, 0.1);
+  --aurora-blob-1: rgba(59, 130, 246, 0.12);
+  --aurora-blob-2: rgba(16, 185, 129, 0.12);
+  --aurora-blob-3: rgba(139, 92, 246, 0.08);
 }
 
 * {

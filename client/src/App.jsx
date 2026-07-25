@@ -15,6 +15,7 @@ import Profile from './pages/Profile';
 import NotificationDrawer from './components/NotificationDrawer';
 import ErrorBoundary from './components/ErrorBoundary';
 import NotFound from './pages/NotFound';
+import AuroraBackground from './components/AuroraBackground';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -458,7 +459,8 @@ export default function App() {
   return (
     <ErrorBoundary>
       <Router>
-        <div className="app-container">
+        <AuroraBackground>
+          <div className="app-container">
         <Navbar 
           user={user} 
           isDarkMode={isDarkMode} 
@@ -591,7 +593,8 @@ export default function App() {
           />
         )}
       </div>
-    </Router>
-   </ErrorBoundary>
+    </AuroraBackground>
+  </Router>
+ </ErrorBoundary>
   );
 }

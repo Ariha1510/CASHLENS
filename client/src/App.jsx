@@ -556,6 +556,7 @@ export default function App() {
                   <Profile 
                     user={user} 
                     profile={profile} 
+                    budget={budget}
                     onUpdateProfile={handleUpdateProfile} 
                     onUpdateBudget={handleUpdateBudget} 
                     showToast={showToast}

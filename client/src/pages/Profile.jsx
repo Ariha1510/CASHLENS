@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   User, 
   Shield, 
@@ -15,11 +15,11 @@ import {
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-export default function Profile({ user, profile, onUpdateProfile, onUpdateBudget, showToast }) {
+export default function Profile({ user, profile, budget, onUpdateProfile, onUpdateBudget, showToast }) {
   const [name, setName] = useState(user?.user_metadata?.name || user?.user_metadata?.full_name || '');
   const [email] = useState(user?.email || '');
   const [currency, setCurrency] = useState(profile.currency || '₹');
-  const [budgetVal, setBudgetVal] = useState(profile.monthly_budget || '');
+  const [budgetVal, setBudgetVal] = useState(budget || '');
 
   // Password change states
   const [newPassword, setNewPassword] = useState('');
@@ -28,6 +28,16 @@ export default function Profile({ user, profile, onUpdateProfile, onUpdateBudget
 
   // Two-Factor Authentication states
   const [tfaEnabled, setTfaEnabled] = useState(false);
+
+  // Custom Modal configuration state
+  const [modalConfig, setModalConfig] = useState(null); // { title, message, onConfirm, isDanger }
+
+  // Update budget local state when budget prop loads
+  useEffect(() => {
+    if (budget) {
+      setBudgetVal(budget);
+    }
+  }, [budget]);
 
   const handleSaveGeneralSettings = async (e) => {
     e.preventDefault();
@@ -91,33 +101,54 @@ export default function Profile({ user, profile, onUpdateProfile, onUpdateBudget
 
   const handleToggleTFA = () => {
     if (!tfaEnabled) {
-      const confirm = window.confirm("Set up Two-Factor Authentication? We will configure this with your authenticator app.");
-      if (confirm) {
-        setTfaEnabled(true);
-        showToast('2FA setup complete!', 'success');
-      }
+      setModalConfig({
+        title: '🔑 Set Up Two-Factor Auth?',
+        message: 'Do you want to enable Two-Factor Authentication? We will configure this with your authenticator app (Google Authenticator / Duo).',
+        isDanger: false,
+        onConfirm: () => {
+          setTfaEnabled(true);
+          showToast('2FA setup complete!', 'success');
+        }
+      });
     } else {
-      const confirm = window.confirm("Disable Two-Factor Authentication? Your account will be less secure.");
-      if (confirm) {
-        setTfaEnabled(false);
-        showToast('2FA disabled.', 'info');
+      setModalConfig({
+        title: '⚠️ Disable Two-Factor Auth?',
+        message: 'Are you sure you want to disable Two-Factor Authentication? Your account login will be less secure.',
+        isDanger: true,
+        onConfirm: () => {
+          setTfaEnabled(false);
+          showToast('2FA disabled.', 'info');
+        }
+      });
+    }
+  };
+
+  const triggerExportData = () => {
+    setModalConfig({
+      title: '📦 Export Personal Data?',
+      message: 'Do you want to prepare and download your transaction statements, savings goals, and account activity as a CSV package?',
+      isDanger: false,
+      onConfirm: () => {
+        showToast('Preparing your user data export package...', 'info');
       }
-    }
+    });
   };
 
-  const handleExportData = () => {
-    showToast('Preparing your user data export package...', 'info');
-  };
-
-  const handleDeleteAccount = () => {
-    const confirm = window.confirm("Are you absolutely sure you want to delete your CashLens profile? This action is irreversible.");
-    if (confirm) {
-      showToast('Account deletion request queued.', 'warning');
-    }
+  const triggerDeleteAccount = () => {
+    setModalConfig({
+      title: '🚨 Delete Profile Account?',
+      message: 'Are you absolutely sure you want to delete your CashLens profile? This action cannot be undone, and all your records will be cleared.',
+      isDanger: true,
+      onConfirm: () => {
+        showToast('Account deletion request queued.', 'warning');
+      }
+    });
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxWidth: '900px', margin: '0 auto', width: '100%', paddingBottom: '40px' }}>
+      
+      {/* Title */}
       <div>
         <h2 style={{ fontSize: '32px', fontWeight: '800' }}>User Profile & Settings</h2>
         <p style={{ color: 'var(--text-muted)' }}>Manage your personal details, secure your account, and export transactions.</p>
@@ -294,7 +325,7 @@ export default function Profile({ user, profile, onUpdateProfile, onUpdateBudget
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <button 
                 type="button" 
-                onClick={handleExportData} 
+                onClick={triggerExportData} 
                 className="btn btn-secondary" 
                 style={{ width: '100%', display: 'flex', alignItems: 'center', justify: 'center', gap: '8px', fontSize: '13px' }}
               >
@@ -302,7 +333,7 @@ export default function Profile({ user, profile, onUpdateProfile, onUpdateBudget
               </button>
               <button 
                 type="button" 
-                onClick={handleDeleteAccount} 
+                onClick={triggerDeleteAccount} 
                 className="btn btn-secondary" 
                 style={{ width: '100%', display: 'flex', alignItems: 'center', justify: 'center', gap: '8px', fontSize: '13px', borderColor: 'var(--danger)', color: 'var(--danger)' }}
               >
@@ -314,6 +345,55 @@ export default function Profile({ user, profile, onUpdateProfile, onUpdateBudget
         </div>
 
       </div>
+
+      {/* --- Middle Screen Custom Modal Popup Dialog --- */}
+      {modalConfig && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(15, 23, 42, 0.75)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2000
+        }}>
+          <div className="glass animated" style={{ maxWidth: '400px', width: '90%', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px', border: '1px solid var(--border-glass)' }}>
+            <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: 'var(--text-primary)' }}>{modalConfig.title}</h3>
+            <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.5' }}>{modalConfig.message}</p>
+            
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '8px' }}>
+              <button 
+                onClick={() => setModalConfig(null)} 
+                className="btn btn-secondary" 
+                style={{ padding: '8px 16px', fontSize: '13px' }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  modalConfig.onConfirm();
+                  setModalConfig(null);
+                }} 
+                className="btn btn-primary" 
+                style={{ 
+                  padding: '8px 20px', 
+                  fontSize: '13px', 
+                  background: modalConfig.isDanger ? 'var(--danger)' : 'var(--primary)', 
+                  borderColor: modalConfig.isDanger ? 'var(--danger)' : 'var(--primary)', 
+                  color: '#fff' 
+                }}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { UserPlus, User, Mail, Key } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 export default function Register({ showToast }) {
   const [name, setName] = useState('');
@@ -54,20 +55,28 @@ export default function Register({ showToast }) {
   };
 
   return (
-    <div style={{ maxWidth: '420px', margin: '60px auto', width: '100%' }}>
-      <div className="glass animated" style={{ padding: '36px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <h2 style={{ fontSize: '28px', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            💸 Join CASHLENS
+    <div style={{ maxWidth: '420px', margin: '30px auto', width: '100%' }}>
+      <div className="glass animated" style={{ padding: '24px' }}>
+        
+        {/* Header Section */}
+        <div style={{ textAlign: 'center', marginBottom: '18px' }}>
+          <img 
+            src={logo} 
+            alt="CASHLENS Logo" 
+            style={{ height: '52px', width: 'auto', objectFit: 'contain', margin: '0 auto 8px auto', display: 'block' }} 
+          />
+          <h2 style={{ fontSize: '24px', fontWeight: '800', background: 'linear-gradient(135deg, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }}>
+            Join CASHLENS
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '8px' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '13.5px', marginTop: '4px', margin: 0 }}>
             Sign up to track your college spending limit!
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div className="form-group">
-            <label className="form-label">Full Name</label>
+        {/* Registration Form */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label" style={{ marginBottom: '6px' }}>Full Name</label>
             <div style={{ position: 'relative' }}>
               <input 
                 type="text" 
@@ -82,8 +91,8 @@ export default function Register({ showToast }) {
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label" style={{ marginBottom: '6px' }}>Email Address</label>
             <div style={{ position: 'relative' }}>
               <input 
                 type="email" 
@@ -98,8 +107,8 @@ export default function Register({ showToast }) {
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Password</label>
+          <div className="form-group" style={{ marginBottom: 0 }}>
+            <label className="form-label" style={{ marginBottom: '6px' }}>Password</label>
             <div style={{ position: 'relative' }}>
               <input 
                 type="password" 
@@ -114,12 +123,12 @@ export default function Register({ showToast }) {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '8px' }} disabled={loading}>
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '4px', height: '46px', fontWeight: '700' }} disabled={loading}>
             <UserPlus size={18} /> {loading ? 'Registering...' : 'Get Started'}
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: 'var(--text-muted)' }}>
+        <div style={{ textAlign: 'center', marginTop: '18px', fontSize: '13.5px', color: 'var(--text-muted)' }}>
           Already have an account?{' '}
           <Link to="/login" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: '600' }}>
             Log in

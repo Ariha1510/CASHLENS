@@ -3,16 +3,41 @@
   --font-family-base: 'Poppins', sans-serif;
   --font-family-title: 'Poppins', sans-serif;
 
-  /* Light Theme Defaults */
+  /* Base Dark Theme Defaults (Original untouched styles) */
+  --bg-dark: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --bg-card-hover: rgba(30, 41, 59, 0.85);
+  
+  --primary: #10b981; /* Emerald Green */
+  --primary-glow: rgba(16, 185, 129, 0.3);
+  --secondary: #06b6d4; /* Cyan */
+  --secondary-glow: rgba(6, 182, 212, 0.3);
+  --accent-glow: #00FF99;
+  
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dark: #1e293b;
+  
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-neon: rgba(16, 185, 129, 0.15);
+  
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Theme Variables Override (Enables light theme when .light class is added to html/root) */
+:root.light {
   --bg-dark: #F8FAFC;
   --bg-card: #FFFFFF;
   --bg-card-hover: #FAFAFA;
   
-  --primary: #10B981; /* Emerald Green */
+  --primary: #10B981; /* High-contrast Emerald Green */
   --primary-glow: rgba(16, 185, 129, 0.15);
   --secondary: #3B82F6; /* Blue secondary */
   --secondary-glow: rgba(59, 130, 246, 0.15);
-  --accent-glow: #00FF99;
   
   --success: #10B981;
   --warning: #F59E0B;
@@ -24,59 +49,6 @@
   
   --border-glass: #E5E7EB; /* Subtle grey border */
   --border-neon: rgba(16, 185, 129, 0.1);
-  
-  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-:root.dark {
-  --bg-dark: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.7);
-  --bg-card-hover: rgba(30, 41, 59, 0.85);
-  
-  --primary: #10b981;
-  --primary-glow: rgba(16, 185, 129, 0.3);
-  --secondary: #06b6d4;
-  --secondary-glow: rgba(6, 182, 212, 0.3);
-  --accent-glow: #00FF99;
-  
-  --text-primary: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-dark: #f8fafc;
-  
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --border-neon: rgba(16, 185, 129, 0.15);
-}
-
-:root.dark body {
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 45%);
-}
-
-:root.dark .glass {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-:root.dark .form-control {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--border-glass);
-}
-
-:root.dark .navbar {
-  background: rgba(15, 23, 42, 0.8);
-}
-
-:root.dark .nav-link:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-:root.dark td {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-:root.dark tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
 }
 
 * {
@@ -88,36 +60,78 @@
 body {
   background-color: var(--bg-dark);
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(0, 135, 90, 0.03) 0%, transparent 45%),
-    radial-gradient(circle at 90% 80%, rgba(10, 123, 70, 0.03) 0%, transparent 45%);
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 45%);
   color: var(--text-primary);
   font-family: var(--font-family-base);
   min-height: 100vh;
   overflow-x: hidden;
-  letter-spacing: -0.01em;
   transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+:root.light body {
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 45%);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-title);
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+:root.light h1, :root.light h2, :root.light h3, :root.light h4, :root.light h5, :root.light h6 {
   color: var(--text-dark);
 }
 
-/* Glassmorphism utility */
+/* Glassmorphism utility - Original Dark theme values */
 .glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  opacity: 0.6;
+}
+
+.glass:hover {
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Glassmorphism overrides for Light Mode */
+:root.light .glass {
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
   border-radius: 24px;
   padding: 24px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
-  position: relative;
-  overflow: hidden;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
-.glass:hover {
+:root.light .glass::before {
+  display: none; /* No top border line in light mode */
+}
+
+:root.light .glass:hover {
   border-color: rgba(16, 185, 129, 0.2);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
   transform: translateY(-3px) scale(1.005);
@@ -163,7 +177,11 @@ h1, h2, h3, h4, h5, h6 {
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: #0f172a;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+}
+
+:root.light .btn-primary {
+  color: #FFFFFF;
 }
 
 .btn-primary:hover {
@@ -174,14 +192,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-secondary {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: var(--text-primary);
 }
 
+:root.light .btn-secondary {
+  border: 1px solid rgba(15, 23, 42, 0.15);
+}
+
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.015) translateY(-0.5px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+:root.light .btn-secondary:hover {
+  background: rgba(15, 23, 42, 0.04);
+  border-color: rgba(15, 23, 42, 0.25);
 }
 
 .btn-danger {
@@ -219,12 +245,20 @@ th {
 
 td {
   padding: 16px;
-  border-bottom: 1px solid #E2E8F0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   color: var(--text-primary);
   font-size: 14px;
 }
 
+:root.light td {
+  border-bottom: 1px solid #E2E8F0;
+}
+
 tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+:root.light tr:hover td {
   background: #F8FAFC;
 }
 
@@ -243,14 +277,19 @@ tr:hover td {
 
 .form-control {
   width: 100%;
-  background: #FFFFFF;
-  border: 1px solid #CBD5E1;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-glass);
   border-radius: 10px;
   padding: 12px 16px;
   color: var(--text-primary);
   font-family: inherit;
   font-size: 14px;
   transition: var(--transition);
+}
+
+:root.light .form-control {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
 }
 
 .form-control:focus {
@@ -284,11 +323,18 @@ tr:hover td {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: #FFFFFF;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-glass);
   position: sticky;
   top: 0;
   z-index: 100;
+}
+
+:root.light .navbar {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--border-glass);
+  backdrop-filter: none;
 }
 
 .nav-brand {
@@ -329,14 +375,23 @@ tr:hover td {
 
 .nav-link:hover {
   color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+:root.light .nav-link:hover {
   background: rgba(15, 23, 42, 0.04);
 }
 
 .nav-link.active {
   background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
-  color: #FFFFFF !important;
+  color: #0f172a !important;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 135, 90, 0.15);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+:root.light .nav-link.active {
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
 }
 
 /* Badge Alert style */
@@ -382,6 +437,10 @@ tr:hover td {
   position: relative;
 }
 
+:root.light .progress-bar-container {
+  background: rgba(15, 23, 42, 0.08);
+}
+
 .progress-bar {
   height: 100%;
   border-radius: 6px;
@@ -405,6 +464,12 @@ tr:hover td {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .glass.animated:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px var(--primary-glow);
+  border-color: var(--primary);
+}
+
+:root.light .glass.animated:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
   border-color: var(--border-glass);

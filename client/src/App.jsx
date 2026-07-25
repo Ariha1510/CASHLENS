@@ -62,13 +62,13 @@ export default function App() {
 
   // Initialize theme
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = localStorage.getItem('theme') || 'light';
     if (savedTheme === 'dark') {
       setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
     } else {
       setIsDarkMode(false);
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
     }
   }, []);
 
@@ -145,11 +145,11 @@ export default function App() {
 
   const toggleDarkMode = () => {
     if (isDarkMode) {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
       localStorage.setItem('theme', 'light');
       setIsDarkMode(false);
     } else {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
       localStorage.setItem('theme', 'dark');
       setIsDarkMode(true);
     }
@@ -505,6 +505,7 @@ export default function App() {
                     onAddSavings={handleAddSavings}
                     onAddRecurring={handleAddRecurring}
                     onDeleteRecurring={handleDeleteRecurring}
+                    isDarkMode={isDarkMode}
                   />
                 </ProtectedRoute>
               } 

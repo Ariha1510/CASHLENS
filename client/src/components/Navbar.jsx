@@ -18,7 +18,7 @@ export default function Navbar({ user, isDarkMode, toggleDarkMode, theme, setThe
     <nav className="navbar">
       <Link to="/" className="nav-brand" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
         <img src="/logo.png" alt="CASHLENS Logo" style={{ height: '36px', width: 'auto', objectFit: 'contain' }} />
-        <span style={{ fontFamily: 'Poppins', fontWeight: '700', color: 'var(--text-primary)', fontSize: '22px', letterSpacing: '-0.02em' }}>CASHLENS</span>
+        <span style={{ fontFamily: 'Poppins', fontWeight: '700', fontSize: '22px', letterSpacing: '-0.02em' }}>CASHLENS</span>
       </Link>
       
       {user && (

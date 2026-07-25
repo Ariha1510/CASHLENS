@@ -2,7 +2,7 @@
 
 > An intelligent personal finance companion for students that combines expense tracking, OCR receipt scanning, predictive budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
 
-🌐 [Live Demo](https://cashlens.vercel.app) • 📄 [Database Schema](file:///d:/CASHCRUSH/database.sql) • ⭐ Star this repository
+🌐 [Live Demo](https://cashlens.vercel.app) • 📄 [Database Schema](file:///d:/CASHLENS/database.sql) • ⭐ Star this repository
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)]()
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white)]()
@@ -114,8 +114,8 @@ Core Modules
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/Ariha1510/CASHCRUSH.git
-cd CASHCRUSH/client
+git clone https://github.com/Ariha1510/CASHLENS.git
+cd CASHLENS/client
 npm install
 ```
 

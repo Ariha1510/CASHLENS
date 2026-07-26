@@ -346,18 +346,32 @@ tr:hover td {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-glass);
+  background: #090d16; /* Deep black theme background */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
-:root.light .navbar {
-  background: #FFFFFF;
-  border-bottom: 1px solid var(--border-glass);
-  backdrop-filter: none;
+.navbar .nav-link {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+.navbar .nav-link:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+.navbar .nav-link.active {
+  color: #0f172a !important;
+}
+.navbar span, .navbar strong {
+  color: #ffffff !important;
+}
+.navbar .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+.navbar .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .nav-brand {

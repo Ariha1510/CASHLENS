@@ -94,7 +94,7 @@ body {
 }
 
 :root.light .aurora-bg {
-  background: radial-gradient(circle at 50% 50%, rgba(248, 250, 252, 0.8) 0%, rgba(238, 242, 246, 0.95) 100%), url('../assets/fintech_bg_light.png') no-repeat center center fixed;
+  background: radial-gradient(circle at 50% 50%, rgba(248, 250, 252, 0.7) 0%, rgba(238, 242, 246, 0.85) 100%), url('../assets/fintech_bg.png') no-repeat center center fixed;
   background-size: cover !important;
 }
 

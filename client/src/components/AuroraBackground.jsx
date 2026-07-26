@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
+const SYMBOLS = ['₹', '$', '📈', '🪙', '📊', '💳', '💎'];
+
 export default function AuroraBackground({ children }) {
+  // Generate random stable floating particles
+  const particles = useMemo(() => {
+    return Array.from({ length: 15 }).map((_, i) => ({
+      id: i,
+      symbol: SYMBOLS[i % SYMBOLS.length],
+      x: Math.random() * 100, // percentage position along the width
+      size: Math.random() * 14 + 12, // font size: 12px to 26px
+      duration: Math.random() * 25 + 25, // slow drift speed: 25s to 50s
+      delay: Math.random() * -30, // negative delay so particles start spread out
+      opacity: Math.random() * 0.05 + 0.02, // very faint, subtle background opacity (2% to 7%)
+    }));
+  }, []);
+
   return (
     <div style={{
       position: 'relative',
@@ -11,7 +26,7 @@ export default function AuroraBackground({ children }) {
       transition: 'background-color 0.5s ease'
     }}>
       
-      {/* Aurora Blob 1 */}
+      {/* Aurora Blob 1 (Teal/Cyan) */}
       <motion.div
         animate={{
           x: [0, 80, -40, 0],
@@ -37,7 +52,7 @@ export default function AuroraBackground({ children }) {
         }}
       />
 
-      {/* Aurora Blob 2 */}
+      {/* Aurora Blob 2 (Emerald Green) */}
       <motion.div
         animate={{
           x: [0, -70, 30, 0],
@@ -63,7 +78,7 @@ export default function AuroraBackground({ children }) {
         }}
       />
 
-      {/* Aurora Blob 3 */}
+      {/* Aurora Blob 3 (Subtle Blue) */}
       <motion.div
         animate={{
           x: [0, 50, -60, 0],
@@ -89,6 +104,37 @@ export default function AuroraBackground({ children }) {
           zIndex: 1
         }}
       />
+
+      {/* Floating Financial Icons / Minimalist Particles */}
+      <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 1 }}>
+        {particles.map((p) => (
+          <motion.div
+            key={p.id}
+            initial={{ y: '110vh', x: `${p.x}vw`, opacity: 0 }}
+            animate={{
+              y: '-10vh',
+              opacity: [0, p.opacity, p.opacity, 0]
+            }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              delay: p.delay,
+              ease: 'linear'
+            }}
+            style={{
+              position: 'absolute',
+              fontSize: `${p.size}px`,
+              color: 'var(--text-primary)',
+              filter: 'blur(0.5px)',
+              userSelect: 'none',
+              fontFamily: 'system-ui, sans-serif',
+              fontWeight: '500'
+            }}
+          >
+            {p.symbol}
+          </motion.div>
+        ))}
+      </div>
 
       {/* Content wrapper */}
       <div style={{ position: 'relative', zIndex: 2 }}>

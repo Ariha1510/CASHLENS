@@ -16,7 +16,7 @@ import NotificationDrawer from './components/NotificationDrawer';
 import ErrorBoundary from './components/ErrorBoundary';
 import NotFound from './pages/NotFound';
 import AuroraBackground from './components/AuroraBackground';
-import SplashScreen from './pages/SplashScreen';
+import SplashScreen from './components/SplashScreen';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -37,6 +37,24 @@ export default function App() {
     { id: 1, type: 'info', text: 'Welcome to CashLens! Let\'s build a budget.', time: 'Just now', unread: true },
     { id: 2, type: 'success', text: 'Cashback Credited: +20 Coins added to vault.', time: '2 mins ago', unread: true }
   ]);
+
+  const [showSplash, setShowSplash] = useState(true);
+  const [fadeSplash, setFadeSplash] = useState(false);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => {
+      setFadeSplash(true);
+    }, 4500);
+
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(timer);
+    };
+  }, []);
 
   const handleUpdateProfile = async (profileData) => {
     try {
@@ -459,6 +477,7 @@ export default function App() {
 
   return (
     <ErrorBoundary>
+      {showSplash && <SplashScreen fade={fadeSplash} />}
       <Router>
         <AuroraBackground>
           <div className="app-container">
@@ -489,10 +508,6 @@ export default function App() {
           <Routes>
             <Route 
               path="/" 
-              element={<SplashScreen />} 
-            />
-            <Route 
-              path="/landing" 
               element={<Landing user={user} />} 
             />
             <Route 

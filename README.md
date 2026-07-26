@@ -1,76 +1,79 @@
-# 💸 CASHLENS
+# <img src="client/src/assets/logo.png" width="38" align="center" style="vertical-align: middle; margin-right: 8px;" /> CASHLENS
 
-> An intelligent personal finance companion for students that combines expense tracking, OCR receipt scanning, predictive budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
+> **Spend Smart. Save Smarter.** — An intelligent personal finance companion for students that combines expense tracking, OCR receipt scanning, predictive budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
 
-🌐 [Live Demo](https://cashlens.vercel.app) • 📄 [Database Schema](file:///d:/CASHLENS/database.sql) • ⭐ Star this repository
-
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)]()
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white)]()
-[![Vite](https://img.shields.io/badge/Vite-Frontend-646CFF?logo=vite&logoColor=white)]()
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-Animations-F024B6?logo=framer&logoColor=white)]()
-[![Chart.js](https://img.shields.io/badge/Chart.js-Analytics-FF6384?logo=chartdotjs&logoColor=white)]()
-[![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8)]()
-[![License](https://img.shields.io/badge/License-MIT-green)]()
+🌐 **[Live Deployment Demo](https://cashlens.vercel.app)** • 📄 **[Database Schema](file:///d:/CASHLENS/database.sql)** • ⭐ **Star this repository**
 
 ---
 
-## 🚀 Why CASHLENS?
-
-Unlike traditional, tedious budget trackers, **CASHLENS** is built specifically for students. It combines rule-based predictive budgeting, local WebAssembly OCR receipt scanning, virtual cashback rewards, and interactive analytics to make financial discipline gamified, educational, and secure.
-
----
-
-## 📊 Key Statistics & Scope
-
-- **Authentication**: Supabase Auth (JWT protected)
-- **Database**: PostgreSQL with Row-Level Security (RLS)
-- **PWA Status**: 100% installable offline-capable web application
-- **OCR Engine**: Client-side Tesseract.js (no image uploads)
-- **Chart Analytics**: Interactive Category and Trend charts
-- **Aesthetic Backdrop**: Framer Motion dynamic aurora blobs with custom grid & analytics watermark graphics.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white" alt="React" />
+  <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?logo=supabase&logoColor=white" alt="Supabase" />
+  <img src="https://img.shields.io/badge/Vite-Frontend-646CFF?logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Framer_Motion-Animations-F024B6?logo=framer&logoColor=white" alt="Framer Motion" />
+  <img src="https://img.shields.io/badge/Chart.js-Analytics-FF6384?logo=chartdotjs&logoColor=white" alt="Chart.js" />
+  <img src="https://img.shields.io/badge/PWA-Ready-5A0FC8" alt="PWA Ready" />
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="MIT License" />
+</p>
 
 ---
 
-## ✨ Features
+## 🎯 The Problem
 
-### 🏠 Interactive Dashboard & Empty States
-- **Aesthetic Greeting Hero**: Dynamically greets the user (e.g. `Good Evening, Ariha 👋`) with monthly remaining budget status.
-- **Unified Empty Onboarding State**: Welcoming layout for first-time sign-ins featuring interactive checklist guides and AI Coaching prompts across both dark and light modes.
-- **Sleek Navbar**: Solid dark-themed responsive navigation banner housing custom logo assets, active link indication, notifications, profile status, and quick theme toggle.
+Many students struggle to understand where their allowance goes each month. Traditional expense trackers simply record transactions but rarely help users improve their financial habits.
+
+**CASHLENS** bridges that gap by combining interactive budgeting, OCR receipt scanning, predictive insights, gamified rewards, and a smart financial assistant into one seamless, premium-grade platform.
+
+---
+
+## 🚀 Key Modules
+
+| Module | Metric / Stack | Purpose |
+| :--- | :--- | :--- |
+| **🚀 Modules** | 12+ Core Features | Complete personal finance suite |
+| **🔐 Authentication** | Supabase Auth (JWT) | Secure token-based user isolation |
+| **🧾 OCR Engine** | Tesseract.js (WASM) | Client-side text extraction (no uploads) |
+| **🤖 AI Advisor** | Heuristic spend analysis | Real-time budgeting suggestions |
+| **📊 Charts** | Chart.js | Interactive Category and Trend charts |
+| **💾 Database** | PostgreSQL | Row-Level Security (RLS) data confinement |
+| **📱 Mobile Responsive**| 100% Mobile Ready | Sleek, adaptive layout for smartphones |
+
+---
+
+## ✨ Skim-Ready Feature Highlights
+
+### 🏠 Onboarding & Dashboard
+* **Dynamic Welcome Hero**: Greets the user dynamically (e.g. `Good Evening, Ariha 👋`) with monthly remaining budget status.
+* **Unified Onboarding empty state**: Step-by-step guides, interactive checklists, and AI Coaching prompts across both dark and light modes.
+* **Sleek Navbar**: Solid dark-themed sticky navbar integrating app logo assets, notifications drawer, and a quick theme toggle.
 
 ### 🖼️ Premium Visual Engine
-- **Animated Splash Screen**: Features a 5-second entry splash loader with app branding, taglines, and progress indicators.
-- **Aurora Background**: Implements dynamic Framer Motion background blobs layered with glowing financial grids, line graphs, and subtle Rupee (`₹`) symbols integrated into the backdrop for both light and dark themes.
-
-### 📝 Expense & Budget Management
-- **Transactions & Wallets**: Track category budgets, cash/bank/UPI accounts, transfers, recurring expenses, and EMIs.
-- **Statement Importer**: Import bank statement CSV files with automatic categorization heuristics.
-- **Merchant & Payment Fields**: Track specific vendors (e.g. Swiggy, Amazon) and modes (UPI, Cards, Cash).
+* **2-Second Splash Loader**: Quick entry splash sequence with app logo, tagline, and smooth loading progress bar.
+* **Aurora Background**: Animated Framer Motion gradients layered with glowing grids and integrated Rupee (`₹`) symbols for both dark and light themes.
 
 ### 📷 OCR Receipt Scanning
-- Snap bill photos to instantly extract merchant names, transaction dates, and total payable amounts using local client-side WebAssembly OCR.
+* **Local WebAssembly Scan**: Take photos of receipts to instantly extract vendor, date, and transaction totals completely client-side.
 
-### 🧠 Intelligent Budget Coach
-- **Heuristic Advice**: Real-time spending suggestions (e.g., pizza affordability analysis).
-- **Projections**: Predicts month-end totals based on average daily spending trends.
-- **Budget Thresholds**: Warns users at 60% and 90% budget utilization.
+### 🧠 Spend Projections & AI Coach
+* **Month-End Forecast**: Automatically predicts total month-end spending based on current daily averages.
+* **Threshold Alerts**: Color-coded warnings trigger at 60% and 90% budget utilization.
 
 ### 🎁 Gamification & Rewards
-- **Cashback Vault**: Accumulate virtual coins through healthy savings habits.
-- **Achievement Badges**: Unlock milestones (e.g., Budget Guard, Savings Master).
-- **Coupon Vouchers**: Claim virtual student deals (e.g. Domino's coupons).
+* **Cashback Vault**: Earn and accumulate virtual coins by practicing positive savings habits.
+* **Achievements**: Unlock milestones like *Budget Guard* and *Savings Master*.
+* **Vouchers**: Claim student deals (e.g., Domino's coupons) using saved coins.
 
-### ⚙️ Account Management
-- **Streamlined Deletion**: Renamed settings section to **ACCOUNT**, offering single-click profile termination with custom forms prompting for deletion reasons.
+### 📂 CSV Statement Importer
+* **Instant Import**: Upload bank statement CSV/Excel files with automatic category heuristics detection.
 
 ---
 
-## 🛠️ Tech Stack
+## 💻 Tech Stack
 
-- **Frontend**: React 18, Vite, React Router, Framer Motion, Lucide Icons
-- **Backend & Auth**: Supabase, PostgreSQL
-- **Data & Charts**: Chart.js, PapaParse, Tesseract.js
-- **Styling**: Vanilla CSS, Neon Glassmorphism UI
+* **Frontend**: React 18, Vite, React Router, Framer Motion, Lucide Icons
+* **Backend & Database**: Supabase (Backend-as-a-Service), PostgreSQL
+* **Data Processing**: Chart.js (Data Visualizations), PapaParse (CSV Parsing), Tesseract.js (WASM OCR)
+* **Styling**: Vanilla CSS, Neon Glassmorphism design tokens
 
 ---
 
@@ -115,14 +118,21 @@ Core Modules
 
 ---
 
-## 🔬 Technical Implementations
+## 🛠️ Portfolio Highlights
 
-### 1. Offline Synchronization Queue
-- **Offline Writes**: Transactions created when offline are stored locally in the browser's `localStorage` queue.
-- **Online Sync**: Uses the browser's window `online` event listener to upload pending changes to Supabase once connectivity returns.
+- **Offline Synchronization Queue**: Transactions created when offline are stored locally in the browser's `localStorage` queue. Once internet connectivity returns, it automatically uploads pending transactions.
+- **Secure Row-Level Security (RLS)**: Enforces strict PostgreSQL RLS policies at the database layer. No user can read, insert, or write rows belonging to another authenticated session ID.
 
-### 2. Secure Data Isolation
-- Enforces strict PostgreSQL **Row-Level Security (RLS)**. No user can read, insert, or write rows belonging to another authenticated session ID.
+---
+
+## 🗺️ Roadmap & Future Scope
+
+- [ ] **Open Banking API Integration**: Direct link to live bank accounts for real-time transaction syncing.
+- [ ] **Push Notifications**: Instant budget alerts on mobile devices.
+- [ ] **Expense Splitting**: Easy bill splitting with college peers.
+- [ ] **Interactive Chatbot**: AI chat interface powered by LLM agents.
+- [ ] **PDF Statement Reports**: Download summary reports for parental allowances.
+- [ ] **Multi-currency support**: Seamless currency conversion.
 
 ---
 

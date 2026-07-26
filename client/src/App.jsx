@@ -44,11 +44,11 @@ export default function App() {
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
       setFadeSplash(true);
-    }, 4500);
+    }, 1500);
 
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 5000);
+    }, 2000);
 
     return () => {
       clearTimeout(fadeTimer);

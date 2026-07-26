@@ -22,8 +22,9 @@ export default function AuroraBackground({ children }) {
       position: 'relative',
       minHeight: '100vh',
       overflow: 'hidden',
-      background: 'var(--bg-dark)',
-      transition: 'background-color 0.5s ease'
+      background: 'var(--bg-dark-image)',
+      backgroundSize: 'cover',
+      transition: 'background 0.5s ease'
     }}>
       
       {/* Aurora Blob 1 (Teal/Cyan) */}

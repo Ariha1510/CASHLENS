@@ -198,7 +198,7 @@ export default function Dashboard({
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {/* Welcome Hero banner */}
         <div className="glass animated" style={{ padding: '24px', textAlign: 'center', background: isDarkMode ? 'rgba(30, 41, 59, 0.4)' : '#FFFFFF', minHeight: '180px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <h2 style={{ fontSize: '28px', marginBottom: '6px', color: 'var(--text-primary)' }}>Good Evening, Ariha</h2>
+          <h2 style={{ fontSize: '28px', marginBottom: '6px', color: 'var(--text-primary)' }}>Good Evening, Ariha 👋</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '18px' }}>You have {currency}{budget.toLocaleString()} remaining this month.</p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
             <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ height: '52px', padding: '0 24px', fontSize: '14.5px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '12px' }}>

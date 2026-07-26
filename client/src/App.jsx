@@ -16,6 +16,7 @@ import NotificationDrawer from './components/NotificationDrawer';
 import ErrorBoundary from './components/ErrorBoundary';
 import NotFound from './pages/NotFound';
 import AuroraBackground from './components/AuroraBackground';
+import SplashScreen from './pages/SplashScreen';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -488,6 +489,10 @@ export default function App() {
           <Routes>
             <Route 
               path="/" 
+              element={<SplashScreen />} 
+            />
+            <Route 
+              path="/landing" 
               element={<Landing user={user} />} 
             />
             <Route 

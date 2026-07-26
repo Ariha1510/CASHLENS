@@ -198,14 +198,14 @@ export default function Dashboard({
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {/* Welcome Hero banner */}
         <div className="glass animated" style={{ padding: '24px', textAlign: 'center', background: isDarkMode ? 'rgba(30, 41, 59, 0.4)' : '#FFFFFF', minHeight: '180px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <h2 style={{ fontSize: '28px', marginBottom: '6px', color: 'var(--text-primary)' }}>👋 Good Evening, Ariha</h2>
+          <h2 style={{ fontSize: '28px', marginBottom: '6px', color: 'var(--text-primary)' }}>Good Evening, Ariha</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '18px' }}>You have {currency}{budget.toLocaleString()} remaining this month.</p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
             <button onClick={() => navigate('/expenses')} className="btn btn-primary" style={{ height: '52px', padding: '0 24px', fontSize: '14.5px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '12px' }}>
-              💰 Add Expense
+              Add Expense
             </button>
             <button onClick={() => navigate('/expenses')} className="btn btn-secondary" style={{ height: '52px', padding: '0 24px', fontSize: '14.5px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '12px' }}>
-              📷 Scan Receipt
+              Scan Receipt
             </button>
           </div>
         </div>
@@ -246,19 +246,19 @@ export default function Dashboard({
             <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>Getting Started Checklist</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: 'var(--text-primary)' }}>
-                <span>✅</span> <span>Add Expense</span>
+                <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>✓</span> <span>Add Expense</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: 'var(--text-primary)' }}>
-                <span>🎯</span> <span>Set Savings Goal</span>
+                <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>✓</span> <span>Set Savings Goal</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: 'var(--text-primary)' }}>
-                <span>📷</span> <span>Scan Receipt</span>
+                <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>✓</span> <span>Scan Receipt</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: 'var(--text-primary)' }}>
-                <span>📂</span> <span>Import CSV</span>
+                <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>✓</span> <span>Import CSV</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: 'var(--text-primary)' }}>
-                <span>📈</span> <span>View Analytics</span>
+                <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>✓</span> <span>View Analytics</span>
               </div>
             </div>
           </div>
@@ -286,7 +286,7 @@ export default function Dashboard({
 
           {/* Rewards Journey */}
           <div className="glass animated" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <h3 style={{ color: 'var(--text-primary)' }}>🎁 Rewards Progress</h3>
+            <h3 style={{ color: 'var(--text-primary)' }}>Rewards Progress</h3>
             <div style={{ fontSize: '16px', color: 'var(--warning)', letterSpacing: '2px', margin: '4px 0' }}>
               ☆☆☆☆
             </div>

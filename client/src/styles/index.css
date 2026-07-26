@@ -37,7 +37,7 @@
   --bg-dark: #F8FAFC;
   --bg-card: #FFFFFF;
   --bg-card-hover: #FAFAFA;
-  --bg-dark-image: #F8FAFC;
+  --bg-dark-image: radial-gradient(circle at 50% 50%, rgba(248, 250, 252, 0.8) 0%, rgba(238, 242, 246, 0.95) 100%), url('../assets/fintech_bg_light.png') no-repeat center center fixed;
   
   --primary: #10B981; /* High-contrast Emerald Green */
   --primary-glow: rgba(16, 185, 129, 0.15);

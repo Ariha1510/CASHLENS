@@ -2,7 +2,7 @@
 
 > **Spend Smart. Save Smarter.** — An intelligent personal finance companion for students that combines expense tracking, OCR receipt scanning, predictive budgeting, savings goals, rewards, and analytics to promote smarter financial habits.
 
-🌐 **[Live Deployment Demo](https://cashlens.vercel.app)** • 📄 **[Database Schema](file:///d:/CASHLENS/database.sql)** • ⭐ **Star this repository**
+ **[Live Deployment Demo](https://cashlens.vercel.app)** • 📄 **[Database Schema](file:///d:/CASHLENS/database.sql)** • ⭐ **Star this repository**
 
 ---
 
@@ -18,7 +18,7 @@
 
 ---
 
-## 🎯 The Problem
+##  The Problem
 
 Many students struggle to understand where their allowance goes each month. Traditional expense trackers simply record transactions but rarely help users improve their financial habits.
 
@@ -26,49 +26,45 @@ Many students struggle to understand where their allowance goes each month. Trad
 
 ---
 
-## 🚀 Key Modules
+##  Key Modules
 
 | Module | Metric / Stack | Purpose |
 | :--- | :--- | :--- |
-| **🚀 Modules** | 12+ Core Features | Complete personal finance suite |
-| **🔐 Authentication** | Supabase Auth (JWT) | Secure token-based user isolation |
-| **🧾 OCR Engine** | Tesseract.js (WASM) | Client-side text extraction (no uploads) |
-| **🤖 AI Advisor** | Heuristic spend analysis | Real-time budgeting suggestions |
-| **📊 Charts** | Chart.js | Interactive Category and Trend charts |
-| **💾 Database** | PostgreSQL | Row-Level Security (RLS) data confinement |
-| **📱 Mobile Responsive**| 100% Mobile Ready | Sleek, adaptive layout for smartphones |
+| **Modules** | 12+ Core Features | Complete personal finance suite |
+| **Authentication** | Supabase Auth (JWT) | Secure token-based user isolation |
+| **OCR Engine** | Tesseract.js (WASM) | Client-side text extraction (no uploads) |
+| **AI Advisor** | Heuristic spend analysis | Real-time budgeting suggestions |
+| **Charts** | Chart.js | Interactive Category and Trend charts |
+| **Database** | PostgreSQL | Row-Level Security (RLS) data confinement |
+| **Mobile Responsive**| 100% Mobile Ready | Sleek, adaptive layout for smartphones |
 
 ---
 
-## ✨ Skim-Ready Feature Highlights
+##  Skim-Ready Feature Highlights
 
-### 🏠 Onboarding & Dashboard
+###  Onboarding & Dashboard
 * **Dynamic Welcome Hero**: Greets the user dynamically (e.g. `Good Evening, Ariha 👋`) with monthly remaining budget status.
 * **Unified Onboarding empty state**: Step-by-step guides, interactive checklists, and AI Coaching prompts across both dark and light modes.
 * **Sleek Navbar**: Solid dark-themed sticky navbar integrating app logo assets, notifications drawer, and a quick theme toggle.
 
-### 🖼️ Premium Visual Engine
-* **2-Second Splash Loader**: Quick entry splash sequence with app logo, tagline, and smooth loading progress bar.
-* **Aurora Background**: Animated Framer Motion gradients layered with glowing grids and integrated Rupee (`₹`) symbols for both dark and light themes.
-
-### 📷 OCR Receipt Scanning
+###  OCR Receipt Scanning
 * **Local WebAssembly Scan**: Take photos of receipts to instantly extract vendor, date, and transaction totals completely client-side.
 
-### 🧠 Spend Projections & AI Coach
+###  Spend Projections & AI Coach
 * **Month-End Forecast**: Automatically predicts total month-end spending based on current daily averages.
 * **Threshold Alerts**: Color-coded warnings trigger at 60% and 90% budget utilization.
 
-### 🎁 Gamification & Rewards
+###  Gamification & Rewards
 * **Cashback Vault**: Earn and accumulate virtual coins by practicing positive savings habits.
 * **Achievements**: Unlock milestones like *Budget Guard* and *Savings Master*.
 * **Vouchers**: Claim student deals (e.g., Domino's coupons) using saved coins.
 
-### 📂 CSV Statement Importer
+###  CSV Statement Importer
 * **Instant Import**: Upload bank statement CSV/Excel files with automatic category heuristics detection.
 
 ---
 
-## 💻 Tech Stack
+##  Tech Stack
 
 * **Frontend**: React 18, Vite, React Router, Framer Motion, Lucide Icons
 * **Backend & Database**: Supabase (Backend-as-a-Service), PostgreSQL
@@ -77,7 +73,7 @@ Many students struggle to understand where their allowance goes each month. Trad
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 client/                         # React Frontend
@@ -91,7 +87,7 @@ database.sql                    # PostgreSQL DB schema with RLS policies
 
 ---
 
-## 🔄 System Flow
+##  System Flow
 
 ```text
 User Action
@@ -118,14 +114,14 @@ Core Modules
 
 ---
 
-## 🛠️ Portfolio Highlights
+##  Portfolio Highlights
 
 - **Offline Synchronization Queue**: Transactions created when offline are stored locally in the browser's `localStorage` queue. Once internet connectivity returns, it automatically uploads pending transactions.
 - **Secure Row-Level Security (RLS)**: Enforces strict PostgreSQL RLS policies at the database layer. No user can read, insert, or write rows belonging to another authenticated session ID.
 
 ---
 
-## 🗺️ Roadmap & Future Scope
+##  Roadmap & Future Scope
 
 - [ ] **Open Banking API Integration**: Direct link to live bank accounts for real-time transaction syncing.
 - [ ] **Push Notifications**: Instant budget alerts on mobile devices.
@@ -136,7 +132,7 @@ Core Modules
 
 ---
 
-## 📦 Getting Started
+##  Getting Started
 
 ### 1. Clone & Install
 ```bash
@@ -161,11 +157,10 @@ npm run dev
 ```bash
 npm run build
 ```
-Deploy the generated `dist/` directory to **Vercel** or **Netlify** with automatic SSL/HTTPS.
 
 ---
 
-## 🤝 Acknowledgements
+##  Acknowledgements
 
 - **Supabase** for DB infrastructure & Auth.
 - **Tesseract.js** for client-side OCR.

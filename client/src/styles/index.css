@@ -84,6 +84,20 @@ body {
     radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 45%);
 }
 
+.aurora-bg {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%), url('../assets/fintech_bg.png') no-repeat center center fixed;
+  background-size: cover !important;
+  transition: background 0.5s ease;
+}
+
+:root.light .aurora-bg {
+  background: radial-gradient(circle at 50% 50%, rgba(248, 250, 252, 0.8) 0%, rgba(238, 242, 246, 0.95) 100%), url('../assets/fintech_bg_light.png') no-repeat center center fixed;
+  background-size: cover !important;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-title);
   font-weight: 700;

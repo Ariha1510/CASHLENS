@@ -18,14 +18,7 @@ export default function AuroraBackground({ children }) {
   }, []);
 
   return (
-    <div style={{
-      position: 'relative',
-      minHeight: '100vh',
-      overflow: 'hidden',
-      background: 'var(--bg-dark-image)',
-      backgroundSize: 'cover',
-      transition: 'background 0.5s ease'
-    }}>
+    <div className="aurora-bg">
       
       {/* Aurora Blob 1 (Teal/Cyan) */}
       <motion.div
